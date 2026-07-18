@@ -12,7 +12,7 @@ async function loadConfig() {
     github_owner: file.github_owner || '',
     github_repo: file.github_repo || '',
     data_file_path: file.data_file_path || 'data/posts.json',
-    admin_password: api.admin_password || file.admin_password || 'admin1234'
+    admin_password: api.admin_password || file.admin_password || 'love1219**'
   };
   return _config;
 }
@@ -321,3 +321,149 @@ async function deletePost(id) {
     console.error('GitHub Sync Delete Error:', err);
   }
 }
+
+/* ==========================================================================
+   매물 (Properties) CRUD 기능
+   ========================================================================== */
+
+async function getProperties() {
+  let cached = localStorage.getItem('realty_properties');
+  if (cached) {
+    try {
+      return JSON.parse(cached);
+    } catch(e) {}
+  }
+  try {
+    let res = await fetch('data/properties.json');
+    if (res.ok) {
+      let props = await res.json();
+      localStorage.setItem('realty_properties', JSON.stringify(props));
+      return props;
+    }
+  } catch(e) {}
+  return [];
+}
+
+async function getPropertyById(id) {
+  let props = await getProperties();
+  return props.find(p => String(p.id) === String(id)) || null;
+}
+
+async function saveProperty(propertyData) {
+  let props = await getProperties();
+  let id = propertyData.id;
+  if (!id) {
+    id = 'prop-' + Date.now();
+    propertyData.id = id;
+  }
+  if (!propertyData.date) {
+    let now = new Date();
+    propertyData.date = now.toISOString().split('T')[0];
+  }
+  let index = props.findIndex(p => String(p.id) === String(id));
+  if (index >= 0) {
+    props[index] = { ...props[index], ...propertyData };
+  } else {
+    props.unshift(propertyData);
+  }
+
+  localStorage.setItem('realty_properties', JSON.stringify(props));
+
+  try {
+    let cfg = await loadConfig();
+    let token = String(cfg.github_token || '').replace(/\s+/g, '');
+    let owner = cfg.github_owner;
+    let repo = cfg.github_repo;
+    let path = 'data/properties.json';
+
+    if (token && token !== 'YOUR_GITHUB_TOKEN' && owner && repo) {
+      let url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+      let getRes = await fetch(url, {
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      let sha = '';
+      if (getRes.ok) {
+        let fileInfo = await getRes.json();
+        sha = fileInfo.sha;
+      }
+      let contentStr = JSON.stringify(props, null, 2);
+      let bytes = new TextEncoder().encode(contentStr);
+      let binary = '';
+      for (let b of bytes) binary += String.fromCharCode(b);
+      let base64Content = btoa(binary);
+
+      let bodyObj = {
+        message: `feat(property): update ${path} via admin panel`,
+        content: base64Content
+      };
+      if (sha) bodyObj.sha = sha;
+
+      await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bodyObj)
+      });
+    }
+  } catch(err) {
+    console.error('GitHub Sync Property Error:', err);
+  }
+
+  return propertyData;
+}
+
+async function deleteProperty(id) {
+  let props = await getProperties();
+  let filtered = props.filter(p => String(p.id) !== String(id));
+  localStorage.setItem('realty_properties', JSON.stringify(filtered));
+
+  try {
+    let cfg = await loadConfig();
+    let token = String(cfg.github_token || '').replace(/\s+/g, '');
+    let owner = cfg.github_owner;
+    let repo = cfg.github_repo;
+    let path = 'data/properties.json';
+
+    if (token && token !== 'YOUR_GITHUB_TOKEN' && owner && repo) {
+      let url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+      let getRes = await fetch(url, {
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (getRes.ok) {
+        let fileInfo = await getRes.json();
+        let sha = fileInfo.sha;
+        let contentStr = JSON.stringify(filtered, null, 2);
+        let bytes = new TextEncoder().encode(contentStr);
+        let binary = '';
+        for (let b of bytes) binary += String.fromCharCode(b);
+        let base64Content = btoa(binary);
+
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `delete(property): remove property ${id}`,
+            content: base64Content,
+            sha: sha
+          })
+        });
+      }
+    }
+  } catch(err) {
+    console.error('GitHub Sync Property Delete Error:', err);
+  }
+}
+

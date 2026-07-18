@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>매물 등록/수정 - 잠실사랑공인중개사 관리자</title><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#6f3900",
+                      "on-background": "#131d23",
+                      "secondary": "#5a5f63",
+                      "body-text": "#424242",
+                      "on-secondary-fixed-variant": "#42474c",
+                      "tertiary-fixed-dim": "#ffb77f",
+                      "inverse-primary": "#9acbff",
+                      "surface-container-highest": "#dae4ed",
+                      "on-primary-fixed-variant": "#004a79",
+                      "surface-dim": "#d1dbe4",
+                      "secondary-container": "#dce0e5",
+                      "canvas": "#ffffff",
+                      "surface-container": "#e5eff8",
+                      "on-secondary-fixed": "#171c20",
+                      "secondary-fixed": "#dfe3e8",
+                      "on-tertiary-container": "#522800",
+                      "on-surface-variant": "#3f4852",
+                      "surface": "#f5faff",
+                      "surface-container-low": "#ebf5fe",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed-dim": "#9acbff",
+                      "primary": "#00629e",
+                      "surface-tint": "#00629e",
+                      "tertiary-container": "#eb7f04",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#131d23",
+                      "error-container": "#ffdad6",
+                      "inverse-surface": "#283238",
+                      "inverse-on-surface": "#e8f2fb",
+                      "surface-variant": "#dae4ed",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#00a1ff",
+                      "background": "#f5faff",
+                      "outline": "#6f7883",
+                      "on-secondary-container": "#5e6368",
+                      "tertiary-fixed": "#ffdcc4",
+                      "on-tertiary-fixed": "#2f1500",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f5faff",
+                      "on-primary-fixed": "#001d34",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#cfe5ff",
+                      "outline-variant": "#bec7d4",
+                      "secondary-fixed-dim": "#c2c7cc",
+                      "hairline": "#e0e0e0",
+                      "on-error": "#ffffff",
+                      "tertiary": "#914c00",
+                      "surface-container-high": "#dfe9f2",
+                      "on-primary-container": "#003559",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "gutter": "20px",
+                      "xs": "6px",
+                      "xl": "40px",
+                      "md": "16px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "0px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "body-md": ["Hanken Grotesk"],
+                      "headline-sm": ["Hanken Grotesk"],
+                      "caption": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "label-sm": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "action-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "body-md": ["15px", {"lineHeight": "22px", "letterSpacing": "-0.3px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.3px", "fontWeight": "600"}],
+                      "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.3px", "fontWeight": "400"}],
+                      "label-sm": ["14px", {"lineHeight": "18px", "letterSpacing": "-0.3px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.3px", "fontWeight": "700"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.3px", "fontWeight": "700"}],
+                      "action-md": ["16px", {"lineHeight": "20px", "letterSpacing": "-0.3px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    }catch(_e){}</script></head><body class="bg-surface-bright text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="bg-canvas border-b border-hairline sticky top-0 z-50">
+<div class="flex justify-between items-center h-20 px-gutter max-w-7xl mx-auto">
+<a href="index.html" class="font-display-lg text-display-lg font-bold text-primary">Jamsil Love</a>
+<nav class="hidden md:flex gap-lg items-center">
+<a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="index.html">홈</a>
+<a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="news.html">부동산 뉴스</a>
+<a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="properties.html">매물 보기</a>
+<a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="location.html">오시는 길</a>
+</nav>
+<a href="tel:02-415-8949" class="bg-primary-container text-on-primary-container px-lg py-sm rounded font-action-md text-action-md hover:opacity-80 active:scale-95 transition-all inline-block text-center">
+                지금 바로 상담
+</a>
+</div>
+</header>
+<main class="min-h-screen pb-xl">
+<!-- Admin Header -->
+<section class="bg-surface-container py-xl px-gutter">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<span class="text-primary font-bold font-label-sm text-label-sm uppercase tracking-wider">관리자 대시보드</span>
+<h1 id="page-main-title" class="font-display-lg text-display-lg text-on-surface mt-xs">매물 관리 시스템</h1>
+<p class="text-on-surface-variant font-body-lg text-body-lg mt-xs">잠실 지역의 프리미엄 매물을 등록하고 관리하세요.</p>
+</div>
+<div class="flex gap-sm">
+<a href="admin.html" class="px-md py-sm border border-outline rounded text-on-surface font-action-md text-action-md hover:bg-surface-container-high transition-colors inline-block">
+                        관리자 대시보드 보기
+</a>
+</div>
+</div>
+</section>
+<!-- Registration Form -->
+<section class="max-w-7xl mx-auto px-gutter mt-xl">
+<form id="property-form">
+<input type="hidden" id="prop-id">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Left Column: Primary Details -->
+<div class="lg:col-span-8">
+<div class="bg-canvas border border-hairline p-lg rounded-lg shadow-sm">
+<div class="space-y-lg">
+<!-- Section Title -->
+<div class="border-b border-hairline pb-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">apartment</span>
+                                    기본 정보 입력
+                                </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Complex Name -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">단지/카테고리 선택</label>
+<select id="complex-select" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-surface-container-low text-body-md">
+<option value="아파트">아파트</option>
+<option value="리센츠">리센츠 (Ricenz)</option>
+<option value="엘스">엘스 (Els)</option>
+<option value="트리지움">트리지움 (Trigeum)</option>
+<option value="상가/사무실">상가/사무실</option>
+<option value="오피스텔">오피스텔</option>
+<option value="재건축/재개발">재건축/재개발</option>
+</select>
+</div>
+<!-- Transaction Type -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">거래 유형</label>
+<div class="flex gap-sm h-full items-center pt-xs">
+<label class="flex items-center gap-xs cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary w-4 h-4 border-outline" name="tx_type" type="radio" value="매매"/>
+<span class="text-body-md">매매</span>
+</label>
+<label class="flex items-center gap-xs cursor-pointer">
+<input class="text-primary focus:ring-primary w-4 h-4 border-outline" name="tx_type" type="radio" value="전세"/>
+<span class="text-body-md">전세</span>
+</label>
+<label class="flex items-center gap-xs cursor-pointer">
+<input class="text-primary focus:ring-primary w-4 h-4 border-outline" name="tx_type" type="radio" value="월세"/>
+<span class="text-body-md">월세</span>
+</label>
+</div>
+</div>
+<!-- Title -->
+<div class="flex flex-col gap-xs md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">매물 제목 *</label>
+<input id="title-input" required="" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="e.g. 리센츠 33평형 고층 올수리 급매" type="text"/>
+</div>
+<!-- Price -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">희망 가격 *</label>
+<input id="price-input" required="" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="e.g. 24억 8,000만원 또는 1억 / 350만" type="text"/>
+</div>
+<!-- Area -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">면적 (공급 / 전용)</label>
+<input id="size-input" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="e.g. 공급 109㎡ / 전용 84㎡ (33평)" type="text"/>
+</div>
+<!-- Floor -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">층수 정보</label>
+<input id="floor-input" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="e.g. 24 / 32층" type="text"/>
+</div>
+<!-- Direction & Address -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">소재지 주소</label>
+<input id="address-input" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="e.g. 서울시 송파구 잠실동 22" type="text"/>
+</div>
+</div>
+<!-- Detailed Description -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">상세 설명</label>
+<textarea id="desc-input" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md resize-none" placeholder="매물의 특징, 수리 상태, 입주 가능일 등을 상세히 입력해 주세요..." rows="6"></textarea>
+</div>
+<!-- Features Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">주요 특징 (쉼표로 구분)</label>
+<input id="features-input" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="e.g. 올수리, 한강조망, 남향, 역세권 3분" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Media & Submission -->
+<div class="lg:col-span-4 flex flex-col gap-lg">
+<!-- Image Upload -->
+<div class="bg-canvas border border-hairline p-lg rounded-lg shadow-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-primary">add_a_photo</span>
+                            매물 대표 이미지 URL
+                        </h2>
+<div class="space-y-sm">
+  <input id="image-url-input" type="url" class="w-full border-hairline focus:border-primary focus:ring-0 rounded-lg p-md bg-canvas text-body-md" placeholder="https://images.unsplash.com/... (이미지 URL 주소)"/>
+  <p class="text-caption text-on-surface-variant">비워두실 경우 기본 고화질 샘플 아파트 이미지가 적용됩니다.</p>
+</div>
+</div>
+<!-- Guidelines -->
+<div class="bg-tertiary-fixed text-on-tertiary-fixed p-lg rounded-lg border border-tertiary-container/20">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined">verified_user</span>
+                            관리자 유의사항
+                        </h3>
+<ul class="space-y-sm font-body-md list-disc list-inside opacity-90">
+<li>등록 후 [매물 보기] 페이지에서 실시간 노출됩니다.</li>
+<li>가격 및 수리 상태를 정확하게 기재해 주세요.</li>
+</ul>
+</div>
+<!-- Final Action -->
+<div class="sticky bottom-xl">
+<button type="submit" class="w-full bg-primary text-on-primary py-lg rounded-xl font-action-md text-action-md shadow-lg hover:bg-primary-container transition-all flex items-center justify-center gap-sm group" id="submit-btn">
+<span>매물 등록 완료하기</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>
+</button>
+<p class="text-center text-caption text-on-surface-variant mt-md">등록 버튼을 클릭하면 매물이 저장되고 고객 매물페이지에 게시됩니다.</p>
+</div>
+</div>
+</div>
+</form>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container border-t border-hairline mt-xl">
+<div class="w-full py-xl px-gutter grid grid-cols-1 md:grid-cols-2 gap-lg max-w-7xl mx-auto">
+<div class="flex flex-col gap-md">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">잠실사랑 부동산 (Jamsil Love Real Estate)</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                    잠실 리센츠, 엘스, 트리지움 단지의 프리미엄 부동산 거래를 위한 가장 신뢰할 수 있는 파트너입니다.
+                </p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                    © 2024 잠실사랑 부동산. 사업자 등록번호: 123-45-67890. 대표: 잠실사랑. 주소: 서울특별시 송파구 잠실동.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<span class="font-action-md text-action-md font-bold mb-xs">외부 링크</span>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline" href="#">네이버 블로그</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline" href="#">네이버 부동산</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline" href="#">YouTube</a>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="db.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  // 관리자 인증 체크
+  if (!isAdmin()) {
+    window.location.href = 'admin.html?redirect=property-write.html';
+    return;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const propId = urlParams.get('id');
+
+  if (propId) {
+    document.getElementById('page-main-title').textContent = '매물 정보 수정';
+    const item = await getPropertyById(propId);
+    if (item) {
+      document.getElementById('prop-id').value = item.id;
+      document.getElementById('complex-select').value = item.category || '아파트';
+      document.getElementById('title-input').value = item.title || '';
+      document.getElementById('price-input').value = item.price || '';
+      document.getElementById('size-input').value = item.size || '';
+      document.getElementById('floor-input').value = item.floor || '';
+      document.getElementById('address-input').value = item.address || '';
+      document.getElementById('image-url-input').value = item.image || '';
+      document.getElementById('desc-input').value = item.description || '';
+      document.getElementById('features-input').value = (item.features || []).join(', ');
+
+      const radios = document.getElementsByName('tx_type');
+      for (let r of radios) {
+        if (r.value === item.tradeType) r.checked = true;
+      }
+    }
+  }
+
+  const form = document.getElementById('property-form');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> 저장 중...';
+    submitBtn.disabled = true;
+
+    const txTypeRadio = document.querySelector('input[name="tx_type"]:checked');
+    const tradeType = txTypeRadio ? txTypeRadio.value : '매매';
+
+    const featuresRaw = document.getElementById('features-input').value;
+    const featuresArr = featuresRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+
+    const propData = {
+      id: document.getElementById('prop-id').value || null,
+      category: document.getElementById('complex-select').value,
+      tradeType: tradeType,
+      title: document.getElementById('title-input').value,
+      price: document.getElementById('price-input').value,
+      size: document.getElementById('size-input').value,
+      floor: document.getElementById('floor-input').value,
+      address: document.getElementById('address-input').value || '서울특별시 송파구 잠실동',
+      image: document.getElementById('image-url-input').value,
+      features: featuresArr,
+      description: document.getElementById('desc-input').value,
+      agentContact: '02-415-8949'
+    };
+
+    await saveProperty(propData);
+    alert('매물이 정상적으로 등록/수정되었습니다!\n매물 보기 페이지로 이동합니다.');
+    window.location.href = 'properties.html';
+  });
+});
+</script>
+</body></html>

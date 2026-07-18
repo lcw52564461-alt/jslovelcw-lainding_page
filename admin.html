@@ -1,233 +1,396 @@
-<!DOCTYPE html>
-<html lang="ko" class="light">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>관리자 대시보드 - 잠실사랑공인중개사</title>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-try {
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-          "on-secondary-fixed-variant": "#42474c",
-          "on-tertiary": "#ffffff",
-          "surface-tint": "#00629e",
-          "on-error-container": "#93000a",
-          "surface-dim": "#d1dbe4",
-          "background": "#f5faff",
-          "on-surface": "#131d23",
-          "surface-container-high": "#dfe9f2",
-          "hairline": "#e0e0e0",
-          "surface-variant": "#dae4ed",
-          "on-secondary": "#ffffff",
-          "surface-container-low": "#ebf5fe",
-          "on-primary": "#ffffff",
-          "inverse-surface": "#283238",
-          "outline-variant": "#bec7d4",
-          "on-error": "#ffffff",
-          "primary": "#00629e",
-          "surface": "#f5faff",
-          "primary-fixed": "#cfe5ff",
-          "error-container": "#ffdad6",
-          "canvas": "#ffffff",
-          "tertiary": "#914c00",
-          "on-secondary-container": "#5e6368",
-          "inverse-primary": "#9acbff",
-          "secondary": "#5a5f63",
-          "on-tertiary-fixed": "#2f1500",
-          "secondary-container": "#dce0e5",
-          "tertiary-container": "#eb7f04",
-          "secondary-fixed": "#dfe3e8",
-          "error": "#ba1a1a",
-          "on-secondary-fixed": "#171c20",
-          "tertiary-fixed": "#ffdcc4",
-          "surface-container-highest": "#dae4ed",
-          "surface-bright": "#f5faff",
-          "on-surface-variant": "#3f4852",
-          "surface-container-lowest": "#ffffff",
-          "on-background": "#131d23",
-          "on-primary-fixed": "#001d34",
-          "primary-container": "#00a1ff",
-          "on-primary-fixed-variant": "#004a79",
-          "surface-container": "#e5eff8",
-          "tertiary-fixed-dim": "#ffb77f",
-          "on-tertiary-container": "#522800",
-          "on-tertiary-fixed-variant": "#6f3900"
+<!DOCTYPE html><html lang="ko" class="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>관리자 인증 - 잠실사랑공인중개사</title><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#6f3900",
+                    "on-background": "#131d23",
+                    "secondary": "#5a5f63",
+                    "body-text": "#424242",
+                    "on-secondary-fixed-variant": "#42474c",
+                    "tertiary-fixed-dim": "#ffb77f",
+                    "inverse-primary": "#9acbff",
+                    "surface-container-highest": "#dae4ed",
+                    "on-primary-fixed-variant": "#004a79",
+                    "surface-dim": "#d1dbe4",
+                    "secondary-container": "#dce0e5",
+                    "canvas": "#ffffff",
+                    "surface-container": "#e5eff8",
+                    "on-secondary-fixed": "#171c20",
+                    "secondary-fixed": "#dfe3e8",
+                    "on-tertiary-container": "#522800",
+                    "on-surface-variant": "#3f4852",
+                    "surface": "#f5faff",
+                    "surface-container-low": "#ebf5fe",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#9acbff",
+                    "primary": "#00629e",
+                    "surface-tint": "#00629e",
+                    "tertiary-container": "#eb7f04",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#131d23",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#283238",
+                    "inverse-on-surface": "#e8f2fb",
+                    "surface-variant": "#dae4ed",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#00a1ff",
+                    "background": "#f5faff",
+                    "outline": "#6f7883",
+                    "on-secondary-container": "#5e6368",
+                    "tertiary-fixed": "#ffdcc4",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f5faff",
+                    "on-primary-fixed": "#001d34",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#cfe5ff",
+                    "outline-variant": "#bec7d4",
+                    "secondary-fixed-dim": "#c2c7cc",
+                    "hairline": "#e0e0e0",
+                    "on-error": "#ffffff",
+                    "tertiary": "#914c00",
+                    "surface-container-high": "#dfe9f2",
+                    "on-primary-container": "#003559",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "gutter": "20px",
+                    "xs": "6px",
+                    "xl": "40px",
+                    "md": "16px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "0px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-sm": ["Hanken Grotesk"],
+                    "caption": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "action-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["15px", {"lineHeight": "22px", "letterSpacing": "-0.3px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.3px", "fontWeight": "600"}],
+                    "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.3px", "fontWeight": "400"}],
+                    "label-sm": ["14px", {"lineHeight": "18px", "letterSpacing": "-0.3px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.3px", "fontWeight": "700"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.3px", "fontWeight": "700"}],
+                    "action-md": ["16px", {"lineHeight": "20px", "letterSpacing": "-0.3px", "fontWeight": "700"}]
+            }
+          },
         },
-        "borderRadius": {
-          "DEFAULT": "0.125rem",
-          "lg": "0.25rem",
-          "xl": "0.5rem",
-          "full": "0.75rem"
-        },
-        "spacing": {
-          "margin-mobile": "16px",
-          "xs": "6px",
-          "md": "16px",
-          "xl": "40px",
-          "gutter": "20px",
-          "lg": "24px",
-          "sm": "12px",
-          "margin-desktop": "0px"
-        },
-        "fontFamily": {
-          "headline-sm": ["Hanken Grotesk"],
-          "action-md": ["Hanken Grotesk"],
-          "headline-md": ["Hanken Grotesk"],
-          "body-lg": ["Hanken Grotesk"],
-          "display-lg": ["Hanken Grotesk"],
-          "body-md": ["Hanken Grotesk"],
-          "label-sm": ["Hanken Grotesk"],
-          "caption": ["Hanken Grotesk"]
-        },
-        "fontSize": {
-          "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.3px", "fontWeight": "600" }],
-          "action-md": ["16px", { "lineHeight": "20px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
-          "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
-          "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
-          "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
-          "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
-          "label-sm": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
-          "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "400" }]
-        }
       }
-    }
-  }
-} catch(_e){}
-</script>
-</head>
-<body class="bg-background text-on-surface font-body-md antialiased flex flex-col min-h-screen">
+    }catch(_e){}</script></head><body class="min-h-screen flex items-center justify-center p-gutter bg-canvas">
+<!-- Decorative Background Elements -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+<div class="absolute -top-[10%] -right-[10%] w-[40%] h-[40%] rounded-full bg-primary-container opacity-5 blur-[120px]"></div>
+<div class="absolute -bottom-[5%] -left-[5%] w-[30%] h-[30%] rounded-full bg-primary opacity-5 blur-[100px]"></div>
+</div>
 
-<header class="bg-canvas border-b border-hairline sticky top-0 z-50">
-  <div class="flex justify-between items-center h-20 px-gutter max-w-7xl mx-auto w-full">
-    <a href="index.html" class="font-display-lg text-display-lg font-bold text-primary tracking-tight">잠실사랑공인중개사</a>
-    <nav class="flex gap-lg items-center">
-      <a href="index.html" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">홈 바로가기</a>
-      <a href="news.html" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">부동산 뉴스</a>
-    </nav>
-  </div>
-</header>
+<!-- 로그인 카드 섹션 -->
+<main id="login-section" class="relative z-10 w-full max-w-md">
+<!-- Brand Identity -->
+<div class="text-center mb-xl">
+<h1 class="font-display-lg text-display-lg text-primary font-bold tracking-tight">Jamsil Love</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Real Estate Authority</p>
+</div>
+<!-- Verification Card -->
+<div class="glass-panel p-xl rounded-xl shadow-sm border border-hairline bg-white/80 backdrop-blur-md">
+<div class="flex justify-center mb-lg">
+<div class="w-12 h-12 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[28px]" data-icon="lock_person">lock_person</span>
+</div>
+</div>
+<div class="text-center mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-background mb-sm">관리자 인증</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">매물 등록 및 관리를 위해 비밀번호를 입력해 주세요.</p>
+</div>
+<form id="authForm" class="space-y-lg">
+<div class="relative group">
+<label for="password" class="sr-only">비밀번호</label>
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="key">key</span>
+</div>
+<input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required="" class="w-full pl-xl pr-md py-md bg-canvas border-b-2 border-hairline focus:border-primary-container focus:ring-0 outline-none transition-all font-body-md text-body-md text-on-surface placeholder:text-outline-variant">
+</div>
 
-<main class="flex-grow w-full max-w-6xl mx-auto px-margin-mobile md:px-gutter py-xl flex items-center justify-center">
+<div id="error-msg" class="hidden text-caption text-error bg-error/10 p-sm rounded text-center"></div>
 
-  <div id="login-section" class="w-full max-w-md bg-canvas p-xl rounded-lg border border-hairline shadow-md hidden">
-    <div class="text-center mb-lg">
-      <span class="material-symbols-outlined text-[48px] text-primary mb-xs">lock</span>
-      <h1 class="font-display-lg text-headline-md font-bold text-on-surface">관리자 로그인</h1>
-      <p class="font-body-md text-on-surface-variant mt-xs">게시글 관리를 위해 비밀번호를 입력하세요.</p>
-    </div>
+<button type="submit" class="w-full bg-primary-container text-on-primary-container py-md px-lg rounded-lg font-action-md text-action-md hover:bg-primary hover:text-white transition-all active:scale-[0.98] flex items-center justify-center gap-sm group">
+                    확인
+                    <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<div class="mt-xl pt-lg border-t border-hairline text-center">
+<a href="index.html" class="inline-flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="home">home</span>
+                    Back to Home
+</a>
+</div>
+</div>
+<!-- Footer Info -->
+<footer class="mt-xl text-center space-y-sm">
+<p class="font-caption text-caption text-outline">
+                © 2024 Jamsil Love Real Estate. All rights reserved.
+            </p>
+<div class="flex justify-center gap-md">
+<span class="font-caption text-caption text-outline-variant">Registration No: 123-45-67890</span>
+<span class="font-caption text-caption text-outline-variant">Seoul, Jamsil Ricenz Mall</span>
+</div>
+</footer>
+</main>
 
-    <form id="login-form" class="flex flex-col gap-md">
-      <div class="flex flex-col gap-xs">
-        <label for="password-input" class="font-headline-sm text-sm text-on-surface">비밀번호</label>
-        <input type="password" id="password-input" required placeholder="비밀번호 입력" class="w-full px-md py-sm border border-outline-variant rounded focus:outline-none focus:border-primary text-body-md">
-      </div>
-
-      <div id="error-msg" class="hidden text-sm text-error bg-error/10 p-sm rounded text-center"></div>
-
-      <button type="submit" class="w-full bg-primary text-on-primary font-action-md py-sm rounded hover:bg-primary/90 transition-colors">
-        로그인
-      </button>
-    </form>
-  </div>
-
-  <div id="dashboard-section" class="w-full bg-canvas p-md md:p-xl rounded-lg border border-hairline shadow-sm hidden">
+<!-- 관리자 대시보드 섹션 (로그인 완료 시 표시) -->
+<main id="dashboard-section" class="relative z-10 w-full max-w-5xl hidden my-xl">
+  <div class="bg-white p-xl rounded-xl border border-hairline shadow-sm">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-md mb-lg border-b border-hairline pb-md">
       <div>
-        <h1 class="font-display-lg text-headline-md md:text-display-lg text-on-surface font-bold">게시글 관리 대시보드</h1>
-        <p class="font-body-md text-on-surface-variant mt-xs">등록된 게시글을 작성, 수정, 삭제할 수 있습니다.</p>
+        <h1 class="font-display-lg text-headline-md md:text-display-lg text-on-surface font-bold">통합 관리자 대시보드</h1>
+        <p class="font-body-md text-on-surface-variant mt-xs">매물 관리 시스템 및 부동산 뉴스 게시글을 통합 관리할 수 있습니다.</p>
       </div>
       <div class="flex items-center gap-sm">
-        <a href="news-write.html" class="inline-flex items-center gap-xs bg-primary text-on-primary font-action-md text-sm px-md py-sm rounded hover:bg-primary/90 transition-colors">
-          <span class="material-symbols-outlined text-sm">add</span> 새 글 작성
+        <a href="property-write.html" class="inline-flex items-center gap-xs bg-primary text-white font-action-md text-label-sm px-md py-sm rounded-lg hover:opacity-90 transition-all">
+          <span class="material-symbols-outlined text-sm">add_circle</span> 새 매물 등록
         </a>
-        <button id="logout-btn" class="inline-flex items-center gap-xs bg-surface-container text-on-surface-variant font-action-md text-sm px-md py-sm rounded hover:bg-surface-container-high transition-colors">
+        <button id="logout-btn" class="inline-flex items-center gap-xs bg-surface-container text-on-surface-variant font-action-md text-label-sm px-md py-sm rounded-lg hover:bg-surface-dim transition-all">
           <span class="material-symbols-outlined text-sm">logout</span> 로그아웃
         </button>
       </div>
     </div>
 
-    <div class="overflow-x-auto border border-hairline rounded-lg">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="bg-surface-container text-on-surface font-headline-sm text-sm border-b border-hairline">
-            <th class="p-sm md:p-md w-16 text-center">번호</th>
-            <th class="p-sm md:p-md w-28">카테고리</th>
-            <th class="p-sm md:p-md">제목</th>
-            <th class="p-sm md:p-md w-32">작성일</th>
-            <th class="p-sm md:p-md w-32 text-center">관리</th>
-          </tr>
-        </thead>
-        <tbody id="posts-table-body" class="divide-y divide-hairline"></tbody>
-      </table>
+    <!-- 탭 선택 -->
+    <div class="flex gap-md mb-lg border-b border-hairline">
+      <button id="tab-properties-btn" class="pb-sm px-xs font-bold text-primary border-b-2 border-primary transition-colors flex items-center gap-xs">
+        <span class="material-symbols-outlined text-sm">apartment</span> 매물 관리 (<span id="prop-count">0</span>)
+      </button>
+      <button id="tab-posts-btn" class="pb-sm px-xs text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs">
+        <span class="material-symbols-outlined text-sm">newspaper</span> 부동산 뉴스 관리 (<span id="post-count">0</span>)
+      </button>
     </div>
 
-    <div id="empty-msg" class="hidden py-xl text-center text-on-surface-variant font-body-lg">
-      작성된 게시글이 없습니다.
+    <!-- 매물 목록 -->
+    <div id="properties-tab-content">
+      <div class="overflow-x-auto border border-hairline rounded-lg">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container text-on-surface font-headline-sm text-label-sm border-b border-hairline">
+              <th class="p-sm md:p-md w-16 text-center">번호</th>
+              <th class="p-sm md:p-md w-24">구분</th>
+              <th class="p-sm md:p-md w-20">거래유형</th>
+              <th class="p-sm md:p-md">매물명</th>
+              <th class="p-sm md:p-md w-36">가격</th>
+              <th class="p-sm md:p-md w-28 text-center">관리</th>
+            </tr>
+          </thead>
+          <tbody id="properties-table-body" class="divide-y divide-hairline"></tbody>
+        </table>
+      </div>
+      <div id="prop-empty-msg" class="hidden py-xl text-center text-on-surface-variant font-body-lg">
+        등록된 매물이 없습니다. 상단의 [새 매물 등록] 버튼을 눌러 추가하세요.
+      </div>
     </div>
+
+    <!-- 뉴스 목록 -->
+    <div id="posts-tab-content" class="hidden">
+      <div class="overflow-x-auto border border-hairline rounded-lg">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container text-on-surface font-headline-sm text-label-sm border-b border-hairline">
+              <th class="p-sm md:p-md w-16 text-center">번호</th>
+              <th class="p-sm md:p-md w-28">카테고리</th>
+              <th class="p-sm md:p-md">제목</th>
+              <th class="p-sm md:p-md w-32">작성일</th>
+              <th class="p-sm md:p-md w-28 text-center">관리</th>
+            </tr>
+          </thead>
+          <tbody id="posts-table-body" class="divide-y divide-hairline"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
-
 </main>
-
-<footer class="bg-surface-container w-full mt-auto py-md px-gutter text-center text-caption text-on-surface-variant">
-  © 2024 Jamsil Love Real Estate Admin Panel.
-</footer>
 
 <script src="db.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
   const loginSection = document.getElementById('login-section');
   const dashboardSection = document.getElementById('dashboard-section');
-  const loginForm = document.getElementById('login-form');
+  const authForm = document.getElementById('authForm');
   const errorMsg = document.getElementById('error-msg');
   const logoutBtn = document.getElementById('logout-btn');
 
+  const tabPropsBtn = document.getElementById('tab-properties-btn');
+  const tabPostsBtn = document.getElementById('tab-posts-btn');
+  const propsTabContent = document.getElementById('properties-tab-content');
+  const postsTabContent = document.getElementById('posts-tab-content');
+
+  // 로그인 상태 확인
   if (isAdmin()) {
+    loginSection.classList.add('hidden');
     dashboardSection.classList.remove('hidden');
+    renderPropertiesTable();
     renderPostsTable();
-  } else {
-    loginSection.classList.remove('hidden');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('tab') === 'posts') {
+      switchTab('posts');
+    }
   }
 
-  loginForm.addEventListener('submit', async (e) => {
+  tabPropsBtn.addEventListener('click', () => switchTab('properties'));
+  tabPostsBtn.addEventListener('click', () => switchTab('posts'));
+
+  function switchTab(tabName) {
+    if (tabName === 'properties') {
+      propsTabContent.classList.remove('hidden');
+      postsTabContent.classList.add('hidden');
+      tabPropsBtn.className = 'pb-sm px-xs font-bold text-primary border-b-2 border-primary transition-colors flex items-center gap-xs';
+      tabPostsBtn.className = 'pb-sm px-xs text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs';
+    } else {
+      postsTabContent.classList.remove('hidden');
+      propsTabContent.classList.add('hidden');
+      tabPostsBtn.className = 'pb-sm px-xs font-bold text-primary border-b-2 border-primary transition-colors flex items-center gap-xs';
+      tabPropsBtn.className = 'pb-sm px-xs text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs';
+    }
+  }
+
+  authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     errorMsg.classList.add('hidden');
-    const inputPass = document.getElementById('password-input').value;
-    const cfg = await loadConfig();
-    const correctPass = cfg.admin_password || 'admin1234';
 
-    if (inputPass === correctPass) {
-      sessionStorage.setItem('isAdmin', 'true');
-      window.location.reload();
-    } else {
-      errorMsg.textContent = '비밀번호가 올바르지 않습니다.';
-      errorMsg.classList.remove('hidden');
-    }
+    const btn = authForm.querySelector('button');
+    const originalContent = btn.innerHTML;
+    
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> 인증 중...';
+    
+    const inputPass = document.getElementById('password').value;
+    const cfg = await loadConfig();
+    const correctPass = cfg.admin_password || 'love1219**';
+
+    setTimeout(() => {
+      if (inputPass === correctPass) {
+        sessionStorage.setItem('isAdmin', 'true');
+        btn.classList.replace('bg-primary-container', 'bg-tertiary-container');
+        btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> 인증 완료';
+        
+        setTimeout(() => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirect = urlParams.get('redirect');
+          if (redirect) {
+            window.location.href = redirect;
+          } else {
+            loginSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+            renderPropertiesTable();
+            renderPostsTable();
+          }
+        }, 500);
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = originalContent;
+        errorMsg.textContent = '비밀번호가 올바르지 않습니다. (기본: love1219**)';
+        errorMsg.classList.remove('hidden');
+      }
+    }, 600);
   });
 
-  logoutBtn.addEventListener('click', () => {
-    sessionStorage.removeItem('isAdmin');
-    window.location.reload();
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('isAdmin');
+      window.location.href = 'index.html';
+    });
+  }
+
+  // Focus animation for input icon
+  const input = document.getElementById('password');
+  const icon = input.previousElementSibling.querySelector('span');
+  
+  input.addEventListener('focus', () => {
+      icon.classList.add('text-primary');
+  });
+  
+  input.addEventListener('blur', () => {
+      icon.classList.remove('text-primary');
   });
 });
 
-async function renderPostsTable() {
-  const tbody = document.getElementById('posts-table-body');
-  const emptyMsg = document.getElementById('empty-msg');
-  const posts = await getPosts();
+async function renderPropertiesTable() {
+  const tbody = document.getElementById('properties-table-body');
+  const emptyMsg = document.getElementById('prop-empty-msg');
+  const countEl = document.getElementById('prop-count');
+  const props = await getProperties();
 
-  if (!posts || posts.length === 0) {
+  countEl.textContent = props ? props.length : 0;
+
+  if (!props || props.length === 0) {
     tbody.innerHTML = '';
     emptyMsg.classList.remove('hidden');
     return;
   }
 
   emptyMsg.classList.add('hidden');
+  tbody.innerHTML = props.map((item, index) => {
+    let tradeBadgeClass = 'bg-primary/10 text-primary';
+    if (item.tradeType === '전세') tradeBadgeClass = 'bg-tertiary-container/20 text-tertiary';
+    if (item.tradeType === '월세') tradeBadgeClass = 'bg-secondary-container text-on-secondary-container';
+
+    return `
+      <tr class="hover:bg-surface-container/30 transition-colors">
+        <td class="p-sm md:p-md text-center text-caption text-on-surface-variant">${props.length - index}</td>
+        <td class="p-sm md:p-md font-semibold text-xs text-on-surface-variant">${escapeHtml(item.category || '아파트')}</td>
+        <td class="p-sm md:p-md">
+          <span class="px-xs py-[2px] ${tradeBadgeClass} text-caption font-bold rounded">${escapeHtml(item.tradeType || '매매')}</span>
+        </td>
+        <td class="p-sm md:p-md font-bold text-on-surface">
+          <a href="property-detail.html?id=${item.id}" class="hover:text-primary transition-colors line-clamp-1">${escapeHtml(item.title)}</a>
+        </td>
+        <td class="p-sm md:p-md text-xs font-bold text-primary whitespace-nowrap">${escapeHtml(item.price)}</td>
+        <td class="p-sm md:p-md text-center whitespace-nowrap">
+          <div class="inline-flex gap-xs">
+            <a href="property-write.html?id=${item.id}" class="px-xs py-1 bg-surface-container-high text-on-surface rounded hover:bg-outline-variant transition-colors text-xs font-bold">수정</a>
+            <button onclick="handleDeleteProperty('${item.id}')" class="px-xs py-1 bg-error/10 text-error rounded hover:bg-error/20 transition-colors text-xs font-bold">삭제</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function handleDeleteProperty(id) {
+  if (confirm('정말로 이 매물을 삭제하시겠습니까?')) {
+    await deleteProperty(id);
+    renderPropertiesTable();
+  }
+}
+
+async function renderPostsTable() {
+  const tbody = document.getElementById('posts-table-body');
+  const countEl = document.getElementById('post-count');
+  const posts = await getPosts();
+
+  countEl.textContent = posts ? posts.length : 0;
+
+  if (!posts || posts.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="py-xl text-center text-on-surface-variant">작성된 게시글이 없습니다.</td></tr>';
+    return;
+  }
+
   tbody.innerHTML = posts.map((post, index) => {
     return `
       <tr class="hover:bg-surface-container/30 transition-colors">
@@ -242,7 +405,7 @@ async function renderPostsTable() {
         <td class="p-sm md:p-md text-center whitespace-nowrap">
           <div class="inline-flex gap-xs">
             <a href="news-write.html?id=${post.id}" class="px-xs py-1 bg-surface-container-high text-on-surface rounded hover:bg-outline-variant transition-colors text-xs font-bold">수정</a>
-            <button onclick="handleDelete('${post.id}')" class="px-xs py-1 bg-error/10 text-error rounded hover:bg-error/20 transition-colors text-xs font-bold">삭제</button>
+            <button onclick="handleDeletePost('${post.id}')" class="px-xs py-1 bg-error/10 text-error rounded hover:bg-error/20 transition-colors text-xs font-bold">삭제</button>
           </div>
         </td>
       </tr>
@@ -250,12 +413,11 @@ async function renderPostsTable() {
   }).join('');
 }
 
-async function handleDelete(id) {
+async function handleDeletePost(id) {
   if (confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
     await deletePost(id);
     renderPostsTable();
   }
 }
 </script>
-</body>
-</html>
+</body></html>

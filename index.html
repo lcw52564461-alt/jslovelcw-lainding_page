@@ -109,7 +109,7 @@ try {
     <nav class="hidden md:flex gap-lg items-center">
       <a class="text-primary border-b-2 border-primary pb-1 font-headline-sm text-headline-sm font-bold" href="index.html">홈</a>
       <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="news.html">부동산 뉴스</a>
-      <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="#listings">매물 보기</a>
+      <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="properties.html">매물 보기</a>
       <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="location.html">오시는 길</a>
     </nav>
     <div class="hidden md:block">
@@ -122,7 +122,7 @@ try {
   <div id="mobile-menu" class="hidden md:hidden bg-canvas border-b border-hairline px-gutter py-md flex flex-col gap-sm">
     <a class="text-primary font-bold py-1" href="index.html">홈</a>
     <a class="text-on-surface-variant py-1 hover:text-primary" href="news.html">부동산 뉴스</a>
-    <a class="text-on-surface-variant py-1 hover:text-primary" href="#listings">매물 보기</a>
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="properties.html">매물 보기</a>
     <a class="text-on-surface-variant py-1 hover:text-primary" href="location.html">오시는 길</a>
   </div>
 </header>
@@ -213,53 +213,53 @@ try {
   <section id="listings" class="max-w-7xl mx-auto px-margin-mobile md:px-gutter py-xl">
     <div class="flex justify-between items-end mb-lg">
       <h2 class="font-headline-md text-headline-md">추천 매물</h2>
-      <a class="font-action-md text-action-md text-primary flex items-center gap-xs hover:underline" href="#">
+      <a class="font-action-md text-action-md text-primary flex items-center gap-xs hover:underline" href="properties.html">
         전체보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
       </a>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-      <div class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
+      <div onclick="location.href='properties.html'" class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
         <div class="w-full h-48 bg-surface-dim relative overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOno9-Nu0d4it2D0pUlYV0gmkIRh5YPZlKVCrzcVGD6wKhvbEos63n-s-xxOuQgwsNOS1dnbXvdLbnPt_w6EwWwk1a-lS0j1K6yMJoyctMR41UohlZG-_nl87UXDSJwrwN9U1p5EuxJjzHIvSo8aFV35_jJ1UqYIRdvAV27m-VMyvR-6Ww7u7kMCxKdno7lNm9Mt8-a9Gzfo7cNwQ-uxK2B2h1j_X2m2ozSfutJXNcAC2B9syG0HVp" alt="리센츠">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" alt="리센츠">
           <div class="absolute top-sm left-sm bg-[#f4f4f4] text-[#828c94] px-xs py-[2px] rounded-DEFAULT font-label-sm text-caption">매매</div>
         </div>
         <div class="p-md">
-          <h3 class="font-headline-sm text-headline-sm mb-xs">리센츠 33평형 (전면동)</h3>
-          <p class="font-body-md text-body-md text-primary font-bold mb-md">25억 5,000만</p>
+          <h3 class="font-headline-sm text-headline-sm mb-xs">리센츠 33평형 (남향 최선호 A타입)</h3>
+          <p class="font-body-md text-body-md text-primary font-bold mb-md">24억 8,000만</p>
           <ul class="flex flex-col gap-xs font-body-md text-body-md text-on-surface-variant">
             <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">square_foot</span> 109㎡ / 84㎡</li>
-            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 중층 / 총 33층</li>
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 중층 / 총 28층</li>
             <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 남향, 올수리, 즉시입주</li>
           </ul>
         </div>
       </div>
-      <div class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
+      <div onclick="location.href='properties.html'" class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
         <div class="w-full h-48 bg-surface-dim relative overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzr1idPiWq8gbfeVb1gZKK6pjmrhNGvJiPPOY55vCV4sUwUYd-8-ww7ku0vafLj2qE4pf-LMG1uxfOXweFSyT0ne6tSg2lRtaWzkI9LG-CxfCsnZiSk3HIRm2zwXps9fXIDXIBYuVVm9Z3m1HtCjEcY5rc8BcymcU8aL9a59D_YFzoG3nbD8sCfrfwv0-dkCsqU45c5xHtTsnugL0LpYiRyaF18QBfy0K6CTZYzNQjBBI4s_ieOoES" alt="엘스">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="엘스">
           <div class="absolute top-sm left-sm bg-[#f4f4f4] text-[#828c94] px-xs py-[2px] rounded-DEFAULT font-label-sm text-caption">전세</div>
         </div>
         <div class="p-md">
-          <h3 class="font-headline-sm text-headline-sm mb-xs">엘스 25평형 (역세권)</h3>
-          <p class="font-body-md text-body-md text-primary font-bold mb-md">11억 8,000만</p>
+          <h3 class="font-headline-sm text-headline-sm mb-xs">엘스 25평형 (올수리 초역세권)</h3>
+          <p class="font-body-md text-body-md text-primary font-bold mb-md">11억 5,000만</p>
           <ul class="flex flex-col gap-xs font-body-md text-body-md text-on-surface-variant">
             <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">square_foot</span> 84㎡ / 59㎡</li>
-            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 로얄층 / 총 34층</li>
-            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 동향, 융자무, 확트인뷰</li>
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 로얄층 / 총 30층</li>
+            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 풀옵션, 융자무</li>
           </ul>
         </div>
       </div>
-      <div class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
+      <div onclick="location.href='properties.html'" class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
         <div class="w-full h-48 bg-surface-dim relative overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjYGyxt3d6lbWnXNAHLDddqkbAPRQySwzGiioIZMve4YLa8rHdEW8yHoN5QKYG85C3T8Ii3PARWVkqQFg8w1-O6n8ANcP8TZ_WokgU5q4RMc3pnOzj9HvJKD51eBDQ4onAldX90r6oWa75ySJMqExPyBQeVlRdeI2oRYgD9JGXPtzDMDafxfco7objM9825y8kJP1TOBVpDVueKMQDxXMN1VrJwn63Ed16ZmfIBkqx1oiqQQWvQ98H" alt="트리지움">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="트리지움">
           <div class="absolute top-sm left-sm bg-primary-container text-on-primary px-xs py-[2px] rounded-DEFAULT font-label-sm text-caption">급매</div>
         </div>
         <div class="p-md">
-          <h3 class="font-headline-sm text-headline-sm mb-xs">트리지움 43평형</h3>
-          <p class="font-body-md text-body-md text-primary font-bold mb-md">31억 2,000만</p>
+          <h3 class="font-headline-sm text-headline-sm mb-xs">트리지움 43평형 대형매물</h3>
+          <p class="font-body-md text-body-md text-primary font-bold mb-md">29억 5,000만</p>
           <ul class="flex flex-col gap-xs font-body-md text-body-md text-on-surface-variant">
             <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">square_foot</span> 143㎡ / 114㎡</li>
-            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 고층 / 총 33층</li>
-            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 남서향, 특올수리, 주인거주</li>
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 고층 / 총 32층</li>
+            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 남향, 특올수리, 주인거주</li>
           </ul>
         </div>
       </div>
@@ -270,10 +270,10 @@ try {
     <div class="max-w-4xl mx-auto px-margin-mobile md:px-gutter text-center flex flex-col items-center">
       <h2 class="font-display-lg text-display-lg mb-md">전문가의 도움이 필요하신가요?</h2>
       <p class="font-body-lg text-body-lg text-on-surface-variant mb-lg">잠실 아파트 매매/전월세 문의, 언제든 편하게 연락주세요.</p>
-      <a href="tel:02-422-2775" class="bg-primary-container text-on-primary font-action-md text-action-md px-[40px] py-[20px] rounded-DEFAULT hover:bg-primary transition-colors flex items-center gap-sm shadow-[0_2px_5px_rgba(63,71,77,0.15)] min-h-[44px]">
+      <a href="tel:02-415-8949" class="bg-primary-container text-on-primary font-action-md text-action-md px-[40px] py-[20px] rounded-DEFAULT hover:bg-primary transition-colors flex items-center gap-sm shadow-[0_2px_5px_rgba(63,71,77,0.15)] min-h-[44px]">
         <span class="material-symbols-outlined text-[24px]">call</span> 지금 바로 상담하기
       </a>
-      <p class="font-body-md text-body-md text-on-surface-variant mt-sm">Tel. 02-422-2775</p>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-sm">Tel. 02-415-8949</p>
     </div>
   </section>
 </main>
@@ -287,13 +287,13 @@ try {
     <span class="material-symbols-outlined">newspaper</span>
     <span class="text-xs">뉴스</span>
   </a>
+  <a href="properties.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">apartment</span>
+    <span class="text-xs">매물</span>
+  </a>
   <a href="location.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
     <span class="material-symbols-outlined">location_on</span>
     <span class="text-xs">오시는 길</span>
-  </a>
-  <a href="tel:02-422-2775" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
-    <span class="material-symbols-outlined">call</span>
-    <span class="text-xs">전화</span>
   </a>
   <a href="admin.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
     <span class="material-symbols-outlined">admin_panel_settings</span>
