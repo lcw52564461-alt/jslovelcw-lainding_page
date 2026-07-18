@@ -12,7 +12,7 @@ async function loadConfig() {
     github_owner: file.github_owner || '',
     github_repo: file.github_repo || '',
     data_file_path: file.data_file_path || 'data/posts.json',
-    admin_password: api.admin_password || file.admin_password || 'love1219**'
+    admin_password: (api.admin_password && api.admin_password !== 'admin1234') ? api.admin_password : (file.admin_password || 'love1219**')
   };
   return _config;
 }
