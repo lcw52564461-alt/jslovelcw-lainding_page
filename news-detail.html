@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시글 상세보기 - 잠실사랑공인중개사</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+try {
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed-variant": "#42474c",
+          "on-tertiary": "#ffffff",
+          "surface-tint": "#00629e",
+          "on-error-container": "#93000a",
+          "surface-dim": "#d1dbe4",
+          "background": "#f5faff",
+          "on-surface": "#131d23",
+          "surface-container-high": "#dfe9f2",
+          "hairline": "#e0e0e0",
+          "surface-variant": "#dae4ed",
+          "on-secondary": "#ffffff",
+          "surface-container-low": "#ebf5fe",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#283238",
+          "outline-variant": "#bec7d4",
+          "on-error": "#ffffff",
+          "primary": "#00629e",
+          "surface": "#f5faff",
+          "primary-fixed": "#cfe5ff",
+          "error-container": "#ffdad6",
+          "canvas": "#ffffff",
+          "tertiary": "#914c00",
+          "on-secondary-container": "#5e6368",
+          "inverse-primary": "#9acbff",
+          "secondary": "#5a5f63",
+          "on-tertiary-fixed": "#2f1500",
+          "secondary-container": "#dce0e5",
+          "tertiary-fixed": "#ffdcc4",
+          "error": "#ba1a1a",
+          "on-secondary-fixed": "#171c20",
+          "tertiary-fixed": "#ffdcc4",
+          "surface-container-highest": "#dae4ed",
+          "surface-bright": "#f5faff",
+          "on-surface-variant": "#3f4852",
+          "surface-container-lowest": "#ffffff",
+          "on-background": "#131d23",
+          "on-primary-fixed": "#001d34",
+          "primary-container": "#00a1ff",
+          "on-primary-fixed-variant": "#004a79",
+          "surface-container": "#e5eff8",
+          "tertiary-fixed-dim": "#ffb77f",
+          "on-tertiary-container": "#522800",
+          "on-tertiary-fixed-variant": "#6f3900"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "margin-mobile": "16px",
+          "xs": "6px",
+          "md": "16px",
+          "xl": "40px",
+          "gutter": "20px",
+          "lg": "24px",
+          "sm": "12px",
+          "margin-desktop": "0px"
+        },
+        "fontFamily": {
+          "headline-sm": ["Hanken Grotesk"],
+          "action-md": ["Hanken Grotesk"],
+          "headline-md": ["Hanken Grotesk"],
+          "body-lg": ["Hanken Grotesk"],
+          "display-lg": ["Hanken Grotesk"],
+          "body-md": ["Hanken Grotesk"],
+          "label-sm": ["Hanken Grotesk"],
+          "caption": ["Hanken Grotesk"]
+        },
+        "fontSize": {
+          "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.3px", "fontWeight": "600" }],
+          "action-md": ["16px", { "lineHeight": "20px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "label-sm": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "400" }]
+        }
+      }
+    }
+  }
+} catch(_e){}
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased flex flex-col min-h-screen pb-16 md:pb-0">
+
+<header class="bg-canvas border-b border-hairline sticky top-0 z-50">
+  <div class="flex justify-between items-center h-20 px-gutter max-w-7xl mx-auto w-full">
+    <a href="index.html" class="font-display-lg text-display-lg font-bold text-primary tracking-tight">잠실사랑공인중개사</a>
+    <nav class="hidden md:flex gap-lg h-full items-center">
+      <a href="index.html" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">홈</a>
+      <a href="news.html" class="font-body-md text-body-md text-primary border-b-2 border-primary hover:text-primary transition-colors font-bold pt-[2px]">부동산 뉴스</a>
+      <a href="index.html#listings" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">매물 보기</a>
+      <a href="index.html#contact" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">오시는 길</a>
+    </nav>
+    <a href="tel:02-422-2775" class="hidden md:flex items-center justify-center bg-primary-container text-on-primary font-action-md text-action-md px-md py-sm rounded hover:bg-primary transition-all">
+      Call Now
+    </a>
+    <button id="mobile-menu-toggle" class="md:hidden text-on-surface-variant p-2">
+      <span class="material-symbols-outlined text-[28px]">menu</span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-canvas border-b border-hairline px-gutter py-md flex flex-col gap-sm">
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="index.html">홈</a>
+    <a class="text-primary font-bold py-1" href="news.html">부동산 뉴스</a>
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="index.html#listings">매물 보기</a>
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="index.html#contact">오시는 길</a>
+  </div>
+</header>
+
+<main class="flex-grow w-full max-w-4xl mx-auto px-margin-mobile md:px-gutter py-lg md:py-xl">
+  <article class="bg-canvas p-md md:p-xl rounded-lg border border-hairline shadow-sm">
+    <nav class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm mb-md">
+      <a href="index.html" class="hover:text-primary transition-colors">홈</a>
+      <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+      <a href="news.html" class="hover:text-primary transition-colors">부동산 뉴스</a>
+      <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+      <span id="breadcrumb-category" class="text-on-surface">상세보기</span>
+    </nav>
+
+    <header class="mb-lg border-b border-hairline pb-lg">
+      <div class="flex items-center justify-between mb-xs">
+        <span id="post-category" class="px-xs py-[2px] bg-primary/10 text-primary font-bold rounded text-caption"></span>
+        <div id="admin-buttons" class="flex gap-xs"></div>
+      </div>
+      <h1 id="post-title" class="font-display-lg text-headline-md md:text-display-lg text-on-surface mb-md leading-tight"></h1>
+      <div class="flex items-center justify-between flex-wrap gap-4 mt-sm">
+        <div class="flex items-center gap-sm">
+          <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-hairline">
+            <span class="material-symbols-outlined text-primary text-[24px]">person</span>
+          </div>
+          <div>
+            <p id="post-author" class="font-headline-sm text-[14px] leading-tight text-on-surface"></p>
+            <p id="post-date" class="font-caption text-caption text-on-surface-variant"></p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="post-content" class="text-body-lg text-on-surface-variant font-body-lg"></div>
+
+    <div class="mt-xl pt-lg border-t border-hairline flex justify-between items-center">
+      <a href="news.html" class="inline-flex items-center gap-xs bg-surface-container text-on-surface px-md py-sm rounded hover:bg-surface-container-high transition-colors font-action-md text-sm">
+        <span class="material-symbols-outlined text-sm">arrow_back</span> 목록으로 돌아가기
+      </a>
+    </div>
+  </article>
+</main>
+
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-canvas border-t border-hairline flex justify-around items-center h-16 z-50 shadow-lg">
+  <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">home</span>
+    <span class="text-xs">홈</span>
+  </a>
+  <a href="news.html" class="flex flex-col items-center gap-1 text-primary">
+    <span class="material-symbols-outlined">newspaper</span>
+    <span class="text-xs">뉴스</span>
+  </a>
+  <a href="tel:02-422-2775" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">call</span>
+    <span class="text-xs">전화</span>
+  </a>
+  <a href="admin.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">admin_panel_settings</span>
+    <span class="text-xs">관리자</span>
+  </a>
+</nav>
+
+<footer class="bg-surface-container w-full mt-auto">
+  <div class="w-full py-xl px-gutter grid grid-cols-1 md:grid-cols-2 gap-lg max-w-7xl mx-auto">
+    <div class="flex flex-col gap-sm">
+      <div class="font-headline-sm text-headline-sm font-bold text-on-surface">Jamsil Love Real Estate</div>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">© 2024 Jamsil Love Real Estate. Registration No: 11710-2019-00259. Representative: 이춘우. Address: 서울특별시 송파구 올림픽로 145, 리센츠상가 지하1층 A41호.</p>
+    </div>
+    <div class="flex flex-col md:items-end justify-center">
+      <div class="flex flex-wrap gap-md font-label-sm text-label-sm">
+        <a class="text-on-surface-variant hover:text-primary underline" href="https://blog.naver.com/jslovelcw" target="_blank" rel="noopener noreferrer">Naver Blog</a>
+        <a class="text-on-surface-variant hover:text-primary underline" href="#">Naver Real Estate</a>
+        <a class="text-on-surface-variant hover:text-primary underline" href="https://www.youtube.com/@잠실사랑" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a id="agent-login-btn" class="text-on-surface-variant hover:text-primary underline" href="admin.html">Agent Login</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="db.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const postId = urlParams.get('id');
+
+  if (!postId) {
+    alert('잘못된 접근입니다.');
+    window.location.href = 'news.html';
+    return;
+  }
+
+  const post = await getPostById(postId);
+  if (!post) {
+    alert('게시글을 찾을 수 없습니다.');
+    window.location.href = 'news.html';
+    return;
+  }
+
+  document.title = post.title + ' - 잠실사랑공인중개사';
+  document.getElementById('post-title').textContent = post.title;
+  document.getElementById('post-category').textContent = post.category || '뉴스';
+  document.getElementById('breadcrumb-category').textContent = post.category || '뉴스';
+  document.getElementById('post-author').textContent = post.author || '대표';
+  document.getElementById('post-date').textContent = post.date || '';
+
+  const contentContainer = document.getElementById('post-content');
+  contentContainer.innerHTML = renderMarkdown(post.content);
+
+  if (isAdmin()) {
+    const adminButtons = document.getElementById('admin-buttons');
+    if (adminButtons) {
+      adminButtons.innerHTML = `
+        <a href="news-write.html?id=${post.id}" class="px-sm py-xs bg-surface-container-high text-on-surface rounded hover:bg-outline-variant transition-colors text-xs font-bold flex items-center gap-xs">
+          <span class="material-symbols-outlined text-xs">edit</span> 수정
+        </a>
+        <button id="delete-btn" class="px-sm py-xs bg-error/10 text-error rounded hover:bg-error/20 transition-colors text-xs font-bold flex items-center gap-xs">
+          <span class="material-symbols-outlined text-xs">delete</span> 삭제
+        </button>
+      `;
+
+      document.getElementById('delete-btn').addEventListener('click', async () => {
+        if (confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+          await deletePost(post.id);
+          alert('삭제되었습니다.');
+          window.location.href = 'news.html';
+        }
+      });
+    }
+  }
+});
+</script>
+</body>
+</html>

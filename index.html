@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>잠실사랑공인중개사 - 잠실 아파트 전문</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+try {
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed-variant": "#42474c",
+          "on-tertiary": "#ffffff",
+          "surface-tint": "#00629e",
+          "on-error-container": "#93000a",
+          "surface-dim": "#d1dbe4",
+          "background": "#f5faff",
+          "on-surface": "#131d23",
+          "surface-container-high": "#dfe9f2",
+          "hairline": "#e0e0e0",
+          "surface-variant": "#dae4ed",
+          "on-secondary": "#ffffff",
+          "surface-container-low": "#ebf5fe",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#283238",
+          "outline-variant": "#bec7d4",
+          "on-error": "#ffffff",
+          "primary": "#00629e",
+          "surface": "#f5faff",
+          "primary-fixed": "#cfe5ff",
+          "error-container": "#ffdad6",
+          "canvas": "#ffffff",
+          "tertiary": "#914c00",
+          "on-secondary-container": "#5e6368",
+          "inverse-primary": "#9acbff",
+          "secondary": "#5a5f63",
+          "on-tertiary-fixed": "#2f1500",
+          "secondary-container": "#dce0e5",
+          "tertiary-container": "#eb7f04",
+          "secondary-fixed": "#dfe3e8",
+          "error": "#ba1a1a",
+          "on-secondary-fixed": "#171c20",
+          "tertiary-fixed": "#ffdcc4",
+          "surface-container-highest": "#dae4ed",
+          "surface-bright": "#f5faff",
+          "on-surface-variant": "#3f4852",
+          "surface-container-lowest": "#ffffff",
+          "on-background": "#131d23",
+          "on-primary-fixed": "#001d34",
+          "primary-container": "#00a1ff",
+          "on-primary-fixed-variant": "#004a79",
+          "surface-container": "#e5eff8",
+          "tertiary-fixed-dim": "#ffb77f",
+          "on-tertiary-container": "#522800",
+          "on-tertiary-fixed-variant": "#6f3900"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "margin-mobile": "16px",
+          "xs": "6px",
+          "md": "16px",
+          "xl": "40px",
+          "gutter": "20px",
+          "lg": "24px",
+          "sm": "12px",
+          "margin-desktop": "0px"
+        },
+        "fontFamily": {
+          "headline-sm": ["Hanken Grotesk"],
+          "action-md": ["Hanken Grotesk"],
+          "headline-md": ["Hanken Grotesk"],
+          "body-lg": ["Hanken Grotesk"],
+          "display-lg": ["Hanken Grotesk"],
+          "body-md": ["Hanken Grotesk"],
+          "label-sm": ["Hanken Grotesk"],
+          "caption": ["Hanken Grotesk"]
+        },
+        "fontSize": {
+          "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.3px", "fontWeight": "600" }],
+          "action-md": ["16px", { "lineHeight": "20px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "label-sm": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "400" }]
+        }
+      }
+    }
+  }
+} catch(_e){}
+</script>
+</head>
+<body class="bg-canvas text-on-surface font-body-md antialiased flex flex-col min-h-screen pb-16 md:pb-0">
+
+<header class="bg-canvas border-b border-hairline w-full top-0 z-50 sticky">
+  <div class="flex justify-between items-center h-20 px-gutter max-w-7xl mx-auto">
+    <a class="font-display-lg text-display-lg font-bold text-primary" href="index.html">잠실사랑공인중개사</a>
+    <nav class="hidden md:flex gap-lg items-center">
+      <a class="text-primary border-b-2 border-primary pb-1 font-headline-sm text-headline-sm font-bold" href="index.html">홈</a>
+      <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="news.html">부동산 뉴스</a>
+      <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="#listings">매물 보기</a>
+      <a class="text-on-surface-variant font-headline-sm text-headline-sm hover:text-primary transition-colors" href="#contact">오시는 길</a>
+    </nav>
+    <div class="hidden md:block">
+      <a href="tel:02-422-2775" class="inline-block bg-primary-container text-on-primary font-action-md text-action-md px-md py-sm rounded-DEFAULT hover:bg-primary transition-colors">Call Now</a>
+    </div>
+    <button id="mobile-menu-toggle" class="md:hidden text-on-surface p-2">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-canvas border-b border-hairline px-gutter py-md flex flex-col gap-sm">
+    <a class="text-primary font-bold py-1" href="index.html">홈</a>
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="news.html">부동산 뉴스</a>
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="#listings">매물 보기</a>
+    <a class="text-on-surface-variant py-1 hover:text-primary" href="#contact">오시는 길</a>
+  </div>
+</header>
+
+<main class="flex-grow">
+  <section class="relative w-full h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3LOjtZGVA_Ge0sCvQiZKubj4Pfi_pwjfr40_RwpXvElfCuHGVysnFLV-W2l02fiPphoNXqjUr7KsqnO1niTH-zPlIr3FMZpT9GcJNSDrM_3xwKqDxTdcz19MqFb71Ywl0X8qLn2bX2Iy072Z17aIxqufYAeSU3W3qgPIM-sUOmiuh-bPUzz9FNIytQaBH85OQJZT-LAKrRR9Dt7ExdFIhgxoWlA9MYEUyOI6fk0YcHs-726UPpEBD');"></div>
+    <div class="absolute inset-0 bg-on-surface opacity-40"></div>
+    <div class="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto flex flex-col items-center gap-md">
+      <h1 class="font-display-lg text-display-lg text-on-primary text-[28px] md:text-[48px] md:leading-[56px] leading-tight">잠실의 가치를 가장 잘 아는 파트너,<br>잠실사랑공인중개사</h1>
+      <p class="font-body-lg text-body-lg text-on-primary max-w-2xl">리센츠, 엘스, 트리지움 아파트 전문.<br>전문성으로 정직하게 중개합니다.</p>
+      <div class="mt-lg">
+        <a href="tel:02-422-2775" class="bg-primary-container text-on-primary font-action-md text-action-md px-xl py-md rounded-DEFAULT hover:bg-primary transition-colors inline-flex items-center gap-sm min-h-[44px]">
+          <span class="material-symbols-outlined">phone</span> 지금 바로 상담하기
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-margin-mobile md:px-gutter py-xl">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+      <a class="group relative overflow-hidden rounded-xl border border-hairline bg-[#03C75A]/5 hover:bg-[#03C75A]/10 transition-colors p-lg flex flex-col items-start justify-between min-h-[160px]" href="https://blog.naver.com/jslovelcw" target="_blank" rel="noopener noreferrer">
+        <div class="w-12 h-12 rounded-full bg-[#03C75A] flex items-center justify-center text-on-primary mb-md">
+          <span class="font-bold text-lg">N</span>
+        </div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-[#03C75A] transition-colors">네이버 블로그</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-xs">최신 부동산 정보와 칼럼</p>
+        </div>
+      </a>
+      <a class="group relative overflow-hidden rounded-xl border border-hairline bg-[#03C75A]/5 hover:bg-[#03C75A]/10 transition-colors p-lg flex flex-col items-start justify-between min-h-[160px]" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="w-12 h-12 rounded-full bg-[#03C75A] flex items-center justify-center text-on-primary mb-md">
+          <span class="material-symbols-outlined">apartment</span>
+        </div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-[#03C75A] transition-colors">네이버 부동산 매물보기</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-xs">실시간 검증된 매물 확인</p>
+        </div>
+      </a>
+      <a class="group relative overflow-hidden rounded-xl border border-hairline bg-[#FF0000]/5 hover:bg-[#FF0000]/10 transition-colors p-lg flex flex-col items-start justify-between min-h-[160px]" href="https://www.youtube.com/@잠실사랑" target="_blank" rel="noopener noreferrer">
+        <div class="w-12 h-12 rounded-full bg-[#FF0000] flex items-center justify-center text-on-primary mb-md">
+          <span class="material-symbols-outlined filled">play_arrow</span>
+        </div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-[#FF0000] transition-colors">유튜브 채널</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-xs">생생한 단지 투어 영상</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="board-preview-section" class="max-w-7xl mx-auto px-margin-mobile md:px-gutter py-xl border-t border-hairline">
+    <div class="flex justify-between items-end mb-lg">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-on-surface">최신 부동산 소식</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-xs">잠실사랑공인중개사에서 전해드리는 전문 분석과 정보</p>
+      </div>
+      <a class="font-action-md text-action-md text-primary flex items-center gap-xs hover:underline" href="news.html">
+        전체 게시글 보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+    <div id="board-preview" class="grid grid-cols-1 md:grid-cols-3 gap-md"></div>
+  </section>
+
+  <section class="bg-surface py-xl">
+    <div class="max-w-7xl mx-auto px-margin-mobile md:px-gutter">
+      <h2 class="font-headline-md text-headline-md text-center mb-xl">왜 잠실사랑공인중개사인가요?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+        <div class="flex flex-col items-center text-center">
+          <span class="material-symbols-outlined text-[48px] text-primary mb-md">store</span>
+          <h3 class="font-headline-sm text-headline-sm mb-xs">단지내 상가 위치</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">리센츠 단지 내에 위치하여 가장 빠르고 정확한 현장 정보를 제공합니다.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <span class="material-symbols-outlined text-[48px] text-primary mb-md">fact_check</span>
+          <h3 class="font-headline-sm text-headline-sm mb-xs">정확한 권리분석</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">철저한 서류 검토와 분석을 통해 안전한 거래 환경을 보장합니다.</p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <span class="material-symbols-outlined text-[48px] text-primary mb-md">handshake</span>
+          <h3 class="font-headline-sm text-headline-sm mb-xs">책임 중개</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">계약부터 입주까지, 고객의 입장에서 끝까지 책임지고 중개합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="listings" class="max-w-7xl mx-auto px-margin-mobile md:px-gutter py-xl">
+    <div class="flex justify-between items-end mb-lg">
+      <h2 class="font-headline-md text-headline-md">추천 매물</h2>
+      <a class="font-action-md text-action-md text-primary flex items-center gap-xs hover:underline" href="#">
+        전체보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+      <div class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
+        <div class="w-full h-48 bg-surface-dim relative overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOno9-Nu0d4it2D0pUlYV0gmkIRh5YPZlKVCrzcVGD6wKhvbEos63n-s-xxOuQgwsNOS1dnbXvdLbnPt_w6EwWwk1a-lS0j1K6yMJoyctMR41UohlZG-_nl87UXDSJwrwN9U1p5EuxJjzHIvSo8aFV35_jJ1UqYIRdvAV27m-VMyvR-6Ww7u7kMCxKdno7lNm9Mt8-a9Gzfo7cNwQ-uxK2B2h1j_X2m2ozSfutJXNcAC2B9syG0HVp" alt="리센츠">
+          <div class="absolute top-sm left-sm bg-[#f4f4f4] text-[#828c94] px-xs py-[2px] rounded-DEFAULT font-label-sm text-caption">매매</div>
+        </div>
+        <div class="p-md">
+          <h3 class="font-headline-sm text-headline-sm mb-xs">리센츠 33평형 (전면동)</h3>
+          <p class="font-body-md text-body-md text-primary font-bold mb-md">25억 5,000만</p>
+          <ul class="flex flex-col gap-xs font-body-md text-body-md text-on-surface-variant">
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">square_foot</span> 109㎡ / 84㎡</li>
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 중층 / 총 33층</li>
+            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 남향, 올수리, 즉시입주</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
+        <div class="w-full h-48 bg-surface-dim relative overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzr1idPiWq8gbfeVb1gZKK6pjmrhNGvJiPPOY55vCV4sUwUYd-8-ww7ku0vafLj2qE4pf-LMG1uxfOXweFSyT0ne6tSg2lRtaWzkI9LG-CxfCsnZiSk3HIRm2zwXps9fXIDXIBYuVVm9Z3m1HtCjEcY5rc8BcymcU8aL9a59D_YFzoG3nbD8sCfrfwv0-dkCsqU45c5xHtTsnugL0LpYiRyaF18QBfy0K6CTZYzNQjBBI4s_ieOoES" alt="엘스">
+          <div class="absolute top-sm left-sm bg-[#f4f4f4] text-[#828c94] px-xs py-[2px] rounded-DEFAULT font-label-sm text-caption">전세</div>
+        </div>
+        <div class="p-md">
+          <h3 class="font-headline-sm text-headline-sm mb-xs">엘스 25평형 (역세권)</h3>
+          <p class="font-body-md text-body-md text-primary font-bold mb-md">11억 8,000만</p>
+          <ul class="flex flex-col gap-xs font-body-md text-body-md text-on-surface-variant">
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">square_foot</span> 84㎡ / 59㎡</li>
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 로얄층 / 총 34층</li>
+            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 동향, 융자무, 확트인뷰</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border border-hairline bg-canvas hover:border-outline-variant transition-colors group cursor-pointer">
+        <div class="w-full h-48 bg-surface-dim relative overflow-hidden">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjYGyxt3d6lbWnXNAHLDddqkbAPRQySwzGiioIZMve4YLa8rHdEW8yHoN5QKYG85C3T8Ii3PARWVkqQFg8w1-O6n8ANcP8TZ_WokgU5q4RMc3pnOzj9HvJKD51eBDQ4onAldX90r6oWa75ySJMqExPyBQeVlRdeI2oRYgD9JGXPtzDMDafxfco7objM9825y8kJP1TOBVpDVueKMQDxXMN1VrJwn63Ed16ZmfIBkqx1oiqQQWvQ98H" alt="트리지움">
+          <div class="absolute top-sm left-sm bg-primary-container text-on-primary px-xs py-[2px] rounded-DEFAULT font-label-sm text-caption">급매</div>
+        </div>
+        <div class="p-md">
+          <h3 class="font-headline-sm text-headline-sm mb-xs">트리지움 43평형</h3>
+          <p class="font-body-md text-body-md text-primary font-bold mb-md">31억 2,000만</p>
+          <ul class="flex flex-col gap-xs font-body-md text-body-md text-on-surface-variant">
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">square_foot</span> 143㎡ / 114㎡</li>
+            <li class="flex items-center gap-sm pb-xs border-b border-hairline"><span class="material-symbols-outlined text-sm">floor</span> 고층 / 총 33층</li>
+            <li class="flex items-center gap-sm"><span class="material-symbols-outlined text-sm">explore</span> 남서향, 특올수리, 주인거주</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="bg-surface-container py-xl my-xl">
+    <div class="max-w-4xl mx-auto px-margin-mobile md:px-gutter text-center flex flex-col items-center">
+      <h2 class="font-display-lg text-display-lg mb-md">전문가의 도움이 필요하신가요?</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant mb-lg">잠실 아파트 매매/전월세 문의, 언제든 편하게 연락주세요.</p>
+      <a href="tel:02-422-2775" class="bg-primary-container text-on-primary font-action-md text-action-md px-[40px] py-[20px] rounded-DEFAULT hover:bg-primary transition-colors flex items-center gap-sm shadow-[0_2px_5px_rgba(63,71,77,0.15)] min-h-[44px]">
+        <span class="material-symbols-outlined text-[24px]">call</span> 지금 바로 상담하기
+      </a>
+      <p class="font-body-md text-body-md text-on-surface-variant mt-sm">Tel. 02-422-2775</p>
+    </div>
+  </section>
+</main>
+
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-canvas border-t border-hairline flex justify-around items-center h-16 z-50 shadow-lg">
+  <a href="index.html" class="flex flex-col items-center gap-1 text-primary">
+    <span class="material-symbols-outlined">home</span>
+    <span class="text-xs">홈</span>
+  </a>
+  <a href="news.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">newspaper</span>
+    <span class="text-xs">뉴스</span>
+  </a>
+  <a href="tel:02-422-2775" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">call</span>
+    <span class="text-xs">전화</span>
+  </a>
+  <a href="admin.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary">
+    <span class="material-symbols-outlined">admin_panel_settings</span>
+    <span class="text-xs">관리자</span>
+  </a>
+</nav>
+
+<footer class="bg-surface-container w-full py-xl px-gutter max-w-7xl mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-lg mb-md">
+    <div class="flex flex-col gap-sm">
+      <h4 class="font-headline-sm text-headline-sm font-bold text-on-surface">Jamsil Love Real Estate</h4>
+      <p class="font-body-md text-body-md text-on-surface-variant">© 2024 Jamsil Love Real Estate. Registration No: 11710-2019-00259. Representative: 이춘우.<br>Address: 서울특별시 송파구 올림픽로 145, 리센츠상가 지하1층 A41호.</p>
+    </div>
+    <div class="flex flex-wrap gap-md md:justify-end items-start">
+      <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors underline" href="https://blog.naver.com/jslovelcw" target="_blank" rel="noopener noreferrer">Naver Blog</a>
+      <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors underline" href="#">Naver Real Estate</a>
+      <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors underline" href="https://www.youtube.com/@잠실사랑" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <a id="agent-login-btn" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors underline" href="admin.html">Agent Login</a>
+    </div>
+  </div>
+</footer>
+
+<script src="db.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  const posts = await getPosts();
+  const previewContainer = document.getElementById('board-preview');
+  const previewSection = document.getElementById('board-preview-section');
+
+  if (!posts || posts.length === 0) {
+    if (previewSection) previewSection.style.display = 'none';
+    return;
+  }
+
+  const latestPosts = posts.slice(0, 3);
+  previewContainer.innerHTML = latestPosts.map(post => {
+    const snippet = markdownToText(post.content).slice(0, 60) + '...';
+    return `
+      <div onclick="location.href='news-detail.html?id=${post.id}'" class="border border-hairline bg-canvas rounded-lg p-md hover:border-primary transition-all cursor-pointer flex flex-col justify-between shadow-sm hover:shadow-md">
+        <div>
+          <div class="flex items-center justify-between mb-sm">
+            <span class="px-xs py-[2px] bg-primary/10 text-primary text-caption font-bold rounded">${escapeHtml(post.category || '뉴스')}</span>
+            <span class="text-caption text-on-surface-variant">${escapeHtml(post.date || '')}</span>
+          </div>
+          <h3 class="font-headline-sm text-[18px] text-on-surface font-bold mb-xs line-clamp-2 hover:text-primary transition-colors">${escapeHtml(post.title)}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-md">${escapeHtml(snippet)}</p>
+        </div>
+        <div class="flex items-center text-primary font-action-md text-sm gap-xs mt-xs pt-xs border-t border-hairline">
+          <span>자세히 보기</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+});
+</script>
+</body>
+</html>

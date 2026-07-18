@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시글 작성 - 잠실사랑공인중개사</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+try {
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed-variant": "#42474c",
+          "on-tertiary": "#ffffff",
+          "surface-tint": "#00629e",
+          "on-error-container": "#93000a",
+          "surface-dim": "#d1dbe4",
+          "background": "#f5faff",
+          "on-surface": "#131d23",
+          "surface-container-high": "#dfe9f2",
+          "hairline": "#e0e0e0",
+          "surface-variant": "#dae4ed",
+          "on-secondary": "#ffffff",
+          "surface-container-low": "#ebf5fe",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#283238",
+          "outline-variant": "#bec7d4",
+          "on-error": "#ffffff",
+          "primary": "#00629e",
+          "surface": "#f5faff",
+          "primary-fixed": "#cfe5ff",
+          "error-container": "#ffdad6",
+          "canvas": "#ffffff",
+          "tertiary": "#914c00",
+          "on-secondary-container": "#5e6368",
+          "inverse-primary": "#9acbff",
+          "secondary": "#5a5f63",
+          "on-tertiary-fixed": "#2f1500",
+          "secondary-container": "#dce0e5",
+          "tertiary-container": "#eb7f04",
+          "secondary-fixed": "#dfe3e8",
+          "error": "#ba1a1a",
+          "on-secondary-fixed": "#171c20",
+          "tertiary-fixed": "#ffdcc4",
+          "surface-container-highest": "#dae4ed",
+          "surface-bright": "#f5faff",
+          "on-surface-variant": "#3f4852",
+          "surface-container-lowest": "#ffffff",
+          "on-background": "#131d23",
+          "on-primary-fixed": "#001d34",
+          "primary-container": "#00a1ff",
+          "on-primary-fixed-variant": "#004a79",
+          "surface-container": "#e5eff8",
+          "tertiary-fixed-dim": "#ffb77f",
+          "on-tertiary-container": "#522800",
+          "on-tertiary-fixed-variant": "#6f3900"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "margin-mobile": "16px",
+          "xs": "6px",
+          "md": "16px",
+          "xl": "40px",
+          "gutter": "20px",
+          "lg": "24px",
+          "sm": "12px",
+          "margin-desktop": "0px"
+        },
+        "fontFamily": {
+          "headline-sm": ["Hanken Grotesk"],
+          "action-md": ["Hanken Grotesk"],
+          "headline-md": ["Hanken Grotesk"],
+          "body-lg": ["Hanken Grotesk"],
+          "display-lg": ["Hanken Grotesk"],
+          "body-md": ["Hanken Grotesk"],
+          "label-sm": ["Hanken Grotesk"],
+          "caption": ["Hanken Grotesk"]
+        },
+        "fontSize": {
+          "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.3px", "fontWeight": "600" }],
+          "action-md": ["16px", { "lineHeight": "20px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.3px", "fontWeight": "700" }],
+          "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "label-sm": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.3px", "fontWeight": "400" }],
+          "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "400" }]
+        }
+      }
+    }
+  }
+} catch(_e){}
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased flex flex-col min-h-screen pb-24 md:pb-12">
+
+<header class="bg-canvas border-b border-hairline sticky top-0 z-50">
+  <div class="flex justify-between items-center h-20 px-gutter max-w-7xl mx-auto w-full">
+    <a href="index.html" class="font-display-lg text-display-lg font-bold text-primary tracking-tight">잠실사랑공인중개사</a>
+    <nav class="hidden md:flex gap-lg h-full items-center">
+      <a href="index.html" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">홈</a>
+      <a href="news.html" class="font-body-md text-body-md text-primary hover:text-primary transition-colors font-bold">부동산 뉴스</a>
+      <a href="admin.html" class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">관리자 대시보드</a>
+    </nav>
+  </div>
+</header>
+
+<main class="flex-grow w-full max-w-4xl mx-auto px-margin-mobile md:px-gutter py-lg md:py-xl">
+  <div class="bg-canvas p-md md:p-xl rounded-lg border border-hairline shadow-sm">
+    <div class="flex justify-between items-center mb-lg border-b border-hairline pb-md">
+      <h1 id="page-heading" class="font-display-lg text-headline-md md:text-display-lg text-on-surface">새 글 작성</h1>
+      <span class="text-xs bg-primary/10 text-primary px-sm py-xs rounded font-bold">관리자 모드</span>
+    </div>
+
+    <form id="write-form" class="flex flex-col gap-lg">
+      <div class="flex flex-col gap-xs">
+        <label for="post-title" class="font-headline-sm text-sm text-on-surface">제목 <span class="text-error">*</span></label>
+        <input type="text" id="post-title" required placeholder="게시글 제목을 입력하세요" class="w-full px-md py-sm border border-outline-variant rounded focus:outline-none focus:border-primary text-body-md">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <div class="flex flex-col gap-xs">
+          <label for="post-category" class="font-headline-sm text-sm text-on-surface">카테고리</label>
+          <select id="post-category" class="w-full px-md py-sm border border-outline-variant rounded focus:outline-none focus:border-primary text-body-md bg-canvas">
+            <option value="부동산 뉴스">부동산 뉴스</option>
+            <option value="재건축 정보">재건축 정보</option>
+            <option value="시장 분석">시장 분석</option>
+            <option value="매물 소식">매물 소식</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-xs">
+          <label for="post-author" class="font-headline-sm text-sm text-on-surface">작성자</label>
+          <input type="text" id="post-author" value="대표 김잠실" class="w-full px-md py-sm border border-outline-variant rounded focus:outline-none focus:border-primary text-body-md">
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-xs">
+        <div class="flex justify-between items-center">
+          <label for="post-content" class="font-headline-sm text-sm text-on-surface">본문 내용 (마크다운 지원) <span class="text-error">*</span></label>
+          <span class="text-caption text-on-surface-variant"># 제목, **굵게**, - 목록 지원</span>
+        </div>
+        <textarea id="post-content" required rows="14" placeholder="마크다운 문법으로 자유롭게 내용을 작성하세요..." class="w-full px-md py-sm border border-outline-variant rounded focus:outline-none focus:border-primary font-mono text-sm leading-relaxed min-h-[300px]"></textarea>
+      </div>
+
+      <div id="status-msg" class="hidden text-sm p-sm rounded"></div>
+
+      <div class="flex justify-end gap-md pt-md border-t border-hairline">
+        <button type="button" onclick="history.back()" class="px-lg py-sm border border-outline-variant rounded text-on-surface hover:bg-surface-container transition-colors font-action-md text-sm min-h-[44px]">
+          취소
+        </button>
+        <button type="submit" id="save-btn" class="px-xl py-sm bg-primary text-on-primary rounded hover:bg-primary/90 transition-colors font-action-md text-sm min-h-[44px] flex items-center gap-xs">
+          <span class="material-symbols-outlined text-sm">save</span> 저장하기
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script src="db.js"></script>
+<script>
+let editingId = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  requireAdmin();
+
+  const urlParams = new URLSearchParams(window.location.search);
+  editingId = urlParams.get('id');
+
+  if (editingId) {
+    document.getElementById('page-heading').textContent = '게시글 수정';
+    const post = await getPostById(editingId);
+    if (post) {
+      document.getElementById('post-title').value = post.title || '';
+      document.getElementById('post-category').value = post.category || '부동산 뉴스';
+      document.getElementById('post-author').value = post.author || '대표 김잠실';
+      document.getElementById('post-content').value = post.content || '';
+    }
+  }
+
+  const form = document.getElementById('write-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const saveBtn = document.getElementById('save-btn');
+    const statusMsg = document.getElementById('status-msg');
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">sync</span> 저장 중...`;
+
+    statusMsg.className = 'text-sm p-sm rounded bg-primary/10 text-primary block';
+    statusMsg.textContent = '게시글을 저장하고 GitHub에 동기화 중입니다...';
+
+    const title = document.getElementById('post-title').value.trim();
+    const category = document.getElementById('post-category').value;
+    const author = document.getElementById('post-author').value.trim();
+    const content = document.getElementById('post-content').value;
+
+    const postObj = {
+      title,
+      category,
+      author,
+      content
+    };
+
+    if (editingId) {
+      postObj.id = editingId;
+    }
+
+    try {
+      const saved = await savePost(postObj);
+      statusMsg.className = 'text-sm p-sm rounded bg-surface-container text-primary font-bold block';
+      statusMsg.textContent = '성공적으로 저장되었습니다!';
+      setTimeout(() => {
+        window.location.href = `news-detail.html?id=${saved.id}`;
+      }, 500);
+    } catch(err) {
+      statusMsg.className = 'text-sm p-sm rounded bg-error/10 text-error block';
+      statusMsg.textContent = '저장 중 오류가 발생했습니다: ' + err.message;
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = `<span class="material-symbols-outlined text-sm">save</span> 저장하기`;
+    }
+  });
+});
+</script>
+</body>
+</html>
