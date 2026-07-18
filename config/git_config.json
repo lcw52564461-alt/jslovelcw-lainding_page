@@ -2,5 +2,6 @@
   "github_token": "YOUR_GITHUB_TOKEN",
   "github_owner": "lcw52564461-alt",
   "github_repo": "jslovelcw-lainding_page",
-  "data_file_path": "data/posts.json"
+  "data_file_path": "data/posts.json",
+  "admin_password": "love1219**"
 }
