@@ -136,6 +136,19 @@
 <div class="lg:col-span-8">
 <div class="bg-canvas border border-hairline p-lg rounded-lg shadow-sm">
 <div class="space-y-lg">
+<div class="bg-surface-container/50 border border-hairline p-md rounded-lg mb-lg">
+  <h3 class="font-headline-sm text-label-sm font-bold text-primary mb-xs flex items-center gap-xs">
+    <span class="material-symbols-outlined text-sm">cloud_download</span> 네이버 매물번호로 폼 자동 채우기 (TEST)
+  </h3>
+  <p class="text-xs text-on-surface-variant mb-xs">네이버 매물번호를 입력하면 매물 정보를 자동으로 긁어와 양식을 채워줍니다.</p>
+  <div class="flex flex-col sm:flex-row gap-xs">
+    <input type="text" id="naver-write-input" placeholder="네이버 매물번호 (예: 2637589796)" class="flex-grow px-md py-sm border border-outline-variant rounded bg-canvas text-body-md">
+    <button type="button" id="naver-write-btn" class="bg-primary text-white font-action-md text-sm px-lg py-sm rounded hover:bg-primary/90 transition-all whitespace-nowrap flex items-center justify-center gap-xs">
+      <span class="material-symbols-outlined text-sm">download</span> 내용 자동 채우기
+    </button>
+  </div>
+</div>
+
 <!-- Section Title -->
 <div class="border-b border-hairline pb-md">
 <h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-xs">
@@ -307,6 +320,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (r.value === item.tradeType) r.checked = true;
       }
     }
+  }
+
+  // 네이버 매물 자동 채우기 버튼 이벤트
+  const naverWriteBtn = document.getElementById('naver-write-btn');
+  const naverWriteInput = document.getElementById('naver-write-input');
+
+  if (naverWriteBtn) {
+    naverWriteBtn.addEventListener('click', async () => {
+      const val = naverWriteInput.value.trim();
+      if (!val) {
+        alert('네이버 매물번호를 입력하세요!');
+        return;
+      }
+      naverWriteBtn.disabled = true;
+      naverWriteBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 수집 중...';
+
+      try {
+        const res = await fetch(`/api/fetch-naver?articleNo=${encodeURIComponent(val)}`);
+        const json = await res.json();
+        if (json && json.success && json.property) {
+          const p = json.property;
+          document.getElementById('title-input').value = p.title || '';
+          document.getElementById('price-input').value = p.price || '';
+          document.getElementById('size-input').value = p.size || '';
+          document.getElementById('floor-input').value = p.floor || '';
+          document.getElementById('address-input').value = p.address || '';
+          document.getElementById('image-url-input').value = p.image || '';
+          document.getElementById('desc-input').value = p.description || '';
+          document.getElementById('features-input').value = (p.features || []).join(', ');
+          
+          if (p.category) {
+            const select = document.getElementById('complex-select');
+            for (let opt of select.options) {
+              if (opt.value === p.category || p.category.includes(opt.value)) {
+                select.value = opt.value;
+                break;
+              }
+            }
+          }
+
+          const radios = document.getElementsByName('tx_type');
+          for (let r of radios) {
+            if (r.value === p.tradeType) r.checked = true;
+          }
+
+          alert(`🎉 네이버 매물 (${val}) 정보를 성공적으로 가져와 폼에 자동 입력했습니다!`);
+        } else {
+          alert('네이버 매물 정보를 불러올 수 없습니다: ' + (json.error || '알 수 없는 오류'));
+        }
+      } catch (err) {
+        alert('오류 발생: ' + err.message);
+      } finally {
+        naverWriteBtn.disabled = false;
+        naverWriteBtn.innerHTML = '<span class="material-symbols-outlined text-sm">download</span> 내용 자동 채우기';
+      }
+    });
   }
 
   const form = document.getElementById('property-form');

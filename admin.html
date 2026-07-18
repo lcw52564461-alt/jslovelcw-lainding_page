@@ -175,6 +175,21 @@
       </div>
     </div>
 
+    <!-- 네이버 매물번호 자동 불러오기 테스트 박스 -->
+    <div class="bg-surface-container/50 border border-hairline p-md rounded-lg mb-lg">
+      <h3 class="font-headline-sm text-label-sm font-bold text-primary mb-xs flex items-center gap-xs">
+        <span class="material-symbols-outlined text-sm">cloud_download</span> 네이버 부동산 매물번호로 자동 불러오기 & 등록 (TEST)
+      </h3>
+      <p class="text-xs text-on-surface-variant mb-xs">네이버 매물번호만 입력하면 매물 정보를 자동으로 수집하여 내 홈페이지에 등록합니다.</p>
+      <div class="flex flex-col sm:flex-row gap-xs">
+        <input type="text" id="naver-article-input" placeholder="네이버 매물번호 입력 (예: 2637589796)" class="flex-grow px-md py-sm border border-outline-variant rounded bg-canvas text-body-md">
+        <button id="fetch-naver-btn" class="bg-primary text-white font-action-md text-sm px-lg py-sm rounded hover:bg-primary/90 transition-all whitespace-nowrap flex items-center justify-center gap-xs">
+          <span class="material-symbols-outlined text-sm">download</span> 네이버 매물 자동 가져오기 & 등록
+        </button>
+      </div>
+      <div id="naver-fetch-msg" class="hidden text-xs mt-xs font-bold"></div>
+    </div>
+
     <!-- 탭 선택 -->
     <div class="flex gap-md mb-lg border-b border-hairline">
       <button id="tab-properties-btn" class="pb-sm px-xs font-bold text-primary border-b-2 border-primary transition-colors flex items-center gap-xs">
@@ -253,6 +268,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (urlParams.get('tab') === 'posts') {
       switchTab('posts');
     }
+  }
+
+  // 네이버 매물 자동 수집 핸들러
+  const fetchNaverBtn = document.getElementById('fetch-naver-btn');
+  const naverInput = document.getElementById('naver-article-input');
+  const naverMsg = document.getElementById('naver-fetch-msg');
+
+  if (fetchNaverBtn) {
+    fetchNaverBtn.addEventListener('click', async () => {
+      const val = naverInput.value.trim();
+      if (!val) {
+        alert('네이버 매물번호를 입력하세요!');
+        return;
+      }
+      fetchNaverBtn.disabled = true;
+      fetchNaverBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 네이버 정보 수집 중...';
+      naverMsg.className = 'text-xs mt-xs font-bold text-primary';
+      naverMsg.textContent = '네이버 부동산에서 매물 데이터를 가져오고 있습니다...';
+      naverMsg.classList.remove('hidden');
+
+      try {
+        const res = await fetch(`/api/fetch-naver?articleNo=${encodeURIComponent(val)}`);
+        const json = await res.json();
+        if (json && json.success && json.property) {
+          await saveProperty(json.property);
+          naverMsg.className = 'text-xs mt-xs font-bold text-primary';
+          naverMsg.textContent = `🎉 [성공] ${json.property.title} (${json.property.price}) 매물이 자동 등록되었습니다!`;
+          renderPropertiesTable();
+        } else {
+          naverMsg.className = 'text-xs mt-xs font-bold text-error';
+          naverMsg.textContent = json.error || '매물 수집 실패';
+        }
+      } catch (err) {
+        naverMsg.className = 'text-xs mt-xs font-bold text-error';
+        naverMsg.textContent = '오류 발생: ' + err.message;
+      } finally {
+        fetchNaverBtn.disabled = false;
+        fetchNaverBtn.innerHTML = '<span class="material-symbols-outlined text-sm">download</span> 네이버 매물 자동 가져오기 & 등록';
+      }
+    });
   }
 
   tabPropsBtn.addEventListener('click', () => switchTab('properties'));
