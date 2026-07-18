@@ -1,5 +1,37 @@
 [
   {
+    "id": "excel-1784396024784-361",
+    "title": "잠실 매물",
+    "category": "리센츠",
+    "tradeType": "매매",
+    "dongFloor": "중층",
+    "price": "가격 문의",
+    "size": "공급 109.99㎡ / 전용 84.99㎡",
+    "floor": "중층",
+    "roomBath": "방 3개 / 욕실 2개",
+    "maintenance": "약 25만원",
+    "prevDeposit": "-",
+    "direction": "남향",
+    "entrance": "계단식",
+    "heating": "지역난방 / 열병합",
+    "moveInDate": "즉시입주 (협의가능)",
+    "parking": "세대당 1.3대",
+    "households": "1,200세대",
+    "buildingUse": "공동주택",
+    "approvalDate": "2008년 7월",
+    "address": "서울특별시 송파구 잠실동",
+    "description": "잠실 매물",
+    "features": [
+      "부동산뱅크실매물",
+      "매매",
+      "리센츠",
+      "역세권"
+    ],
+    "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+    "date": "2026-07-18",
+    "agentContact": "02-415-8949"
+  },
+  {
     "id": "excel-1784396022969-895",
     "title": "잠실 매물",
     "category": "리센츠",
