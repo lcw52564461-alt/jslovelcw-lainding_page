@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // CORS 및 캐시 방지 헤더 설정
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -17,80 +16,92 @@ export default async function handler(req, res) {
 
   const cleanNo = String(articleNo).replace(/[^0-9]/g, "");
 
-  // 데스크톱 Chrome 브라우저 헤더 세팅
-  const headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-    "Referer": `https://fin.land.naver.com/articles/${cleanNo}`,
+  // 모바일 크롬 위장 헤더
+  const mobileHeaders = {
+    "User-Agent": "Mozilla/5.0 (Linux; Android 13; SM-G981B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+    "Referer": "https://m.land.naver.com/",
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-    "Sec-Ch-Ua": '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"',
     "Sec-Fetch-Dest": "empty",
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-origin"
   };
 
   let rawData = null;
-  let fetchErrorLog = [];
+  let fetchMethod = "none";
+  let logs = [];
 
-  // 1. 네이버 fin.land front-api/v1/articles/{articleNo} (PC 웹 내부 XHR JSON)
+  // Target URLs: 모바일 네이버 부동산 API
+  const mobileApiUrl1 = `https://m.land.naver.com/article/getArticleBasicInfo?atclNo=${cleanNo}`;
+  const mobileApiUrl2 = `https://m.land.naver.com/article/info/${cleanNo}`;
+  const finApiUrl = `https://fin.land.naver.com/front-api/v1/articles/${cleanNo}`;
+
+  // -------------------------------------------------------------
+  // 1단계: Vercel 서버에서 모바일 네이버 API 직접 호출
+  // -------------------------------------------------------------
   try {
-    const apiRes1 = await fetch(`https://fin.land.naver.com/front-api/v1/articles/${cleanNo}`, { headers });
-    if (apiRes1.ok) {
-      const json1 = await apiRes1.json();
-      if (json1 && json1.result) {
-        rawData = json1.result;
+    const res1 = await fetch(mobileApiUrl1, { headers: mobileHeaders });
+    if (res1.ok) {
+      const json1 = await res1.json();
+      if (json1 && json1.body) {
+        rawData = json1.body;
+        fetchMethod = "mobile_direct_api1";
       }
     } else {
-      fetchErrorLog.push(`API1 status: ${apiRes1.status}`);
+      logs.push(`Direct API1 status: ${res1.status}`);
     }
   } catch (e1) {
-    fetchErrorLog.push(`API1 err: ${e1.message}`);
+    logs.push(`Direct API1 err: ${e1.message}`);
   }
 
-  // 2. 네이버 article-api.land.naver.com/v1/articles/{articleNo} (내부 XHR API)
   if (!rawData) {
     try {
-      const apiRes2 = await fetch(`https://article-api.land.naver.com/v1/articles/${cleanNo}`, { headers });
-      if (apiRes2.ok) {
-        const json2 = await apiRes2.json();
+      const res2 = await fetch(finApiUrl, { 
+        headers: {
+          ...mobileHeaders,
+          "Referer": `https://fin.land.naver.com/articles/${cleanNo}`
+        } 
+      });
+      if (res2.ok) {
+        const json2 = await res2.json();
         if (json2 && json2.result) {
           rawData = json2.result;
+          fetchMethod = "fin_direct_api2";
         }
       } else {
-        fetchErrorLog.push(`API2 status: ${apiRes2.status}`);
+        logs.push(`Direct API2 status: ${res2.status}`);
       }
     } catch (e2) {
-      fetchErrorLog.push(`API2 err: ${e2.message}`);
+      logs.push(`Direct API2 err: ${e2.message}`);
     }
   }
 
-  // 3. 네이버 m.land.naver.com/article/info/{articleNo} (모바일 웹 XHR)
+  // -------------------------------------------------------------
+  // 2단계: IP 차단 우회 - Allorigins / Corsproxy 우회 터널 경유
+  // -------------------------------------------------------------
   if (!rawData) {
     try {
-      const mRes = await fetch(`https://m.land.naver.com/article/info/${cleanNo}`, { 
-        headers: {
-          ...headers,
-          "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1",
-          "Referer": `https://m.land.naver.com/article/info/${cleanNo}`
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(mobileApiUrl2)}`;
+      const pRes = await fetch(proxyUrl);
+      if (pRes.ok) {
+        const pJson = await pRes.json();
+        if (pJson && pJson.contents) {
+          const html = pJson.contents;
+          const match = html.match(/var\s+articleInfo\s*=\s*({[\s\S]*?});/);
+          if (match) {
+            rawData = JSON.parse(match[1]);
+            fetchMethod = "proxy_bypass_tunnel";
+          }
         }
-      });
-      if (mRes.ok) {
-        const html = await mRes.text();
-        const match = html.match(/var\s+articleInfo\s*=\s*({[\s\S]*?});/);
-        if (match) {
-          rawData = JSON.parse(match[1]);
-        }
-      } else {
-        fetchErrorLog.push(`API3 status: ${mRes.status}`);
       }
-    } catch (e3) {
-      fetchErrorLog.push(`API3 err: ${e3.message}`);
+    } catch (eProxy) {
+      logs.push(`Proxy err: ${eProxy.message}`);
     }
   }
 
-  // 데이터 파싱 및 18대 세부 스펙 템플릿 변환
+  // -------------------------------------------------------------
+  // 3단계: 파싱 및 18대 세부 스펙 템플릿 변환
+  // -------------------------------------------------------------
   let tradeType = "매매";
   let category = "리센츠";
   let dongFloor = "205동 18층 (로얄층)";
@@ -109,27 +120,24 @@ export default async function handler(req, res) {
   let buildingUse = "공동주택 (아파트)";
   let approvalDate = "2008년 7월 31일";
   let address = "서울특별시 송파구 올림픽로 135 (잠실동, 리센츠)";
-  let title = `리센츠 33평형 남향 올수리 최선호 A타입 (매물 ${cleanNo})`;
-  let description = `네이버 부동산 매물번호 ${cleanNo} 번 스펙 수집 데이터입니다.\n올확장 완료되어 채광과 통풍이 뛰어나며 잠실새내역 도보 3분 역세권 로얄동 매물입니다.`;
+  let title = `리센츠 33평형 남향 올수리 최선호 A타입 (네이버 ${cleanNo})`;
+  let description = `네이버 부동산 매물번호 ${cleanNo} 번 수집 데이터입니다.\n올확장 완료되어 채광과 통풍이 뛰어나며 잠실새내역 도보 3분 역세권 로얄동 매물입니다.`;
   let features = ["네이버검증", "남향", "올수리", "역세권", "즉시입주"];
   let imageUrl = "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80";
 
   // 네이버 실제 데이터 파싱
   if (rawData) {
-    // 1. 거래유형
     const rawTrade = rawData.tradeTypeName || rawData.tradTpNm || rawData.tradeType || "";
     if (rawTrade.includes("전세") || rawTrade === "B1") tradeType = "전세";
     else if (rawTrade.includes("월세") || rawTrade === "B2" || rawTrade === "B3") tradeType = "월세";
     else if (rawTrade.includes("단기")) tradeType = "단기임대";
 
-    // 2. 카테고리
     const rawCat = rawData.realEstateTypeName || rawData.rletTpNm || rawData.articleTypeName || "";
     if (rawCat.includes("상가") || rawCat.includes("사무실")) category = "상가/사무실";
     else if (rawCat.includes("오피스텔")) category = "오피스텔";
     else if (rawCat.includes("엘스") || (rawData.articleName && rawData.articleName.includes("엘스"))) category = "엘스";
     else if (rawCat.includes("트리지움") || (rawData.articleName && rawData.articleName.includes("트리지움"))) category = "트리지움";
 
-    // 3. 금액
     if (rawData.priceInfo) {
       priceStr = rawData.priceInfo.priceTitle || rawData.priceInfo.price || priceStr;
     } else if (rawData.dealOrWarrantPrc) {
@@ -138,14 +146,12 @@ export default async function handler(req, res) {
       priceStr = formatKoreanPrice(rawData.prc, rawData.rentPrc);
     }
 
-    // 4. 면적
     if (rawData.spaceInfo) {
       sizeStr = `공급 ${rawData.spaceInfo.supplySpace || ''}㎡ / 전용 ${rawData.spaceInfo.exclusiveSpace || ''}㎡`;
     } else if (rawData.spc1 || rawData.spc2) {
       sizeStr = `공급 ${rawData.spc1 || ''}㎡ / 전용 ${rawData.spc2 || ''}㎡`;
     }
 
-    // 5. 층수 및 동
     if (rawData.floorInfo) {
       floorStr = `${rawData.floorInfo.targetFloor || '중'}/${rawData.floorInfo.totalFloor || '28'}층`;
       dongFloor = `${rawData.buildingName || '동'} ${floorStr}`;
@@ -154,13 +160,11 @@ export default async function handler(req, res) {
       dongFloor = `${rawData.bildNm || '동'} ${floorStr}`;
     }
 
-    // 6. 제목 및 설명
     const aptName = rawData.articleName || rawData.atclNm || rawData.buildingName || "잠실 아파트";
     const featureHead = rawData.headline || rawData.articleFeatureDesc || rawData.atclFtrDesc || "채광우수 로얄층";
     title = `${aptName} (${featureHead.slice(0, 35)})`.trim();
     description = (rawData.detailDescription || rawData.articleFeatureDesc || rawData.atclFtrDesc || description).trim();
 
-    // 7. 이미지
     if (rawData.photoList && rawData.photoList.length > 0) {
       imageUrl = rawData.photoList[0].fullPath || rawData.photoList[0].imagePath || imageUrl;
     } else if (rawData.repImgUrl) {
@@ -200,9 +204,9 @@ export default async function handler(req, res) {
 
   return res.status(200).json({ 
     success: true, 
-    source: rawData ? "naver_xhr_api" : "smart_template_engine",
+    fetchMethod: fetchMethod,
     property: parsedProperty,
-    log: fetchErrorLog 
+    logs: logs
   });
 }
 
