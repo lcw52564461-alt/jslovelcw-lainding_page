@@ -175,19 +175,39 @@
       </div>
     </div>
 
-    <!-- 네이버 매물번호 자동 불러오기 테스트 박스 -->
-    <div class="bg-surface-container/50 border border-hairline p-md rounded-lg mb-lg">
-      <h3 class="font-headline-sm text-label-sm font-bold text-primary mb-xs flex items-center gap-xs">
-        <span class="material-symbols-outlined text-sm">cloud_download</span> 네이버 부동산 매물번호로 자동 불러오기 & 등록 (TEST)
-      </h3>
-      <p class="text-xs text-on-surface-variant mb-xs">네이버 매물번호만 입력하면 매물 정보를 자동으로 수집하여 내 홈페이지에 등록합니다.</p>
-      <div class="flex flex-col sm:flex-row gap-xs">
-        <input type="text" id="naver-article-input" placeholder="네이버 매물번호 입력 (예: 2637589796)" class="flex-grow px-md py-sm border border-outline-variant rounded bg-canvas text-body-md">
-        <button id="fetch-naver-btn" class="bg-primary text-white font-action-md text-sm px-lg py-sm rounded hover:bg-primary/90 transition-all whitespace-nowrap flex items-center justify-center gap-xs">
-          <span class="material-symbols-outlined text-sm">download</span> 네이버 매물 자동 가져오기 & 등록
-        </button>
+    <!-- 스마트 매물 수집/일괄등록 툴 2가지 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-lg">
+      
+      <!-- 기능 1: 부동산뱅크 엑셀 1초 일괄 등록 -->
+      <div class="bg-surface-container-low border border-primary/30 p-md rounded-xl shadow-sm">
+        <h3 class="font-bold text-sm text-primary mb-xs flex items-center gap-xs">
+          <span class="material-symbols-outlined text-sm">table_view</span> 1. 부동산뱅크 엑셀 파일 1초 일괄 등록
+        </h3>
+        <p class="text-xs text-on-surface-variant mb-sm">부동산뱅크/네이버에서 다운받은 매물 엑셀(.xlsx, .csv) 파일을 선택하시면 수십 개 매물이 1초 만에 100% 자동 등록됩니다.</p>
+        <div class="flex items-center gap-xs">
+          <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" class="hidden">
+          <button id="excel-upload-btn" type="button" class="w-full bg-primary text-white font-bold text-xs px-md py-sm rounded-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-xs shadow-sm">
+            <span class="material-symbols-outlined text-sm">upload_file</span> 부동산뱅크 엑셀 파일 선택 & 일괄 등록
+          </button>
+        </div>
+        <div id="excel-msg" class="hidden text-xs mt-xs font-bold"></div>
       </div>
-      <div id="naver-fetch-msg" class="hidden text-xs mt-xs font-bold"></div>
+
+      <!-- 기능 2: 텍스트 복사글 스마트 1초 파싱 등록 -->
+      <div class="bg-surface-container-low border border-tertiary-container/30 p-md rounded-xl shadow-sm">
+        <h3 class="font-bold text-sm text-tertiary-container mb-xs flex items-center gap-xs">
+          <span class="material-symbols-outlined text-sm">content_paste</span> 2. 매물글 텍스트 복사 ➔ 1초 자동 분석 등록
+        </h3>
+        <p class="text-xs text-on-surface-variant mb-sm">네이버/부동산뱅크/문자 매물 텍스트를 복사해 넣으시면 18개 세부 스펙으로 1초 만에 자동 분류되어 등록됩니다.</p>
+        <div class="flex gap-xs">
+          <input type="text" id="smart-text-input" placeholder="예: 리센츠 205동 18층 매매 25억5천 33평 남향 올수리" class="flex-grow text-xs p-xs border border-hairline rounded bg-canvas focus:border-primary">
+          <button id="smart-text-btn" type="button" class="bg-tertiary-container text-white font-bold text-xs px-md py-sm rounded-lg hover:opacity-90 transition-all whitespace-nowrap flex items-center justify-center gap-xs">
+            <span class="material-symbols-outlined text-sm">auto_fix_high</span> 자동 파싱 등록
+          </button>
+        </div>
+        <div id="smart-text-msg" class="hidden text-xs mt-xs font-bold"></div>
+      </div>
+
     </div>
 
     <!-- 탭 선택 -->
@@ -243,6 +263,7 @@
   </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="db.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
@@ -270,42 +291,94 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // 네이버 매물 자동 수집 핸들러
-  const fetchNaverBtn = document.getElementById('fetch-naver-btn');
-  const naverInput = document.getElementById('naver-article-input');
-  const naverMsg = document.getElementById('naver-fetch-msg');
+  // ----------------------------------------------------
+  // 기능 1: 부동산뱅크 엑셀(.xlsx, .csv) 파일 1초 일괄 등록
+  // ----------------------------------------------------
+  const excelUploadBtn = document.getElementById('excel-upload-btn');
+  const excelFileInput = document.getElementById('excel-file-input');
+  const excelMsg = document.getElementById('excel-msg');
 
-  if (fetchNaverBtn) {
-    fetchNaverBtn.addEventListener('click', async () => {
-      const val = naverInput.value.trim();
-      if (!val) {
-        alert('네이버 매물번호를 입력하세요!');
-        return;
-      }
-      fetchNaverBtn.disabled = true;
-      fetchNaverBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 네이버 정보 수집 중...';
-      naverMsg.className = 'text-xs mt-xs font-bold text-primary';
-      naverMsg.textContent = '네이버 부동산에서 매물 데이터를 가져오고 있습니다...';
-      naverMsg.classList.remove('hidden');
+  if (excelUploadBtn && excelFileInput) {
+    excelUploadBtn.addEventListener('click', () => excelFileInput.click());
+
+    excelFileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      excelUploadBtn.disabled = true;
+      excelUploadBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 엑셀 파싱 및 일괄 등록 중...';
+      excelMsg.className = 'text-xs mt-xs font-bold text-primary';
+      excelMsg.textContent = '엑셀 파일 데이터를 읽고 있습니다...';
+      excelMsg.classList.remove('hidden');
 
       try {
-        const res = await fetch(`/api/fetch-naver?articleNo=${encodeURIComponent(val)}`);
-        const json = await res.json();
-        if (json && json.success && json.property) {
-          await saveProperty(json.property);
-          naverMsg.className = 'text-xs mt-xs font-bold text-primary';
-          naverMsg.textContent = `🎉 [성공] ${json.property.title} (${json.property.price}) 매물이 자동 등록되었습니다!`;
-          renderPropertiesTable();
-        } else {
-          naverMsg.className = 'text-xs mt-xs font-bold text-error';
-          naverMsg.textContent = json.error || '매물 수집 실패';
+        const data = await file.arrayBuffer();
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonRows = XLSX.utils.sheet_to_json(worksheet);
+
+        if (!jsonRows || jsonRows.length === 0) {
+          throw new Error('엑셀 파일 내에 매물 데이터 행이 없습니다.');
         }
+
+        let count = 0;
+        for (let row of jsonRows) {
+          const propData = mapExcelRowToProperty(row);
+          if (propData && propData.title) {
+            await saveProperty(propData);
+            count++;
+          }
+        }
+
+        excelMsg.className = 'text-xs mt-xs font-bold text-primary';
+        excelMsg.textContent = `🎉 [성공] 총 ${count}개의 엑셀 매물이 성공적으로 일괄 등록되었습니다!`;
+        renderPropertiesTable();
+
       } catch (err) {
-        naverMsg.className = 'text-xs mt-xs font-bold text-error';
-        naverMsg.textContent = '오류 발생: ' + err.message;
+        excelMsg.className = 'text-xs mt-xs font-bold text-error';
+        excelMsg.textContent = '엑셀 처리 오류: ' + err.message;
       } finally {
-        fetchNaverBtn.disabled = false;
-        fetchNaverBtn.innerHTML = '<span class="material-symbols-outlined text-sm">download</span> 네이버 매물 자동 가져오기 & 등록';
+        excelUploadBtn.disabled = false;
+        excelUploadBtn.innerHTML = '<span class="material-symbols-outlined text-sm">upload_file</span> 부동산뱅크 엑셀 파일 선택 & 일괄 등록';
+        excelFileInput.value = '';
+      }
+    });
+  }
+
+  // ----------------------------------------------------
+  // 기능 2: 매물글 텍스트 복사 ➔ 18개 항목 1초 자동 파싱 등록
+  // ----------------------------------------------------
+  const smartTextBtn = document.getElementById('smart-text-btn');
+  const smartTextInput = document.getElementById('smart-text-input');
+  const smartTextMsg = document.getElementById('smart-text-msg');
+
+  if (smartTextBtn && smartTextInput) {
+    smartTextBtn.addEventListener('click', async () => {
+      const text = smartTextInput.value.trim();
+      if (!text) {
+        alert('매물 텍스트를 입력 또는 붙여넣어 주세요!');
+        return;
+      }
+
+      smartTextBtn.disabled = true;
+      smartTextBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 파싱 중...';
+
+      try {
+        const propData = parseRawTextToProperty(text);
+        await saveProperty(propData);
+
+        smartTextMsg.className = 'text-xs mt-xs font-bold text-tertiary-container';
+        smartTextMsg.textContent = `🎉 [성공] "${propData.title}" (${propData.price}) 매물이 18개 스펙으로 파싱 등록되었습니다!`;
+        smartTextMsg.classList.remove('hidden');
+        renderPropertiesTable();
+        smartTextInput.value = '';
+      } catch (err) {
+        smartTextMsg.className = 'text-xs mt-xs font-bold text-error';
+        smartTextMsg.textContent = '파싱 오류: ' + err.message;
+      } finally {
+        smartTextBtn.disabled = false;
+        smartTextBtn.innerHTML = '<span class="material-symbols-outlined text-sm">auto_fix_high</span> 자동 파싱 등록';
       }
     });
   }

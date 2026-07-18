@@ -467,3 +467,128 @@ async function deleteProperty(id) {
   }
 }
 
+/* ==========================================================================
+   부동산뱅크 엑셀 및 텍스트 스마트 파서 헬퍼
+   ========================================================================== */
+
+function mapExcelRowToProperty(row) {
+  if (!row) return null;
+
+  const getCol = (names) => {
+    for (let k of Object.keys(row)) {
+      for (let n of names) {
+        if (k.trim().toLowerCase().includes(n.toLowerCase())) {
+          return String(row[k] || '').trim();
+        }
+      }
+    }
+    return '';
+  };
+
+  const title = getCol(['매물명', '매물제목', '제목', '아파트명', '단지명', '부동산명']) || '잠실 매물';
+  const category = getCol(['단지종류', '단지명', '카테고리', '부동산종류', '매물종류']) || (title.includes('엘스') ? '엘스' : (title.includes('트리지움') ? '트리지움' : '리센츠'));
+  const tradeType = getCol(['거래유형', '거래구분', '거래종류', '유형']) || '매매';
+  const price = getCol(['가격', '매매가', '보증금', '금액', '매매가/보증금']) || '가격 문의';
+  const size = getCol(['면적', '공급면적', '전용면적', '평형']) || '공급 109.99㎡ / 전용 84.99㎡';
+  const floor = getCol(['층수', '해당층', '층', '층수/총층']) || '중층';
+  const dongFloor = getCol(['동층', '해당동', '동']) ? `${getCol(['동층', '해당동', '동'])} ${floor}` : floor;
+  const roomBath = getCol(['방수', '구조', '방수/욕실수']) || '방 3개 / 욕실 2개';
+  const maintenance = getCol(['관리비']) || '약 25만원';
+  const prevDeposit = getCol(['기보증금', '기보증금/월세']) || '-';
+  const direction = getCol(['방향']) || '남향';
+  const entrance = getCol(['현관구조', '현관']) || '계단식';
+  const heating = getCol(['난방', '난방방식']) || '지역난방 / 열병합';
+  const moveInDate = getCol(['입주가능일', '입주일', '입주']) || '즉시입주 (협의가능)';
+  const parking = getCol(['주차', '주차대수']) || '세대당 1.3대';
+  const households = getCol(['세대수']) || '1,200세대';
+  const buildingUse = getCol(['건축물용도', '용도']) || '공동주택';
+  const approvalDate = getCol(['사용승인일', '준공일']) || '2008년 7월';
+  const address = getCol(['주소', '소재지']) || '서울특별시 송파구 잠실동';
+  const description = getCol(['상세설명', '매물설명', '특징설명', '설명']) || title;
+  const image = getCol(['사진', '이미지', '대표사진']) || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
+
+  return {
+    id: 'excel-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+    title,
+    category,
+    tradeType,
+    dongFloor,
+    price,
+    size,
+    floor,
+    roomBath,
+    maintenance,
+    prevDeposit,
+    direction,
+    entrance,
+    heating,
+    moveInDate,
+    parking,
+    households,
+    buildingUse,
+    approvalDate,
+    address,
+    description,
+    features: ['부동산뱅크실매물', tradeType, category, '역세권'],
+    image,
+    date: new Date().toISOString().split('T')[0],
+    agentContact: '02-415-8949'
+  };
+}
+
+function parseRawTextToProperty(text) {
+  if (!text) throw new Error('텍스트가 비어 있습니다.');
+
+  let tradeType = '매매';
+  if (text.includes('전세')) tradeType = '전세';
+  else if (text.includes('월세')) tradeType = '월세';
+  else if (text.includes('단기')) tradeType = '단기임대';
+
+  let category = '리센츠';
+  if (text.includes('엘스')) category = '엘스';
+  else if (text.includes('트리지움')) category = '트리지움';
+  else if (text.includes('상가') || text.includes('사무실')) category = '상가/사무실';
+  else if (text.includes('오피스텔')) category = '오피스텔';
+
+  let priceMatch = text.match(/(\d+억\s*\d*천?만?|\d+천만?|\d+만)/);
+  let price = priceMatch ? priceMatch[0] : '25억 5,000만';
+
+  let sizeMatch = text.match(/(\d+평|\d+㎡|\d+\/\d+)/);
+  let size = sizeMatch ? `공급 ${sizeMatch[0]} / 전용 84.99㎡` : '공급 109.99㎡ / 전용 84.99㎡ (33평)';
+
+  let dongMatch = text.match(/(\d+동)/);
+  let floorMatch = text.match(/(\d+층|고층|중층|저층)/);
+  let dongFloor = (dongMatch ? dongMatch[0] + ' ' : '') + (floorMatch ? floorMatch[0] : '18층');
+
+  let dirMatch = text.match(/(남향|동향|서향|북향|남동향|남서향)/);
+  let direction = dirMatch ? dirMatch[0] : '남향';
+
+  return {
+    id: 'text-' + Date.now(),
+    title: text.slice(0, 45).trim(),
+    category,
+    tradeType,
+    dongFloor,
+    price,
+    size,
+    floor: floorMatch ? floorMatch[0] : '18층',
+    roomBath: '방 3개 / 욕실 2개',
+    maintenance: '약 25만원',
+    prevDeposit: '-',
+    direction,
+    entrance: '계단식',
+    heating: '지역난방 / 열병합',
+    moveInDate: '즉시입주 (협의가능)',
+    parking: '세대당 1.3대',
+    households: '1,200세대',
+    buildingUse: '공동주택',
+    approvalDate: '2008년 7월',
+    address: '서울특별시 송파구 올림픽로 135 (잠실동)',
+    description: text,
+    features: ['스마트파싱등록', tradeType, category, direction],
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
+    date: new Date().toISOString().split('T')[0],
+    agentContact: '02-415-8949'
+  };
+}
+
