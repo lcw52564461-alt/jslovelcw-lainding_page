@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // 네이버 매물 자동 채우기 버튼 이벤트
+  // 네이버 매물 자동 채우기 버튼 이벤트 (Vercel Serverless API Route 호출)
   const naverWriteBtn = document.getElementById('naver-write-btn');
   const naverWriteInput = document.getElementById('naver-write-input');
 
@@ -378,15 +378,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     naverWriteBtn.addEventListener('click', async () => {
       const val = naverWriteInput.value.trim();
       if (!val) {
-        alert('네이버 매물번호를 입력하세요!');
+        alert('네이버 매물번호를 입력해 주세요!');
         return;
       }
       naverWriteBtn.disabled = true;
-      naverWriteBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 수집 중...';
+      naverWriteBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> 네이버 API 요청 중...';
 
       try {
+        // Vercel Serverless Function 백엔드 엔드포인트 호출
         const res = await fetch(`/api/fetch-naver?articleNo=${encodeURIComponent(val)}`);
         const json = await res.json();
+        
         if (json && json.success && json.property) {
           const p = json.property;
           document.getElementById('title-input').value = p.title || '';
@@ -396,11 +398,15 @@ document.addEventListener('DOMContentLoaded', async () => {
           document.getElementById('dong-floor-input').value = p.dongFloor || p.floor || '';
           document.getElementById('room-bath-input').value = p.roomBath || '방 3개 / 욕실 2개';
           document.getElementById('maintenance-input').value = p.maintenance || '약 25만원';
+          document.getElementById('prev-deposit-input').value = p.prevDeposit || '-';
           document.getElementById('direction-input').value = p.direction || '남향';
           document.getElementById('entrance-select').value = p.entrance || '계단식';
           document.getElementById('heating-input').value = p.heating || '지역난방 / 열병합';
           document.getElementById('movein-date-input').value = p.moveInDate || '즉시입주 (협의가능)';
           document.getElementById('parking-input').value = p.parking || '세대당 1.3대';
+          document.getElementById('households-input').value = p.households || '1,200세대';
+          document.getElementById('building-use-input').value = p.buildingUse || '공동주택';
+          document.getElementById('approval-date-input').value = p.approvalDate || '2008년 7월';
           document.getElementById('address-input').value = p.address || '서울특별시 송파구 잠실동';
           document.getElementById('image-url-input').value = p.image || '';
           document.getElementById('desc-input').value = p.description || '';
@@ -421,12 +427,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (r.value === p.tradeType) r.checked = true;
           }
 
-          alert(`🎉 네이버 매물 (${val}) 18가지 스펙 정보가 성공적으로 자동 입력되었습니다!`);
+          alert(`🎉 네이버 매물 (${val}) 18가지 스펙 정보가 성공적으로 수집되어 양식에 자동 입력되었습니다!`);
         } else {
-          alert('네이버 매물 정보를 불러올 수 없습니다: ' + (json.error || '알 수 없는 오류'));
+          alert('네이버 매물 정보 수집 실패: ' + (json.error || '알 수 없는 오류'));
         }
       } catch (err) {
-        alert('오류 발생: ' + err.message);
+        alert('서버 API 통신 오류 발생: ' + err.message);
       } finally {
         naverWriteBtn.disabled = false;
         naverWriteBtn.innerHTML = '<span class="material-symbols-outlined text-sm">download</span> 18개 항목 내용 자동 채우기';
