@@ -326,7 +326,33 @@ async function deletePost(id) {
    매물 (Properties) CRUD 기능
    ========================================================================== */
 
+/* ==========================================================================
+   매물 (Properties) CRUD 기능 (Supabase DB 연동)
+   ========================================================================== */
+
+const SUPABASE_URL = "https://ukcbvzyyfzwqotvareil.supabase.co";
+const SUPABASE_KEY = "sb_publishable_7ckpmsNs6bQJKtALe898vw_hu0v2xF1";
+
 async function getProperties() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/properties?select=*&order=created_at.desc`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    });
+    if (res.ok) {
+      const props = await res.json();
+      if (Array.isArray(props) && props.length > 0) {
+        localStorage.setItem('realty_properties', JSON.stringify(props));
+        return props;
+      }
+    }
+  } catch (e) {
+    console.warn('Supabase Fetch Error, fallbacking to local:', e);
+  }
+
+  // Fallback to local cache or properties.json
   let cached = localStorage.getItem('realty_properties');
   if (cached) {
     try {
@@ -350,121 +376,59 @@ async function getPropertyById(id) {
 }
 
 async function saveProperty(propertyData) {
-  let props = await getProperties();
-  let id = propertyData.id;
-  if (!id) {
-    id = 'prop-' + Date.now();
-    propertyData.id = id;
-  }
+  let id = propertyData.id || ('prop-' + Date.now());
+  propertyData.id = id;
   if (!propertyData.date) {
-    let now = new Date();
-    propertyData.date = now.toISOString().split('T')[0];
+    propertyData.date = new Date().toISOString().split('T')[0];
   }
+
+  // 1. Supabase DB 저장 (UPSERT)
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/properties`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify([propertyData])
+    });
+  } catch (err) {
+    console.error('Supabase Save Property Error:', err);
+  }
+
+  // 2. 로컬 캐시 업데이트
+  let props = await getProperties();
   let index = props.findIndex(p => String(p.id) === String(id));
   if (index >= 0) {
     props[index] = { ...props[index], ...propertyData };
   } else {
     props.unshift(propertyData);
   }
-
   localStorage.setItem('realty_properties', JSON.stringify(props));
-
-  try {
-    let cfg = await loadConfig();
-    let token = String(cfg.github_token || '').replace(/\s+/g, '');
-    let owner = cfg.github_owner;
-    let repo = cfg.github_repo;
-    let path = 'data/properties.json';
-
-    if (token && token !== 'YOUR_GITHUB_TOKEN' && owner && repo) {
-      let url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      let getRes = await fetch(url, {
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-      let sha = '';
-      if (getRes.ok) {
-        let fileInfo = await getRes.json();
-        sha = fileInfo.sha;
-      }
-      let contentStr = JSON.stringify(props, null, 2);
-      let bytes = new TextEncoder().encode(contentStr);
-      let binary = '';
-      for (let b of bytes) binary += String.fromCharCode(b);
-      let base64Content = btoa(binary);
-
-      let bodyObj = {
-        message: `feat(property): update ${path} via admin panel`,
-        content: base64Content
-      };
-      if (sha) bodyObj.sha = sha;
-
-      await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bodyObj)
-      });
-    }
-  } catch(err) {
-    console.error('GitHub Sync Property Error:', err);
-  }
 
   return propertyData;
 }
 
 async function deleteProperty(id) {
+  // 1. Supabase DB 삭제
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/properties?id=eq.${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    });
+  } catch (err) {
+    console.error('Supabase Delete Property Error:', err);
+  }
+
+  // 2. 로컬 캐시 갱신
   let props = await getProperties();
   let filtered = props.filter(p => String(p.id) !== String(id));
   localStorage.setItem('realty_properties', JSON.stringify(filtered));
-
-  try {
-    let cfg = await loadConfig();
-    let token = String(cfg.github_token || '').replace(/\s+/g, '');
-    let owner = cfg.github_owner;
-    let repo = cfg.github_repo;
-    let path = 'data/properties.json';
-
-    if (token && token !== 'YOUR_GITHUB_TOKEN' && owner && repo) {
-      let url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      let getRes = await fetch(url, {
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-      if (getRes.ok) {
-        let fileInfo = await getRes.json();
-        let sha = fileInfo.sha;
-        let contentStr = JSON.stringify(filtered, null, 2);
-        let bytes = new TextEncoder().encode(contentStr);
-        let binary = '';
-        for (let b of bytes) binary += String.fromCharCode(b);
-        let base64Content = btoa(binary);
-
-        await fetch(url, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `delete(property): remove property ${id}`,
-            content: base64Content,
-            sha: sha
-          })
-        });
-      }
-    }
-  } catch(err) {
-    console.error('GitHub Sync Property Delete Error:', err);
-  }
 }
 
 /* ==========================================================================
