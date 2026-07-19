@@ -399,37 +399,37 @@ document.addEventListener('DOMContentLoaded', async () => {
   content.classList.remove('hidden');
 
   // 스위치 디자인 헤더 및 텍스트 데이터 바인딩
-  document.getElementById('breadcrumb-title').textContent = item.title;
-  document.getElementById('detail-title').textContent = item.title;
+  document.getElementById('breadcrumb-title').textContent = item.title || '매물 상세';
+  document.getElementById('detail-title').textContent = item.title || '매물 상세 정보';
   document.getElementById('badge-trade-cat').textContent = `${item.category || '아파트'} · ${item.tradeType || '매매'}`;
-  document.getElementById('text-address').textContent = item.address || '서울특별시 송파구 잠실동';
-  document.getElementById('detail-price').textContent = item.price;
+  document.getElementById('text-address').textContent = item.address || '-';
+  document.getElementById('detail-price').textContent = item.price || '-';
 
   // 퀵 정보 4개
   document.getElementById('detail-size-quick').textContent = item.size || '-';
   document.getElementById('detail-floor-quick').textContent = item.dongFloor || item.floor || '-';
-  document.getElementById('detail-direction-quick').textContent = item.direction || '남향';
-  document.getElementById('detail-movein-quick').textContent = item.moveInDate || '즉시 입주 협의';
+  document.getElementById('detail-direction-quick').textContent = item.direction || '-';
+  document.getElementById('detail-movein-quick').textContent = item.moveInDate || '-';
 
-  // 스위치 원본 18가지 세부 정보 스펙 바인딩
-  document.getElementById('spec-tradeType').textContent = item.tradeType || '매매';
-  document.getElementById('spec-category').textContent = item.category || '아파트';
+  // 18가지 세부 정보 스펙 바인딩 (더미 텍스트 하드코딩 제거)
+  document.getElementById('spec-tradeType').textContent = item.tradeType || '-';
+  document.getElementById('spec-category').textContent = item.category || '-';
   document.getElementById('spec-dongFloor').textContent = item.dongFloor || item.floor || '-';
   document.getElementById('spec-price').textContent = item.price || '-';
   document.getElementById('spec-size').textContent = item.size || '-';
   document.getElementById('spec-floor').textContent = item.floor || '-';
-  document.getElementById('spec-roomBath').textContent = item.roomBath || '방 3 / 욕실 2';
-  document.getElementById('spec-maintenance').textContent = item.maintenance || '약 25만원';
+  document.getElementById('spec-roomBath').textContent = item.roomBath || '-';
+  document.getElementById('spec-maintenance').textContent = item.maintenance || '-';
   document.getElementById('spec-prevDeposit').textContent = item.prevDeposit || '-';
-  document.getElementById('spec-direction').textContent = item.direction || '남향';
-  document.getElementById('spec-entrance').textContent = item.entrance || '계단식';
-  document.getElementById('spec-heating').textContent = item.heating || '지역난방 / 열병합';
-  document.getElementById('spec-moveInDate').textContent = item.moveInDate || '즉시입주 (협의)';
-  document.getElementById('spec-parking').textContent = item.parking || '세대당 1.3대';
-  document.getElementById('spec-households').textContent = item.households || '1,200세대';
-  document.getElementById('spec-buildingUse').textContent = item.buildingUse || '공동주택';
-  document.getElementById('spec-approvalDate').textContent = item.approvalDate || '2008년 7월';
-  document.getElementById('spec-address').textContent = item.address || '서울특별시 송파구 잠실동';
+  document.getElementById('spec-direction').textContent = item.direction || '-';
+  document.getElementById('spec-entrance').textContent = item.entrance || '-';
+  document.getElementById('spec-heating').textContent = item.heating || '-';
+  document.getElementById('spec-moveInDate').textContent = item.moveInDate || '-';
+  document.getElementById('spec-parking').textContent = item.parking || '-';
+  document.getElementById('spec-households').textContent = item.households || '-';
+  document.getElementById('spec-buildingUse').textContent = item.buildingUse || '-';
+  document.getElementById('spec-approvalDate').textContent = item.approvalDate || '-';
+  document.getElementById('spec-address').textContent = item.address || '-';
 
   // 설명 및 대표 이미지
   document.getElementById('detail-description').textContent = item.description || '상세 설명이 등록되어 있지 않습니다.';
