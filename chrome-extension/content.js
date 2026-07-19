@@ -145,30 +145,47 @@ function scrapeRbank(url) {
 
   // 거래종류 & 단지 카테고리
   let tradeType = kvMap["거래종류"] || kvMap["거래구분"] || "매매";
-  if (fullText.includes("전세")) tradeType = "전세";
+  if (fullText.includes("전세가") || fullText.includes("전세")) tradeType = "전세";
   else if (fullText.includes("월세")) tradeType = "월세";
-  else if (fullText.includes("매매")) tradeType = "매매";
+  else if (fullText.includes("매매가") || fullText.includes("매매")) tradeType = "매매";
 
   let category = parseCategoryFromText(fullText + " " + (kvMap["단지명"] || kvMap["아파트명"] || ""));
 
-  // 1. title (매물특징) 매핑 보완 (웹페이지 탭 타이틀 "부동산뱅크 중개업소 관리자" 예외 처리)
-  let featureTitle = kvMap["매물특징"] || kvMap["상세특징"] || kvMap["특징"] || "";
+  // 1. title (매물특징) 핀포인트 파싱 ("가성비매물 찾으신분 강추물건 I 역세권..." 수집)
+  let featureTitle = kvMap["매물특징"] || kvMap["상세특징"] || kvMap["특징"] || kvMap["매물설명"] || "";
   
   if (!featureTitle) {
+    // 폼/테이블 내 '매물특징' 라벨이 붙은 input/textarea/td 탐색
     document.querySelectorAll("tr, dl, div, li, td").forEach(el => {
       const txt = el.innerText || "";
       if (txt.includes("매물특징") || txt.includes("특징")) {
-        const val = txt.replace(/매물특징|특징|:/g, "").trim();
-        if (val && val.length > 3 && !val.includes("부동산뱅크 중개업소")) {
-          featureTitle = val;
+        const inputElem = el.querySelector("input, textarea");
+        if (inputElem && inputElem.value && inputElem.value.trim().length > 3) {
+          featureTitle = inputElem.value.trim();
+        } else {
+          const val = txt.replace(/매물특징|특징|:/g, "").trim();
+          if (val && val.length > 3 && !val.includes("부동산뱅크") && !val.includes("중개업소")) {
+            featureTitle = val;
+          }
         }
+      }
+    });
+  }
+
+  // 폼 input 중 name에 feature, title, memo가 들어간 값 직접 탐색
+  if (!featureTitle) {
+    document.querySelectorAll("input[name*='feature'], input[name*='title'], textarea[name*='feature'], textarea[name*='memo']").forEach(elem => {
+      if (elem.value && elem.value.trim().length > 3 && !elem.value.includes("부동산뱅크")) {
+        featureTitle = elem.value.trim();
       }
     });
   }
 
   let rawTitle = document.querySelector(".detail_title, .title, .subject, .article_title, h1, h2, h3")?.innerText?.trim() || "";
   let title = featureTitle;
-  if (!title) {
+  
+  // "부동산뱅크 중개업소 관리자" 및 페이지 헤더 탭 타이틀 완전 차단
+  if (!title || title.includes("부동산뱅크") || title.includes("중개업소") || title.includes("관리자") || title.includes("등록")) {
     if (rawTitle && !rawTitle.includes("부동산뱅크") && !rawTitle.includes("중개업소") && !rawTitle.includes("관리자")) {
       title = rawTitle;
     } else {
@@ -177,15 +194,43 @@ function scrapeRbank(url) {
     }
   }
 
-  // 2. price (금액) 파싱 보완 ("전세가", "145,000만원" 등 캡처)
+  // 2. price (금액) 핀포인트 파싱 ("전세가 145,000만원" 수집)
   let price = kvMap["전세가"] || kvMap["매매가"] || kvMap["보증금"] || kvMap["전세"] || kvMap["월세"] || kvMap["가격"] || kvMap["거래가"] || kvMap["거래금액"] || "";
+
+  // input element 파싱 (name에 price, money, jeonse가 들은 폼 입력값)
+  if (!price || price === "-") {
+    document.querySelectorAll("input[name*='price'], input[name*='money'], input[name*='pay'], input[name*='deposit']").forEach(elem => {
+      if (elem.value && elem.value.trim()) {
+        const val = elem.value.trim();
+        if (/^[0-9,]+$/.test(val)) {
+          price = `${val}만원`;
+        } else if (val.length > 1) {
+          price = val;
+        }
+      }
+    });
+  }
+
+  // 전세가 / 매매가 라벨 바로 뒤 input / td 파싱
+  if (!price || price === "-") {
+    document.querySelectorAll("tr, dl, div, td").forEach(el => {
+      const txt = el.innerText || "";
+      if (txt.includes("전세가") || txt.includes("매매가") || txt.includes("보증금") || txt.includes("가격")) {
+        const input = el.querySelector("input");
+        if (input && input.value && input.value.trim()) {
+          const v = input.value.trim();
+          price = /^[0-9,]+$/.test(v) ? `${v}만원` : v;
+        }
+      }
+    });
+  }
 
   if (!price || price === "-") {
     const priceNodes = document.querySelectorAll(".price, .price_area, .pay_info, .total_price, td, div");
     for (const node of priceNodes) {
       const txt = node.innerText ? node.innerText.trim() : "";
       if ((txt.includes("만원") || txt.includes("억")) && txt.length < 30 && !txt.includes("관리비") && !txt.includes("합계")) {
-        price = txt.replace(/(매매|전세|월세|가격|보증금|가|:)/g, "").trim();
+        price = txt.replace(/(매매|전세|월세|가격|보증금|가|전세가|매매가|:)/g, "").trim();
         if (price) break;
       }
     }
@@ -198,16 +243,35 @@ function scrapeRbank(url) {
 
   if (!price) price = "-";
 
-  // 3. maintenance (관리비) 세부관리비 박스 및 관리비 합계 수집 보완 ("350,000원" 수집)
+  // 3. maintenance (세부관리비) 핀포인트 파싱 ("350,000원" 수집)
   let maintenance = kvMap["관리비합계"] || kvMap["총관리비"] || kvMap["세부관리비"] || kvMap["관리비"] || "";
 
+  // input 폼 element 직접 수집 (name에 maint, manage가 들은 입력필드)
+  document.querySelectorAll("input[name*='maint'], input[name*='manage'], input[name*='total_maint']").forEach(elem => {
+    if (elem.value && elem.value.trim()) {
+      const val = elem.value.trim();
+      if (/^[0-9,]+$/.test(val)) {
+        maintenance = `${val}원`;
+      } else if (val.length > 1) {
+        maintenance = val;
+      }
+    }
+  });
+
+  // -원 이거나 빈 값인 경우 세부관리비 초록색 박스 & 라벨 핀포인트 파싱
   if (!maintenance || maintenance === "-원" || maintenance === "-" || maintenance === "0원") {
     document.querySelectorAll(".total_price, .pay_total, .box_green, .green_box, tr, dl, div, p, span, td").forEach(el => {
       const txt = el.innerText ? el.innerText.trim() : "";
-      if ((txt.includes("관리비") || txt.includes("합계")) && (txt.includes("원") || txt.includes("만"))) {
-        const match = txt.match(/(?:관리비\s*합계|총\s*관리비|세부\s*관리비|합계)\s*[:\s]?\s*([0-9,]+만?원?)/i) || txt.match(/([0-9,]+\s*원)/);
-        if (match && match[1] && (!maintenance || maintenance === "-원" || maintenance === "-")) {
-          maintenance = match[1].trim();
+      if (txt.includes("관리비") || txt.includes("합계") || txt.includes("세부관리비")) {
+        const input = el.querySelector("input");
+        if (input && input.value && input.value.trim() && input.value.trim() !== "0") {
+          const v = input.value.trim();
+          maintenance = /^[0-9,]+$/.test(v) ? `${v}원` : v;
+        } else {
+          const match = txt.match(/(?:관리비\s*합계|총\s*관리비|세부\s*관리비|합계)\s*[:\s]?\s*([0-9,]+만?원?)/i) || txt.match(/([0-9,]{4,}\s*원)/);
+          if (match && match[1] && (!maintenance || maintenance === "-원" || maintenance === "-")) {
+            maintenance = match[1].trim();
+          }
         }
       }
     });
@@ -327,12 +391,12 @@ function getPageImage() {
 }
 
 /**
- * HTML 내 <th>/<td>, <dt>/<dd>, <input> 라벨에서 Key-Value 쌍 맵 생성
+ * HTML 내 <th>/<td>, <dt>/<dd>, <input> 라벨에서 Key-Value 쌍 맵 생성 (input value 지원)
  */
 function extractKeyValuePairs() {
   const map = {};
 
-  // 1. input / select / textarea 폼 데이터 파싱 (등록완료 폼)
+  // 1. input / select / textarea 폼 데이터 파싱
   document.querySelectorAll("input, select, textarea").forEach(elem => {
     const name = elem.getAttribute("name") || elem.getAttribute("id") || "";
     const val = elem.value ? elem.value.trim() : "";
@@ -341,39 +405,57 @@ function extractKeyValuePairs() {
     }
   });
 
-  // 2. th / td
+  // 2. th / td (td 내부에 input/select/textarea가 들어있을 때 폼 value 우선 수집)
   document.querySelectorAll("tr").forEach(row => {
     const ths = row.querySelectorAll("th");
     const tds = row.querySelectorAll("td");
     if (ths.length > 0 && tds.length > 0) {
       for (let i = 0; i < Math.min(ths.length, tds.length); i++) {
         const k = ths[i].innerText.replace(/\s+/g, "").trim();
-        const v = tds[i].innerText.replace(/\s+/g, " ").trim();
+        let v = "";
+        const inputElem = tds[i].querySelector("input, select, textarea");
+        if (inputElem && inputElem.value) {
+          v = inputElem.value.trim();
+        } else {
+          v = tds[i].innerText.replace(/\s+/g, " ").trim();
+        }
         if (k && v) map[k] = v;
       }
     }
   });
 
-  // 3. dt / dd
+  // 3. dt / dd (dd 내부에 input이 있을 경우 지원)
   document.querySelectorAll("dl").forEach(dl => {
     const dts = dl.querySelectorAll("dt");
     const dds = dl.querySelectorAll("dd");
     if (dts.length > 0 && dds.length > 0) {
       for (let i = 0; i < Math.min(dts.length, dds.length); i++) {
         const k = dts[i].innerText.replace(/\s+/g, "").trim();
-        const v = dds[i].innerText.replace(/\s+/g, " ").trim();
+        let v = "";
+        const inputElem = dds[i].querySelector("input, select, textarea");
+        if (inputElem && inputElem.value) {
+          v = inputElem.value.trim();
+        } else {
+          v = dds[i].innerText.replace(/\s+/g, " ").trim();
+        }
         if (k && v) map[k] = v;
       }
     }
   });
 
-  // 3. custom item class list (.info_table_item, .detail_list 등)
+  // 4. 커스텀 리스트
   document.querySelectorAll(".info_table_item, .item_info_detail, li").forEach(item => {
     const label = item.querySelector(".table_th, .label, .title, span:first-child");
     const value = item.querySelector(".table_td, .val, .value, span:last-child");
     if (label && value && label !== value) {
       const k = label.innerText.replace(/\s+/g, "").trim();
-      const v = value.innerText.replace(/\s+/g, " ").trim();
+      let v = "";
+      const inputElem = value.querySelector("input, select, textarea");
+      if (inputElem && inputElem.value) {
+        v = inputElem.value.trim();
+      } else {
+        v = value.innerText.replace(/\s+/g, " ").trim();
+      }
       if (k && v) map[k] = v;
     }
   });
