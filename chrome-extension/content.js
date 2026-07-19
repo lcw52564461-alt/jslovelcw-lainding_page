@@ -143,36 +143,91 @@ function scrapeRbank(url) {
   const rbankIdMatch = url.match(/([0-9]{6,12})/);
   const rbankId = rbankIdMatch ? rbankIdMatch[1] : Date.now().toString();
 
-  // 제목 / 매물특징 파싱
-  let title = document.querySelector(".detail_title, .title, .subject, .article_title, h1, h2, h3")?.innerText?.trim() || "";
-  if (!title || title.includes("등록") || title.includes("완료")) {
-    title = kvMap["매물명"] || kvMap["단지명"] || kvMap["매물특징"] || document.title;
-  }
-
-  // 거래종류 & 가격
+  // 거래종류 & 단지 카테고리
   let tradeType = kvMap["거래종류"] || kvMap["거래구분"] || "매매";
   if (fullText.includes("전세")) tradeType = "전세";
   else if (fullText.includes("월세")) tradeType = "월세";
   else if (fullText.includes("매매")) tradeType = "매매";
 
-  let price = kvMap["매매가"] || kvMap["보증금"] || kvMap["월세"] || kvMap["가격"] || kvMap["거래가"] || "";
-  if (!price) {
-    const priceMatch = fullText.match(/(?:매매|전세|월세|가격|보증금)\s*[:\s]?\s*([0-9억천만,\/\s]+)/i);
-    if (priceMatch) price = priceMatch[1].trim();
-    else price = "-";
+  let category = parseCategoryFromText(fullText + " " + (kvMap["단지명"] || kvMap["아파트명"] || ""));
+
+  // 1. title (매물특징) 매핑 보완 (웹페이지 탭 타이틀 "부동산뱅크 중개업소 관리자" 예외 처리)
+  let featureTitle = kvMap["매물특징"] || kvMap["상세특징"] || kvMap["특징"] || "";
+  
+  if (!featureTitle) {
+    document.querySelectorAll("tr, dl, div, li, td").forEach(el => {
+      const txt = el.innerText || "";
+      if (txt.includes("매물특징") || txt.includes("특징")) {
+        const val = txt.replace(/매물특징|특징|:/g, "").trim();
+        if (val && val.length > 3 && !val.includes("부동산뱅크 중개업소")) {
+          featureTitle = val;
+        }
+      }
+    });
   }
+
+  let rawTitle = document.querySelector(".detail_title, .title, .subject, .article_title, h1, h2, h3")?.innerText?.trim() || "";
+  let title = featureTitle;
+  if (!title) {
+    if (rawTitle && !rawTitle.includes("부동산뱅크") && !rawTitle.includes("중개업소") && !rawTitle.includes("관리자")) {
+      title = rawTitle;
+    } else {
+      const sizeStr = kvMap["면적"] || kvMap["공급/전용"] || "";
+      title = `${category} ${tradeType} ${sizeStr}`.trim();
+    }
+  }
+
+  // 2. price (금액) 파싱 보완 ("전세가", "145,000만원" 등 캡처)
+  let price = kvMap["전세가"] || kvMap["매매가"] || kvMap["보증금"] || kvMap["전세"] || kvMap["월세"] || kvMap["가격"] || kvMap["거래가"] || kvMap["거래금액"] || "";
+
+  if (!price || price === "-") {
+    const priceNodes = document.querySelectorAll(".price, .price_area, .pay_info, .total_price, td, div");
+    for (const node of priceNodes) {
+      const txt = node.innerText ? node.innerText.trim() : "";
+      if ((txt.includes("만원") || txt.includes("억")) && txt.length < 30 && !txt.includes("관리비") && !txt.includes("합계")) {
+        price = txt.replace(/(매매|전세|월세|가격|보증금|가|:)/g, "").trim();
+        if (price) break;
+      }
+    }
+  }
+
+  if (!price || price === "-") {
+    const priceMatch = fullText.match(/(?:전세가|매매가|전세|월세|보증금|가격|거래가)\s*[:\s]?\s*([0-9억천만,\/\s]+만?원?)/i) || fullText.match(/([0-9,]+\s*만원)/);
+    if (priceMatch) price = priceMatch[1].trim();
+  }
+
+  if (!price) price = "-";
+
+  // 3. maintenance (관리비) 세부관리비 박스 및 관리비 합계 수집 보완 ("350,000원" 수집)
+  let maintenance = kvMap["관리비합계"] || kvMap["총관리비"] || kvMap["세부관리비"] || kvMap["관리비"] || "";
+
+  if (!maintenance || maintenance === "-원" || maintenance === "-" || maintenance === "0원") {
+    document.querySelectorAll(".total_price, .pay_total, .box_green, .green_box, tr, dl, div, p, span, td").forEach(el => {
+      const txt = el.innerText ? el.innerText.trim() : "";
+      if ((txt.includes("관리비") || txt.includes("합계")) && (txt.includes("원") || txt.includes("만"))) {
+        const match = txt.match(/(?:관리비\s*합계|총\s*관리비|세부\s*관리비|합계)\s*[:\s]?\s*([0-9,]+만?원?)/i) || txt.match(/([0-9,]+\s*원)/);
+        if (match && match[1] && (!maintenance || maintenance === "-원" || maintenance === "-")) {
+          maintenance = match[1].trim();
+        }
+      }
+    });
+  }
+
+  if (!maintenance || maintenance === "-원" || maintenance === "-") {
+    const mainMatch = fullText.match(/(?:관리비\s*합계|총\s*관리비|세부\s*관리비)\s*[:\s]?\s*([0-9,]+만?원?)/i);
+    if (mainMatch) maintenance = mainMatch[1].trim();
+  }
+
+  if (!maintenance || maintenance === "-원") maintenance = "-";
 
   // 동/층 & 층수
   let dongFloor = kvMap["동/층"] || kvMap["동"] || kvMap["해당동/층"] || "-";
   let floor = kvMap["층수"] || kvMap["해당층/총층"] || kvMap["층"] || "-";
   if (dongFloor === "-" && floor !== "-") dongFloor = floor;
 
-  // 단지 카테고리
-  let category = parseCategoryFromText(title + " " + fullText + " " + (kvMap["단지명"] || kvMap["아파트명"] || ""));
-
   // 상세 설명
   let description = document.querySelector(".detail_info, .memo, .description, .cont_box, #memo")?.innerText?.trim() || "";
-  if (!description) description = kvMap["상세설명"] || kvMap["매물특징"] || title;
+  if (!description) description = kvMap["상세설명"] || featureTitle || title;
 
   return {
     id: `rbank-${rbankId}`,
@@ -186,7 +241,7 @@ function scrapeRbank(url) {
     size: kvMap["면적"] || kvMap["공급/전용"] || kvMap["전용면적"] || kvMap["공급면적"] || "-",
     floor: floor,
     roomBath: kvMap["방수/욕실수"] || kvMap["방수"] || kvMap["방/욕실"] || "-",
-    maintenance: kvMap["관리비"] || kvMap["월관리비"] || "-",
+    maintenance: maintenance,
     prevDeposit: kvMap["기보증금"] || kvMap["보증금"] || "-",
     direction: kvMap["향"] || kvMap["방향"] || kvMap["거실방향"] || "-",
     entrance: kvMap["현관구조"] || kvMap["구조"] || "-",
