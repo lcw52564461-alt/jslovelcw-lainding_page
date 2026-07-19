@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>부동산 매물 수집기</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #10b981;
+      --danger: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      width: 380px;
+      padding: 16px;
+      background-color: var(--bg-color);
+      color: var(--text);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background-color: rgba(59, 130, 246, 0.2);
+      color: var(--primary);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 500;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 8px 10px;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-secondary {
+      background-color: #334155;
+      color: #f1f5f9;
+    }
+    .btn-secondary:hover {
+      background-color: #475569;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .status-box {
+      font-size: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: none;
+      word-break: break-all;
+    }
+
+    .status-box.success {
+      display: block;
+      background-color: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+
+    .status-box.error {
+      display: block;
+      background-color: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .preview-box {
+      max-height: 160px;
+      overflow-y: auto;
+      background-color: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #a5b4fc;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>🏠 부동산 매물 수집기 <span class="badge">V3</span></h2>
+  </div>
+
+  <!-- API 설정 -->
+  <div class="section">
+    <label class="label" for="apiUrl">Vercel API Endpoint URL</label>
+    <input type="text" id="apiUrl" class="input-field" placeholder="https://your-domain.vercel.app/api/save-property">
+    
+    <label class="label" for="adminPassword" style="margin-top: 8px;">관리자 비밀번호</label>
+    <input type="password" id="adminPassword" class="input-field" value="love1219**" placeholder="비밀번호 입력">
+  </div>
+
+  <!-- 버튼 영역 -->
+  <div class="btn-group">
+    <button id="btnExtract" class="btn btn-secondary">🔍 DOM 추출</button>
+    <button id="btnSend" class="btn btn-primary">🚀 홈페이지로 전송</button>
+  </div>
+
+  <!-- 상태 메시지 -->
+  <div id="statusBox" class="status-box"></div>
+
+  <!-- 데이터 미리보기 -->
+  <div class="section">
+    <label class="label">추출 데이터 미리보기 (JSON)</label>
+    <div id="previewBox" class="preview-box">['홈페이지로 전송' 버튼을 누르면 현재 탭의 매물 데이터를 읽어옵니다.]</div>
+  </div>
+
+  <div class="footer">
+    네이버 부동산 / 부동산뱅크 상세 페이지 지원
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

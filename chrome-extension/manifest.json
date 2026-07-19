@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "부동산 매물 수집기 (네이버 & 부동산뱅크)",
+  "version": "1.0.0",
+  "description": "네이버 부동산 및 부동산뱅크 상세 페이지의 매물 정보를 추출하여 내 홈페이지(Vercel)로 전송합니다.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://land.naver.com/*",
+    "https://m.land.naver.com/*",
+    "https://fin.land.naver.com/*",
+    "https://*.neonet.co.kr/*",
+    "https://*.landbank.co.kr/*",
+    "https://*.vercel.app/*",
+    "http://localhost/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "매물 전송하기"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://land.naver.com/*",
+        "https://m.land.naver.com/*",
+        "https://fin.land.naver.com/*",
+        "https://*.neonet.co.kr/*",
+        "https://*.landbank.co.kr/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,476 +1,528 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>매물 등록/수정 - 잠실사랑공인중개사 관리자</title><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "on-tertiary-fixed-variant": "#6f3900",
-                      "on-background": "#131d23",
-                      "secondary": "#5a5f63",
-                      "body-text": "#424242",
-                      "on-secondary-fixed-variant": "#42474c",
-                      "tertiary-fixed-dim": "#ffb77f",
-                      "inverse-primary": "#9acbff",
-                      "surface-container-highest": "#dae4ed",
-                      "on-primary-fixed-variant": "#004a79",
-                      "surface-dim": "#d1dbe4",
-                      "secondary-container": "#dce0e5",
-                      "canvas": "#ffffff",
-                      "surface-container": "#e5eff8",
-                      "on-secondary-fixed": "#171c20",
-                      "secondary-fixed": "#dfe3e8",
-                      "on-tertiary-container": "#522800",
-                      "on-surface-variant": "#3f4852",
-                      "surface": "#f5faff",
-                      "surface-container-low": "#ebf5fe",
-                      "on-secondary": "#ffffff",
-                      "primary-fixed-dim": "#9acbff",
-                      "primary": "#00629e",
-                      "surface-tint": "#00629e",
-                      "tertiary-container": "#eb7f04",
-                      "on-error-container": "#93000a",
-                      "on-surface": "#131d23",
-                      "error-container": "#ffdad6",
-                      "inverse-surface": "#283238",
-                      "inverse-on-surface": "#e8f2fb",
-                      "surface-variant": "#dae4ed",
-                      "on-tertiary": "#ffffff",
-                      "primary-container": "#00a1ff",
-                      "background": "#f5faff",
-                      "outline": "#6f7883",
-                      "on-secondary-container": "#5e6368",
-                      "tertiary-fixed": "#ffdcc4",
-                      "on-tertiary-fixed": "#2f1500",
-                      "surface-container-lowest": "#ffffff",
-                      "surface-bright": "#f5faff",
-                      "on-primary-fixed": "#001d34",
-                      "error": "#ba1a1a",
-                      "on-error": "#ffffff",
-                      "hairline": "#dae4ed"
-              },
-              "spacing": {
-                      "gutter": "24px",
-                      "margin-desktop": "80px",
-                      "margin-mobile": "16px",
-                      "2xs": "4px",
-                      "xs": "8px",
-                      "sm": "12px",
-                      "md": "16px",
-                      "lg": "24px",
-                      "xl": "32px",
-                      "2xl": "48px"
-              },
-              "borderRadius": {
-                      "DEFAULT": "8px",
-                      "lg": "12px",
-                      "xl": "16px"
-              }
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>매물 등록/수정 - 잠실사랑공인중개사 관리자</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">try {
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "on-tertiary-fixed-variant": "#6f3900",
+              "on-background": "#131d23",
+              "secondary": "#5a5f63",
+              "body-text": "#424242",
+              "on-secondary-fixed-variant": "#42474c",
+              "tertiary-fixed-dim": "#ffb77f",
+              "inverse-primary": "#9acbff",
+              "surface-container-highest": "#dae4ed",
+              "on-primary-fixed-variant": "#004a79",
+              "surface-dim": "#d1dbe4",
+              "secondary-container": "#dce0e5",
+              "canvas": "#ffffff",
+              "surface-container": "#e5eff8",
+              "on-secondary-fixed": "#171c20",
+              "secondary-fixed": "#dfe3e8",
+              "on-tertiary-container": "#522800",
+              "on-surface-variant": "#3f4852",
+              "surface": "#f5faff",
+              "surface-container-low": "#ebf5fe",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#9acbff",
+              "primary": "#00629e",
+              "surface-tint": "#00629e",
+              "tertiary-container": "#eb7f04",
+              "on-error-container": "#93000a",
+              "on-surface": "#131d23",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#283238",
+              "inverse-on-surface": "#e8f2fb",
+              "surface-variant": "#dae4ed",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#00a1ff",
+              "background": "#f5faff",
+              "outline": "#6f7883",
+              "on-secondary-container": "#5e6368",
+              "tertiary-fixed": "#ffdcc4",
+              "on-tertiary-fixed": "#2f1500",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#f5faff",
+              "on-primary-fixed": "#001d34",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+              "hairline": "#dae4ed"
+            },
+            "spacing": {
+              "gutter": "24px",
+              "margin-desktop": "80px",
+              "margin-mobile": "16px",
+              "2xs": "4px",
+              "xs": "8px",
+              "sm": "12px",
+              "md": "16px",
+              "lg": "24px",
+              "xl": "32px",
+              "2xl": "48px"
+            },
+            "borderRadius": {
+              "DEFAULT": "8px",
+              "lg": "12px",
+              "xl": "16px"
             }
           }
         }
-      } catch(_e){}</script>
-<style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
-    </style>
+    } catch (_e) { }</script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
 </head>
+
 <body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col pb-24">
 
-<!-- Top App Bar / Header -->
-<header class="bg-canvas border-b border-hairline sticky top-0 z-50 shadow-sm">
-  <div class="max-w-7xl mx-auto px-gutter h-20 flex items-center justify-between">
-    <div class="flex items-center gap-md">
-      <a class="font-display-lg text-display-lg font-bold text-primary tracking-tight" href="index.html">잠실사랑공인중개사</a>
-      <span class="bg-primary-container/20 text-primary text-xs px-2 py-0.5 rounded font-bold">네이버 매물 18대 스펙 양식</span>
-    </div>
-    <nav class="hidden md:flex items-center gap-lg">
-      <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="index.html">홈</a>
-      <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="news.html">부동산 뉴스</a>
-      <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="properties.html">매물 보기</a>
-      <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors" href="admin.html">관리자 포털</a>
-    </nav>
-  </div>
-</header>
-
-<!-- Main Form Container -->
-<main class="flex-grow max-w-5xl mx-auto px-gutter w-full my-lg">
-  
-  <!-- Page Header -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-md mb-lg border-b border-hairline pb-md">
-    <div>
-      <h1 id="page-main-title" class="font-display-lg text-headline-md md:text-display-lg text-on-surface font-bold">네이버 부동산 표준 매물 등록</h1>
-      <p class="font-body-md text-on-surface-variant mt-xs">네이버페이 부동산 / 부동산뱅크에 입력하는 18가지 세부 스펙 항목과 1:1 완벽 연동 양식입니다.</p>
-    </div>
-    <div class="flex items-center gap-sm">
-      <a href="admin.html" class="inline-flex items-center gap-xs bg-surface-container text-on-surface font-action-md text-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors border border-hairline">
-        <span class="material-symbols-outlined text-sm">arrow_back</span> 관리자로 돌아가기
-      </a>
-    </div>
-  </div>
-
-  <!-- 스마트 매물 텍스트 복사글 1초 자동 채우기 박스 -->
-  <div class="bg-surface-container-low border border-tertiary-container/30 p-md rounded-xl mb-xl shadow-sm">
-    <div class="flex items-center gap-xs text-tertiary-container font-bold text-label-sm mb-xs">
-      <span class="material-symbols-outlined text-sm">content_paste</span> 매물 텍스트 복사글 ➔ 아래 18개 양식 1초 자동 채우기
-    </div>
-    <p class="text-xs text-on-surface-variant mb-sm">네이버/부동산뱅크/문자에 적힌 매물글 텍스트를 복사해서 아래에 붙여넣으시면, 18개 양식 칸으로 1초 만에 쏙 들어갑니다.</p>
-    <div class="flex flex-col sm:flex-row gap-xs">
-      <input type="text" id="smart-write-input" placeholder="예: 리센츠 205동 18층 매매 25억5천 33평 남향 올수리" class="flex-grow px-md py-sm border border-hairline rounded-lg bg-canvas text-body-md focus:border-primary">
-      <button type="button" id="smart-write-btn" class="bg-tertiary-container text-white font-action-md text-sm px-lg py-sm rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-xs shadow-sm whitespace-nowrap">
-        <span class="material-symbols-outlined text-sm">auto_fix_high</span> 18개 양식 자동 채우기
-      </button>
-    </div>
-  </div>
-
-  <!-- FORM START -->
-  <form id="property-form" class="space-y-xl">
-    <input type="hidden" id="prop-id">
-
-    <!-- 1. 기본 분류 및 핵심 거래 정보 -->
-    <div class="bg-canvas border border-hairline p-lg rounded-xl shadow-sm space-y-lg">
-      <div class="border-b border-hairline pb-sm flex items-center gap-xs text-primary font-bold text-headline-sm">
-        <span class="material-symbols-outlined">sell</span> 1. 기본 분류 및 거래 금액 정보
+  <!-- Top App Bar / Header -->
+  <header class="bg-canvas border-b border-hairline sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-gutter h-20 flex items-center justify-between">
+      <div class="flex items-center gap-md">
+        <a class="font-display-lg text-display-lg font-bold text-primary tracking-tight" href="index.html">잠실사랑공인중개사</a>
+        <span class="bg-primary-container/20 text-primary text-xs px-2 py-0.5 rounded font-bold">네이버 매물 18대 스펙 양식</span>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-        
-        <!-- 1. 거래유형 -->
+      <nav class="hidden md:flex items-center gap-lg">
+        <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors"
+          href="index.html">홈</a>
+        <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors"
+          href="news.html">부동산 뉴스</a>
+        <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors"
+          href="properties.html">매물 보기</a>
+        <a class="font-action-md text-action-md text-on-surface-variant hover:text-primary transition-colors"
+          href="admin.html">관리자 포털</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Form Container -->
+  <main class="flex-grow max-w-5xl mx-auto px-gutter w-full my-lg">
+
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-md mb-lg border-b border-hairline pb-md">
+      <div>
+        <h1 id="page-main-title" class="font-display-lg text-headline-md md:text-display-lg text-on-surface font-bold">
+          네이버 부동산 표준 매물 등록</h1>
+        <p class="font-body-md text-on-surface-variant mt-xs">네이버페이 부동산 / 부동산뱅크에 입력하는 18가지 세부 스펙 항목과 1:1 완벽 연동 양식입니다.
+        </p>
+      </div>
+      <div class="flex items-center gap-sm">
+        <a href="admin.html"
+          class="inline-flex items-center gap-xs bg-surface-container text-on-surface font-action-md text-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors border border-hairline">
+          <span class="material-symbols-outlined text-sm">arrow_back</span> 관리자로 돌아가기
+        </a>
+      </div>
+    </div>
+
+    <!-- 스마트 매물 텍스트 복사글 1초 자동 채우기 박스 -->
+    <div class="bg-surface-container-low border border-tertiary-container/30 p-md rounded-xl mb-xl shadow-sm">
+      <div class="flex items-center gap-xs text-tertiary-container font-bold text-label-sm mb-xs">
+        <span class="material-symbols-outlined text-sm">content_paste</span> 매물 텍스트 복사글 ➔ 아래 18개 양식 1초 자동 채우기
+      </div>
+      <p class="text-xs text-on-surface-variant mb-sm">네이버/부동산뱅크/문자에 적힌 매물글 텍스트를 복사해서 아래에 붙여넣으시면, 18개 양식 칸으로 1초 만에 쏙
+        들어갑니다.</p>
+      <div class="flex flex-col sm:flex-row gap-xs">
+        <input type="text" id="smart-write-input" placeholder="예: 리센츠 205동 18층 매매 25억5천 33평 남향 올수리"
+          class="flex-grow px-md py-sm border border-hairline rounded-lg bg-canvas text-body-md focus:border-primary">
+        <button type="button" id="smart-write-btn"
+          class="bg-tertiary-container text-white font-action-md text-sm px-lg py-sm rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-xs shadow-sm whitespace-nowrap">
+          <span class="material-symbols-outlined text-sm">auto_fix_high</span> 18개 양식 자동 채우기
+        </button>
+      </div>
+    </div>
+
+    <!-- FORM START -->
+    <form id="property-form" class="space-y-xl">
+      <input type="hidden" id="prop-id">
+
+      <!-- 1. 기본 분류 및 핵심 거래 정보 -->
+      <div class="bg-canvas border border-hairline p-lg rounded-xl shadow-sm space-y-lg">
+        <div class="border-b border-hairline pb-sm flex items-center gap-xs text-primary font-bold text-headline-sm">
+          <span class="material-symbols-outlined">sell</span> 1. 기본 분류 및 거래 금액 정보
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+
+          <!-- 1. 거래유형 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">1. 거래유형 *</label>
+            <div class="flex flex-wrap gap-xs">
+              <label
+                class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
+                <input type="radio" name="tx_type" value="매매" checked class="text-primary focus:ring-0"> 매매
+              </label>
+              <label
+                class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
+                <input type="radio" name="tx_type" value="전세" class="text-primary focus:ring-0"> 전세
+              </label>
+              <label
+                class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
+                <input type="radio" name="tx_type" value="월세" class="text-primary focus:ring-0"> 월세
+              </label>
+              <label
+                class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
+                <input type="radio" name="tx_type" value="단기임대" class="text-primary focus:ring-0"> 단기임대
+              </label>
+            </div>
+          </div>
+
+          <!-- 2. 단지명 / 부동산종류 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">2. 단지명 / 부동산종류 *</label>
+            <select id="complex-select"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+              <option value="리센츠">리센츠 (Ricenz)</option>
+              <option value="엘스">엘스 (Els)</option>
+              <option value="트리지움">트리지움 (Trigeum)</option>
+              <option value="아파트">기타 아파트</option>
+              <option value="상가/사무실">상가 / 사무실</option>
+              <option value="오피스텔">오피스텔</option>
+              <option value="재건축/재개발">재건축 / 재개발</option>
+            </select>
+          </div>
+
+          <!-- 3. 해당동 / 층 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">3. 해당동 / 층 (예: 205동 18층) *</label>
+            <input type="text" id="dong-floor-input" placeholder="예: 205동 18층 (또는 고층)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 4. 금액 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">4. 금액 (매매가/보증금/월세) *</label>
+            <input type="text" id="price-input" placeholder="예: 25억 5,000만 / 11억 5,000만"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary font-bold text-primary">
+          </div>
+
+          <!-- 8. 관리비 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">8. 관리비 (예: 약 25만원)</label>
+            <input type="text" id="maintenance-input" placeholder="예: 약 25만원 (사용량 별도)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 9. 기보증금 / 월세 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">9. 기보증금 / 월세 (기존 임대차)</label>
+            <input type="text" id="prev-deposit-input" placeholder="예: 5억원 / 100만원"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. 건물 스펙 및 면적/구조 상세 정보 -->
+      <div class="bg-canvas border border-hairline p-lg rounded-xl shadow-sm space-y-lg">
+        <div class="border-b border-hairline pb-sm flex items-center gap-xs text-primary font-bold text-headline-sm">
+          <span class="material-symbols-outlined">straighten</span> 2. 면적, 층수, 구조 및 시설 상세 스펙
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+
+          <!-- 5. 면적 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">5. 면적 (공급 / 전용) *</label>
+            <input type="text" id="size-input" placeholder="예: 공급 109.99㎡ / 전용 84.99㎡ (33평)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 6. 층수 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">6. 층수 (해당층 / 총층수) *</label>
+            <input type="text" id="floor-input" placeholder="예: 18 / 28층 (중층)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 7. 방수 / 욕실수 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">7. 방수 / 욕실수 *</label>
+            <input type="text" id="room-bath-input" placeholder="예: 방 3개 / 욕실 2개"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 10. 방향 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">10. 방향 (거실/안방 기준)</label>
+            <input type="text" id="direction-input" placeholder="예: 남향 (남서향)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 11. 현관구조 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">11. 현관구조</label>
+            <select id="entrance-select"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+              <option value="계단식">계단식</option>
+              <option value="복도식">복도식</option>
+              <option value="복합식">복합식</option>
+            </select>
+          </div>
+
+          <!-- 12. 난방방식 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">12. 난방 방식</label>
+            <input type="text" id="heating-input" placeholder="예: 지역난방 / 열병합"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 13. 입주가능일 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">13. 입주가능일 *</label>
+            <input type="text" id="movein-date-input" placeholder="예: 즉시입주 (협의가능)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 14. 총주차대수 / 세대당대수 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">14. 주차대수 (총 / 세대당)</label>
+            <input type="text" id="parking-input" placeholder="예: 총 5,500대 / 세대당 1.3대"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 15. 해당면적 세대수 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">15. 해당면적 세대수</label>
+            <input type="text" id="households-input" placeholder="예: 1,200세대"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 16. 건축물용도 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">16. 건축물용도</label>
+            <input type="text" id="building-use-input" placeholder="예: 공동주택 (아파트)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 17. 사용승인일 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">17. 준공/사용승인일</label>
+            <input type="text" id="approval-date-input" placeholder="예: 2008년 7월 31일"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+          <!-- 18. 주소 -->
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">18. 매물 소재지 주소 *</label>
+            <input type="text" id="address-input" placeholder="예: 서울특별시 송파구 올림픽로 135 (잠실동)"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3. 매물 홍보 및 상세 설명 글 -->
+      <div class="bg-canvas border border-hairline p-lg rounded-xl shadow-sm space-y-lg">
+        <div class="border-b border-hairline pb-sm flex items-center gap-xs text-primary font-bold text-headline-sm">
+          <span class="material-symbols-outlined">description</span> 3. 매물 특징 헤드라인 및 상세 브리핑 설명
+        </div>
+
+        <!-- 19. 매물 한줄 특징 -->
         <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">1. 거래유형 *</label>
-          <div class="flex flex-wrap gap-xs">
-            <label class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
-              <input type="radio" name="tx_type" value="매매" checked class="text-primary focus:ring-0"> 매매
-            </label>
-            <label class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
-              <input type="radio" name="tx_type" value="전세" class="text-primary focus:ring-0"> 전세
-            </label>
-            <label class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
-              <input type="radio" name="tx_type" value="월세" class="text-primary focus:ring-0"> 월세
-            </label>
-            <label class="flex items-center gap-1 cursor-pointer text-sm bg-surface-container-low px-md py-xs rounded border border-hairline">
-              <input type="radio" name="tx_type" value="단기임대" class="text-primary focus:ring-0"> 단기임대
-            </label>
+          <label class="block text-xs font-bold text-on-surface-variant mb-xs">19. 매물 한줄 특징 (헤드라인 제목) *</label>
+          <input type="text" id="title-input" placeholder="예: 리센츠 33평형 남향 올수리 최선호 A타입 로얄층 매매"
+            class="w-full border-hairline rounded-lg p-md bg-surface-container-low text-body-md focus:border-primary font-bold">
+        </div>
+
+        <!-- 20. 매물 상세 설명 -->
+        <div>
+          <label class="block text-xs font-bold text-on-surface-variant mb-xs">20. 매물 상세 설명 (중개 브리핑 글) *</label>
+          <textarea id="desc-input" rows="6" placeholder="매물의 상세 정보, 옵션, 교통편, 입지 조건 등을 자세히 적어주세요."
+            class="w-full border-hairline rounded-lg p-md bg-surface-container-low text-body-md focus:border-primary"></textarea>
+        </div>
+
+        <!-- 21. 대표 이미지 URL 및 특징 태그 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">21. 대표 이미지 URL</label>
+            <input type="text" id="image-url-input" placeholder="https://..."
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant mb-xs">22. 특징 태그 (쉼표로 구분)</label>
+            <input type="text" id="features-input" placeholder="남향, 올수리, 역세권, 확장형, 즉시입주"
+              class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
           </div>
         </div>
-
-        <!-- 2. 단지명 / 부동산종류 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">2. 단지명 / 부동산종류 *</label>
-          <select id="complex-select" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-            <option value="리센츠">리센츠 (Ricenz)</option>
-            <option value="엘스">엘스 (Els)</option>
-            <option value="트리지움">트리지움 (Trigeum)</option>
-            <option value="아파트">기타 아파트</option>
-            <option value="상가/사무실">상가 / 사무실</option>
-            <option value="오피스텔">오피스텔</option>
-            <option value="재건축/재개발">재건축 / 재개발</option>
-          </select>
-        </div>
-
-        <!-- 3. 해당동 / 층 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">3. 해당동 / 층 (예: 205동 18층) *</label>
-          <input type="text" id="dong-floor-input" placeholder="예: 205동 18층 (또는 고층)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 4. 금액 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">4. 금액 (매매가/보증금/월세) *</label>
-          <input type="text" id="price-input" placeholder="예: 25억 5,000만 / 11억 5,000만" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary font-bold text-primary">
-        </div>
-
-        <!-- 8. 관리비 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">8. 관리비 (예: 약 25만원)</label>
-          <input type="text" id="maintenance-input" placeholder="예: 약 25만원 (사용량 별도)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 9. 기보증금 / 월세 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">9. 기보증금 / 월세 (기존 임대차)</label>
-          <input type="text" id="prev-deposit-input" placeholder="예: 5억원 / 100만원" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 2. 건물 스펙 및 면적/구조 상세 정보 -->
-    <div class="bg-canvas border border-hairline p-lg rounded-xl shadow-sm space-y-lg">
-      <div class="border-b border-hairline pb-sm flex items-center gap-xs text-primary font-bold text-headline-sm">
-        <span class="material-symbols-outlined">straighten</span> 2. 면적, 층수, 구조 및 시설 상세 스펙
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-
-        <!-- 5. 면적 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">5. 면적 (공급 / 전용) *</label>
-          <input type="text" id="size-input" placeholder="예: 공급 109.99㎡ / 전용 84.99㎡ (33평)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 6. 층수 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">6. 층수 (해당층 / 총층수) *</label>
-          <input type="text" id="floor-input" placeholder="예: 18 / 28층 (중층)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 7. 방수 / 욕실수 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">7. 방수 / 욕실수 *</label>
-          <input type="text" id="room-bath-input" placeholder="예: 방 3개 / 욕실 2개" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 10. 방향 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">10. 방향 (거실/안방 기준)</label>
-          <input type="text" id="direction-input" placeholder="예: 남향 (남서향)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 11. 현관구조 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">11. 현관구조</label>
-          <select id="entrance-select" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-            <option value="계단식">계단식</option>
-            <option value="복도식">복도식</option>
-            <option value="복합식">복합식</option>
-          </select>
-        </div>
-
-        <!-- 12. 난방방식 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">12. 난방 방식</label>
-          <input type="text" id="heating-input" placeholder="예: 지역난방 / 열병합" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 13. 입주가능일 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">13. 입주가능일 *</label>
-          <input type="text" id="movein-date-input" placeholder="예: 즉시입주 (협의가능)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 14. 총주차대수 / 세대당대수 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">14. 주차대수 (총 / 세대당)</label>
-          <input type="text" id="parking-input" placeholder="예: 총 5,500대 / 세대당 1.3대" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 15. 해당면적 세대수 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">15. 해당면적 세대수</label>
-          <input type="text" id="households-input" placeholder="예: 1,200세대" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 16. 건축물용도 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">16. 건축물용도</label>
-          <input type="text" id="building-use-input" placeholder="예: 공동주택 (아파트)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 17. 사용승인일 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">17. 준공/사용승인일</label>
-          <input type="text" id="approval-date-input" placeholder="예: 2008년 7월 31일" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-        <!-- 18. 주소 -->
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">18. 매물 소재지 주소 *</label>
-          <input type="text" id="address-input" placeholder="예: 서울특별시 송파구 올림픽로 135 (잠실동)" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 3. 매물 홍보 및 상세 설명 글 -->
-    <div class="bg-canvas border border-hairline p-lg rounded-xl shadow-sm space-y-lg">
-      <div class="border-b border-hairline pb-sm flex items-center gap-xs text-primary font-bold text-headline-sm">
-        <span class="material-symbols-outlined">description</span> 3. 매물 특징 헤드라인 및 상세 브리핑 설명
       </div>
 
-      <!-- 19. 매물 한줄 특징 -->
-      <div>
-        <label class="block text-xs font-bold text-on-surface-variant mb-xs">19. 매물 한줄 특징 (헤드라인 제목) *</label>
-        <input type="text" id="title-input" placeholder="예: 리센츠 33평형 남향 올수리 최선호 A타입 로얄층 매매" class="w-full border-hairline rounded-lg p-md bg-surface-container-low text-body-md focus:border-primary font-bold">
+      <!-- 하단 제출 버튼 -->
+      <div class="flex items-center justify-end gap-md pt-md">
+        <a href="admin.html"
+          class="px-xl py-md rounded-lg border border-hairline text-on-surface font-action-md hover:bg-surface-container transition-colors">취소</a>
+        <button type="submit" id="submit-btn"
+          class="px-2xl py-md rounded-lg bg-primary text-white font-bold font-action-md shadow-md hover:bg-primary/90 transition-all flex items-center gap-xs">
+          <span class="material-symbols-outlined">check_circle</span> 매물 등록 / 수정 완료하기
+        </button>
       </div>
 
-      <!-- 20. 매물 상세 설명 -->
-      <div>
-        <label class="block text-xs font-bold text-on-surface-variant mb-xs">20. 매물 상세 설명 (중개 브리핑 글) *</label>
-        <textarea id="desc-input" rows="6" placeholder="매물의 상세 정보, 옵션, 교통편, 입지 조건 등을 자세히 적어주세요." class="w-full border-hairline rounded-lg p-md bg-surface-container-low text-body-md focus:border-primary"></textarea>
-      </div>
+    </form>
+  </main>
 
-      <!-- 21. 대표 이미지 URL 및 특징 태그 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">21. 대표 이미지 URL</label>
-          <input type="text" id="image-url-input" placeholder="https://..." class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-on-surface-variant mb-xs">22. 특징 태그 (쉼표로 구분)</label>
-          <input type="text" id="features-input" placeholder="남향, 올수리, 역세권, 확장형, 즉시입주" class="w-full border-hairline rounded-lg p-sm bg-surface-container-low text-body-md focus:border-primary">
-        </div>
-      </div>
-    </div>
-
-    <!-- 하단 제출 버튼 -->
-    <div class="flex items-center justify-end gap-md pt-md">
-      <a href="admin.html" class="px-xl py-md rounded-lg border border-hairline text-on-surface font-action-md hover:bg-surface-container transition-colors">취소</a>
-      <button type="submit" id="submit-btn" class="px-2xl py-md rounded-lg bg-primary text-white font-bold font-action-md shadow-md hover:bg-primary/90 transition-all flex items-center gap-xs">
-        <span class="material-symbols-outlined">check_circle</span> 매물 등록 / 수정 완료하기
-      </button>
-    </div>
-
-  </form>
-</main>
-
-<script src="db.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  if (!isAdmin()) {
-    alert('관리자 인증이 필요합니다.');
-    window.location.href = 'admin.html?redirect=property-write.html';
-    return;
-  }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const propId = urlParams.get('id');
-
-  // 기존 매물 수정 모드
-  if (propId) {
-    document.getElementById('page-main-title').textContent = '네이버 표준 매물 정보 수정';
-    const item = await getPropertyById(propId);
-    if (item) {
-      document.getElementById('prop-id').value = item.id || '';
-      document.getElementById('complex-select').value = item.category || '리센츠';
-      document.getElementById('dong-floor-input').value = item.dongFloor || '';
-      document.getElementById('price-input').value = item.price || '';
-      document.getElementById('size-input').value = item.size || '';
-      document.getElementById('floor-input').value = item.floor || '';
-      document.getElementById('room-bath-input').value = item.roomBath || '';
-      document.getElementById('maintenance-input').value = item.maintenance || '';
-      document.getElementById('prev-deposit-input').value = item.prevDeposit || '';
-      document.getElementById('direction-input').value = item.direction || '';
-      document.getElementById('entrance-select').value = item.entrance || '계단식';
-      document.getElementById('heating-input').value = item.heating || '';
-      document.getElementById('movein-date-input').value = item.moveInDate || '';
-      document.getElementById('parking-input').value = item.parking || '';
-      document.getElementById('households-input').value = item.households || '';
-      document.getElementById('building-use-input').value = item.buildingUse || '';
-      document.getElementById('approval-date-input').value = item.approvalDate || '';
-      document.getElementById('address-input').value = item.address || '';
-      document.getElementById('title-input').value = item.title || '';
-      document.getElementById('desc-input').value = item.description || '';
-      document.getElementById('image-url-input').value = item.image || '';
-      document.getElementById('features-input').value = (item.features || []).join(', ');
-
-      const radios = document.getElementsByName('tx_type');
-      for (let r of radios) {
-        if (r.value === item.tradeType) r.checked = true;
-      }
-    }
-  }
-
-  // 스마트 매물 텍스트 복사글 1초 자동 채우기 버튼 핸들러
-  const smartWriteBtn = document.getElementById('smart-write-btn');
-  const smartWriteInput = document.getElementById('smart-write-input');
-
-  if (smartWriteBtn && smartWriteInput) {
-    smartWriteBtn.addEventListener('click', () => {
-      const val = smartWriteInput.value.trim();
-      if (!val) {
-        alert('매물 텍스트를 입력 또는 붙여넣어 주세요!');
+  <script src="db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!isAdmin()) {
+        alert('관리자 인증이 필요합니다.');
+        window.location.href = 'admin.html?redirect=property-write.html';
         return;
       }
 
-      try {
-        const p = parseRawTextToProperty(val);
-        document.getElementById('title-input').value = p.title || '';
-        document.getElementById('price-input').value = p.price || '';
-        document.getElementById('size-input').value = p.size || '';
-        document.getElementById('floor-input').value = p.floor || '';
-        document.getElementById('dong-floor-input').value = p.dongFloor || p.floor || '';
-        document.getElementById('room-bath-input').value = p.roomBath || '방 3개 / 욕실 2개';
-        document.getElementById('maintenance-input').value = p.maintenance || '약 25만원';
-        document.getElementById('prev-deposit-input').value = p.prevDeposit || '-';
-        document.getElementById('direction-input').value = p.direction || '남향';
-        document.getElementById('entrance-select').value = p.entrance || '계단식';
-        document.getElementById('heating-input').value = p.heating || '지역난방 / 열병합';
-        document.getElementById('movein-date-input').value = p.moveInDate || '즉시입주 (협의가능)';
-        document.getElementById('parking-input').value = p.parking || '세대당 1.3대';
-        document.getElementById('households-input').value = p.households || '1,200세대';
-        document.getElementById('building-use-input').value = p.buildingUse || '공동주택';
-        document.getElementById('approval-date-input').value = p.approvalDate || '2008년 7월';
-        document.getElementById('address-input').value = p.address || '서울특별시 송파구 잠실동';
-        document.getElementById('desc-input').value = p.description || '';
-        document.getElementById('features-input').value = (p.features || []).join(', ');
-        
-        if (p.category) {
-          const select = document.getElementById('complex-select');
-          for (let opt of select.options) {
-            if (opt.value === p.category || p.category.includes(opt.value)) {
-              select.value = opt.value;
-              break;
-            }
+      const urlParams = new URLSearchParams(window.location.search);
+      const propId = urlParams.get('id');
+
+      // 기존 매물 수정 모드
+      if (propId) {
+        document.getElementById('page-main-title').textContent = '네이버 표준 매물 정보 수정';
+        const item = await getPropertyById(propId);
+        if (item) {
+          document.getElementById('prop-id').value = item.id || '';
+          document.getElementById('complex-select').value = item.category || '리센츠';
+          document.getElementById('dong-floor-input').value = item.dongFloor || '';
+          document.getElementById('price-input').value = item.price || '';
+          document.getElementById('size-input').value = item.size || '';
+          document.getElementById('floor-input').value = item.floor || '';
+          document.getElementById('room-bath-input').value = item.roomBath || '';
+          document.getElementById('maintenance-input').value = item.maintenance || '';
+          document.getElementById('prev-deposit-input').value = item.prevDeposit || '';
+          document.getElementById('direction-input').value = item.direction || '';
+          document.getElementById('entrance-select').value = item.entrance || '계단식';
+          document.getElementById('heating-input').value = item.heating || '';
+          document.getElementById('movein-date-input').value = item.moveInDate || '';
+          document.getElementById('parking-input').value = item.parking || '';
+          document.getElementById('households-input').value = item.households || '';
+          document.getElementById('building-use-input').value = item.buildingUse || '';
+          document.getElementById('approval-date-input').value = item.approvalDate || '';
+          document.getElementById('address-input').value = item.address || '';
+          document.getElementById('title-input').value = item.title || '';
+          document.getElementById('desc-input').value = item.description || '';
+          document.getElementById('image-url-input').value = item.image || '';
+          document.getElementById('features-input').value = (item.features || []).join(', ');
+
+          const radios = document.getElementsByName('tx_type');
+          for (let r of radios) {
+            if (r.value === item.tradeType) r.checked = true;
           }
         }
-
-        const radios = document.getElementsByName('tx_type');
-        for (let r of radios) {
-          if (r.value === p.tradeType) r.checked = true;
-        }
-
-        alert(`🎉 텍스트 분석 완료! 아래 18가지 폼 칸에 내용이 1초 만에 모두 채워졌습니다.`);
-      } catch (err) {
-        alert('텍스트 분석 오류: ' + err.message);
       }
+
+      // 스마트 매물 텍스트 복사글 1초 자동 채우기 버튼 핸들러
+      const smartWriteBtn = document.getElementById('smart-write-btn');
+      const smartWriteInput = document.getElementById('smart-write-input');
+
+      if (smartWriteBtn && smartWriteInput) {
+        smartWriteBtn.addEventListener('click', () => {
+          const val = smartWriteInput.value.trim();
+          if (!val) {
+            alert('매물 텍스트를 입력 또는 붙여넣어 주세요!');
+            return;
+          }
+
+          try {
+            const p = parseRawTextToProperty(val);
+            document.getElementById('title-input').value = p.title || '';
+            document.getElementById('price-input').value = p.price || '';
+            document.getElementById('size-input').value = p.size || '';
+            document.getElementById('floor-input').value = p.floor || '';
+            document.getElementById('dong-floor-input').value = p.dongFloor || p.floor || '';
+            document.getElementById('room-bath-input').value = p.roomBath || '방 3개 / 욕실 2개';
+            document.getElementById('maintenance-input').value = p.maintenance || '약 25만원';
+            document.getElementById('prev-deposit-input').value = p.prevDeposit || '-';
+            document.getElementById('direction-input').value = p.direction || '남향';
+            document.getElementById('entrance-select').value = p.entrance || '계단식';
+            document.getElementById('heating-input').value = p.heating || '지역난방 / 열병합';
+            document.getElementById('movein-date-input').value = p.moveInDate || '즉시입주 (협의가능)';
+            document.getElementById('parking-input').value = p.parking || '세대당 1.3대';
+            document.getElementById('households-input').value = p.households || '1,200세대';
+            document.getElementById('building-use-input').value = p.buildingUse || '공동주택';
+            document.getElementById('approval-date-input').value = p.approvalDate || '2008년 7월';
+            document.getElementById('address-input').value = p.address || '서울특별시 송파구 잠실동';
+            document.getElementById('desc-input').value = p.description || '';
+            document.getElementById('features-input').value = (p.features || []).join(', ');
+
+            if (p.category) {
+              const select = document.getElementById('complex-select');
+              for (let opt of select.options) {
+                if (opt.value === p.category || p.category.includes(opt.value)) {
+                  select.value = opt.value;
+                  break;
+                }
+              }
+            }
+
+            const radios = document.getElementsByName('tx_type');
+            for (let r of radios) {
+              if (r.value === p.tradeType) r.checked = true;
+            }
+
+            alert(`🎉 텍스트 분석 완료! 아래 18가지 폼 칸에 내용이 1초 만에 모두 채워졌습니다.`);
+          } catch (err) {
+            alert('텍스트 분석 오류: ' + err.message);
+          }
+        });
+      }
+
+      // Form Submit Handler
+      const form = document.getElementById('property-form');
+      const submitBtn = document.getElementById('submit-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> 저장 중...';
+        submitBtn.disabled = true;
+
+        const txTypeRadio = document.querySelector('input[name="tx_type"]:checked');
+        const tradeType = txTypeRadio ? txTypeRadio.value : '매매';
+
+        const featuresRaw = document.getElementById('features-input').value;
+        const featuresArr = featuresRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+
+        const propData = {
+          id: document.getElementById('prop-id').value || null,
+          tradeType: tradeType,
+          category: document.getElementById('complex-select').value,
+          dongFloor: document.getElementById('dong-floor-input').value,
+          price: document.getElementById('price-input').value,
+          size: document.getElementById('size-input').value,
+          floor: document.getElementById('floor-input').value,
+          roomBath: document.getElementById('room-bath-input').value,
+          maintenance: document.getElementById('maintenance-input').value,
+          prevDeposit: document.getElementById('prev-deposit-input').value,
+          direction: document.getElementById('direction-input').value,
+          entrance: document.getElementById('entrance-select').value,
+          heating: document.getElementById('heating-input').value,
+          moveInDate: document.getElementById('movein-date-input').value,
+          parking: document.getElementById('parking-input').value,
+          households: document.getElementById('households-input').value,
+          buildingUse: document.getElementById('building-use-input').value,
+          approvalDate: document.getElementById('approval-date-input').value,
+          address: document.getElementById('address-input').value || '서울특별시 송파구 잠실동',
+          title: document.getElementById('title-input').value,
+          description: document.getElementById('desc-input').value,
+          image: document.getElementById('image-url-input').value || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
+          features: featuresArr
+        };
+
+        await saveProperty(propData);
+        alert('🎉 매물이 성공적으로 저장되었습니다!');
+        window.location.href = 'properties.html';
+      });
     });
-  }
+  </script>
+</body>
 
-  // Form Submit Handler
-  const form = document.getElementById('property-form');
-  const submitBtn = document.getElementById('submit-btn');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> 저장 중...';
-    submitBtn.disabled = true;
-
-    const txTypeRadio = document.querySelector('input[name="tx_type"]:checked');
-    const tradeType = txTypeRadio ? txTypeRadio.value : '매매';
-
-    const featuresRaw = document.getElementById('features-input').value;
-    const featuresArr = featuresRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
-
-    const propData = {
-      id: document.getElementById('prop-id').value || null,
-      tradeType: tradeType,
-      category: document.getElementById('complex-select').value,
-      dongFloor: document.getElementById('dong-floor-input').value,
-      price: document.getElementById('price-input').value,
-      size: document.getElementById('size-input').value,
-      floor: document.getElementById('floor-input').value,
-      roomBath: document.getElementById('room-bath-input').value,
-      maintenance: document.getElementById('maintenance-input').value,
-      prevDeposit: document.getElementById('prev-deposit-input').value,
-      direction: document.getElementById('direction-input').value,
-      entrance: document.getElementById('entrance-select').value,
-      heating: document.getElementById('heating-input').value,
-      moveInDate: document.getElementById('movein-date-input').value,
-      parking: document.getElementById('parking-input').value,
-      households: document.getElementById('households-input').value,
-      buildingUse: document.getElementById('building-use-input').value,
-      approvalDate: document.getElementById('approval-date-input').value,
-      address: document.getElementById('address-input').value || '서울특별시 송파구 잠실동',
-      title: document.getElementById('title-input').value,
-      description: document.getElementById('desc-input').value,
-      image: document.getElementById('image-url-input').value || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
-      features: featuresArr
-    };
-
-    await saveProperty(propData);
-    alert('🎉 매물이 성공적으로 저장되었습니다!');
-    window.location.href = 'properties.html';
-  });
-});
-</script>
-</body></html>
+</html>
