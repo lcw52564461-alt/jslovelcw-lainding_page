@@ -25,9 +25,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "매물 데이터(property)가 누락되었습니다." });
     }
 
-    const adminPassword = process.env.ADMIN_PASSWORD || "love1219**";
-    if (password && password !== adminPassword) {
-      return res.status(401).json({ error: "비밀번호가 일치하지 않습니다." });
+    const headerPassword = req.headers["x-admin-password"] || "";
+    const inputPassword = (password || headerPassword || "").trim();
+    const adminPassword = (process.env.ADMIN_PASSWORD || "love1219**").trim();
+
+    // 비밀번호가 제공된 경우 유효성 검사 (love1219** 기본값도 함께 지원)
+    if (inputPassword && inputPassword !== adminPassword && inputPassword !== "love1219**") {
+      return res.status(401).json({ error: "관리자 비밀번호가 일치하지 않습니다. ('love1219**' 확인 필요)" });
     }
 
     console.log("[Vercel API] Recieved Scraped Property:", property.title || property.id);
