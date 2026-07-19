@@ -43,8 +43,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!apiUrl) {
       showStatus("⚠️ Vercel API Endpoint 주소를 입력해주세요.", "error");
+      alert("⚠️ Vercel API Endpoint 주소를 입력해주세요.");
       return;
     }
+
+    btnSend.disabled = true;
+    btnSend.innerText = "⏳ 전송 중...";
+
+    let isHandled = false;
+    const safetyTimer = setTimeout(() => {
+      if (!isHandled) {
+        isHandled = true;
+        btnSend.disabled = false;
+        btnSend.innerText = "🚀 홈페이지로 전송";
+        showStatus("❌ 서버 응답 대기 시간이 초과되었습니다 (15초 타임아웃).", "error");
+        alert("❌ 서버 응답 대기 시간이 초과되었습니다.");
+      }
+    }, 15000);
 
     try {
       showStatus("1/2단계: 페이지 DOM에서 매물 정보 추출 중...", "info");
@@ -61,20 +76,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         apiUrl: apiUrl,
         adminPassword: adminPassword
       }, (response) => {
+        if (isHandled) return;
+        isHandled = true;
+        clearTimeout(safetyTimer);
+
+        btnSend.disabled = false;
+        btnSend.innerText = "🚀 홈페이지로 전송";
+
         if (chrome.runtime.lastError) {
-          showStatus("❌ 전송 실패: " + chrome.runtime.lastError.message, "error");
+          const errMessage = chrome.runtime.lastError.message;
+          showStatus("❌ 전송 실패: " + errMessage, "error");
+          alert("❌ 전송 실패: " + errMessage);
           return;
         }
 
         if (response && response.success) {
           showStatus("🎉 " + response.message, "success");
+          alert("🎉 " + response.message);
         } else {
-          showStatus("❌ 전송 실패: " + (response ? response.error : "응답 없음"), "error");
+          const errMessage = response ? response.error : "서버 응답이 없습니다.";
+          showStatus("❌ 전송 실패: " + errMessage, "error");
+          alert("❌ 전송 실패: " + errMessage);
         }
       });
 
     } catch (error) {
-      showStatus("❌ 오류 발생: " + error.message, "error");
+      if (!isHandled) {
+        isHandled = true;
+        clearTimeout(safetyTimer);
+        btnSend.disabled = false;
+        btnSend.innerText = "🚀 홈페이지로 전송";
+        showStatus("❌ 오류 발생: " + error.message, "error");
+        alert("❌ 오류 발생: " + error.message);
+      }
     }
   });
 

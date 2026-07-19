@@ -22,6 +22,9 @@ async function handleSendToVercel(propertyData, apiUrl, adminPassword) {
 
   console.log("[Background] Sending data to Vercel API:", apiUrl, propertyData);
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 12000);
+
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -32,8 +35,11 @@ async function handleSendToVercel(propertyData, apiUrl, adminPassword) {
       body: JSON.stringify({
         password: adminPassword || "love1219**",
         property: propertyData
-      })
+      }),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     const contentType = response.headers.get("content-type") || "";
     const text = await response.text();
@@ -42,7 +48,7 @@ async function handleSendToVercel(propertyData, apiUrl, adminPassword) {
     try {
       result = JSON.parse(text);
     } catch (e) {
-      // JSON 파싱 실패시 text 유지
+      // JSON 파싱 실패 시 text 유지
     }
 
     // 1. 응답 상태가 200 OK가 아닌 경우 예외 처리
@@ -57,29 +63,25 @@ async function handleSendToVercel(propertyData, apiUrl, adminPassword) {
         throw new Error(`[401 에러] 관리자 비밀번호가 일치하지 않습니다. 입력된 비밀번호를 다시 확인해 주세요.`);
       }
       if (response.status >= 500) {
-        throw new Error(`[${response.status} 서버 에러] Vercel 서버 내부 오류가 발생했습니다.\nVercel 대시보드의 함수 로그(Logs)를 확인해 주세요.`);
+        throw new Error(`[${response.status} 서버 에러] Vercel 서버 오류가 발생했습니다.\n(${result.error || text.substring(0, 80)})`);
       }
       throw new Error(`[HTTP ${response.status}] 서버 응답 오류가 발생했습니다.`);
     }
 
-    // 2. JSON 파싱 검사
-    let result;
-    try {
-      result = JSON.parse(text);
-    } catch (e) {
-      throw new Error(`서버 응답이 JSON 형식이 아닙니다.\n서버 주소가 잘못되었거나 HTML 에러 페이지가 반환되었습니다.\n(응답 내용: ${text.substring(0, 60)}...)`);
-    }
-
     return {
       success: true,
-      message: "매물이 홈페이지(Vercel)로 성공적으로 전송되었습니다!",
+      message: result.message || "매물이 홈페이지(Vercel)로 성공적으로 전송되었습니다!",
       serverResult: result
     };
   } catch (error) {
+    clearTimeout(timeoutId);
     console.error("[Background Error]", error);
+    const isTimeout = error.name === "AbortError";
+    const msg = isTimeout ? "Vercel 서버 응답 대기 시간(12초)이 초과되었습니다. 네트워크 상태나 API 주소를 확인해 주세요." : (error.message || "서버 통신 중 네트워크 오류가 발생했습니다.");
     return {
       success: false,
-      error: error.message || "서버 통신 중 네트워크 오류가 발생했습니다."
+      error: msg
     };
+  }
   }
 }

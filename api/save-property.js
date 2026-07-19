@@ -6,7 +6,7 @@
 export default async function handler(req, res) {
   // CORS 헤더 설정
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Admin-Password");
   res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 
@@ -29,66 +29,75 @@ export default async function handler(req, res) {
     const inputPassword = (password || headerPassword || "").trim();
     const adminPassword = (process.env.ADMIN_PASSWORD || "love1219**").trim();
 
-    // 비밀번호 검증 (love1219** 기본값도 함께 지원)
+    // 비밀번호 검증 (love1219** 기본값 지원)
     if (inputPassword && inputPassword !== adminPassword && inputPassword !== "love1219**") {
       return res.status(401).json({ error: "관리자 비밀번호가 일치하지 않습니다. ('love1219**' 확인 필요)" });
     }
 
     console.log("[Vercel API] Received Scraped Property:", property.title || property.id);
 
-    // Supabase 설정 (환경변수 또는 기본값)
+    // Supabase 설정
     const supabaseUrl = process.env.SUPABASE_URL || "https://ukcbvzyyfzwqotvareil.supabase.co";
     const supabaseKey = process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || "sb_publishable_7ckpmsNs6bQJKtALe898vw_hu0v2xF1";
 
     const supabaseEndpoint = `${supabaseUrl}/rest/v1/properties`;
 
-    // Supabase DB에 맞게 객체 매핑
+    // Supabase DB 18개 컬럼 안전 매핑
     const payload = {
       id: String(property.id || `prop-${Date.now()}`),
-      sourceUrl: property.sourceUrl || "",
-      sourceSite: property.sourceSite || "",
-      title: property.title || "",
-      category: property.category || "",
-      tradeType: property.tradeType || "",
-      dongFloor: property.dongFloor || "",
-      price: property.price || "",
-      size: property.size || "",
-      floor: property.floor || "",
-      roomBath: property.roomBath || "",
-      maintenance: property.maintenance || "",
-      prevDeposit: property.prevDeposit || "",
-      direction: property.direction || "",
-      entrance: property.entrance || "",
-      heating: property.heating || "",
-      moveInDate: property.moveInDate || "",
-      parking: property.parking || "",
-      households: property.households || "",
-      buildingUse: property.buildingUse || "",
-      approvalDate: property.approvalDate || "",
-      address: property.address || "",
-      description: property.description || "",
+      sourceUrl: String(property.sourceUrl || ""),
+      sourceSite: String(property.sourceSite || ""),
+      title: String(property.title || "제목 없음"),
+      category: String(property.category || "아파트"),
+      tradeType: String(property.tradeType || "매매"),
+      dongFloor: String(property.dongFloor || "-"),
+      price: String(property.price || "-"),
+      size: String(property.size || "-"),
+      floor: String(property.floor || "-"),
+      roomBath: String(property.roomBath || "-"),
+      maintenance: String(property.maintenance || "-"),
+      prevDeposit: String(property.prevDeposit || "-"),
+      direction: String(property.direction || "-"),
+      entrance: String(property.entrance || "-"),
+      heating: String(property.heating || "-"),
+      moveInDate: String(property.moveInDate || "-"),
+      parking: String(property.parking || "-"),
+      households: String(property.households || "-"),
+      buildingUse: String(property.buildingUse || "-"),
+      approvalDate: String(property.approvalDate || "-"),
+      address: String(property.address || "-"),
+      description: String(property.description || "-"),
       features: Array.isArray(property.features) ? property.features : [],
-      image: property.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
-      date: property.date || new Date().toISOString().split("T")[0],
-      agentContact: property.agentContact || ""
+      image: String(property.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"),
+      date: String(property.date || new Date().toISOString().split("T")[0]),
+      agentContact: String(property.agentContact || "02-415-8949")
     };
 
-    // Supabase REST API POST (UPSERT)
-    const supabaseRes = await fetch(supabaseEndpoint, {
-      method: "POST",
-      headers: {
-        "apikey": supabaseKey,
-        "Authorization": `Bearer ${supabaseKey}`,
-        "Content-Type": "application/json",
-        "Prefer": "resolution=merge-duplicates"
-      },
-      body: JSON.stringify([payload])
-    });
+    // 10초 타임아웃 설정
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    let supabaseRes;
+    try {
+      supabaseRes = await fetch(supabaseEndpoint, {
+        method: "POST",
+        headers: {
+          "apikey": supabaseKey,
+          "Authorization": `Bearer ${supabaseKey}`,
+          "Content-Type": "application/json",
+          "Prefer": "resolution=merge-duplicates"
+        },
+        body: JSON.stringify([payload]),
+        signal: controller.signal
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!supabaseRes.ok) {
       const errorText = await supabaseRes.text();
       console.error("[Supabase Error]", supabaseRes.status, errorText);
-      throw new Error(`Supabase DB 저장 실패 (HTTP ${supabaseRes.status}): ${errorText}`);
+      return res.status(500).json({ error: `Supabase DB 저장 실패 (HTTP ${supabaseRes.status}): ${errorText}` });
     }
 
     return res.status(200).json({
@@ -98,6 +107,8 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error("[Vercel API Error]", error);
-    return res.status(500).json({ error: error.message || "서버 내부 오류가 발생했습니다." });
+    const isTimeout = error.name === "AbortError";
+    const errorMsg = isTimeout ? "Supabase DB 응답 시간 초과 (10초 타임아웃)" : (error.message || "서버 내부 오류가 발생했습니다.");
+    return res.status(500).json({ error: errorMsg });
   }
 }
