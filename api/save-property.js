@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
     console.log("[Vercel API] Received Scraped Property:", property.title || property.id);
 
-    // Supabase 환경 변수 유연한 다중 매칭
+    // Supabase 환경 변수 유연한 다중 매칭 (Service Role Key 우선 탐색)
     const supabaseUrl = (
       process.env.SUPABASE_URL ||
       process.env.NEXT_PUBLIC_SUPABASE_URL ||
@@ -97,11 +97,11 @@ export default async function handler(req, res) {
       agentContact: String(property.agentContact || "02-415-8949")
     };
 
-    console.log("Supabase호출시작 - Endpoint:", supabaseEndpoint);
+    console.log("[Supabase 호출 시작] Endpoint:", supabaseEndpoint);
 
-    // 3초 타임아웃 방어 설정 (Supabase 통신 무한대기 전파 방지)
+    // 4초 타임아웃 방어 설정
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
     let supabaseRes;
     try {
@@ -116,14 +116,22 @@ export default async function handler(req, res) {
         body: JSON.stringify([payload]),
         signal: controller.signal
       });
-    } finally {
+    } catch (fetchErr) {
       clearTimeout(timeoutId);
+      const isTimeout = fetchErr.name === "AbortError";
+      const detailErr = isTimeout 
+        ? `[Supabase 4초 타임아웃] DB 서버(Endpoint: ${supabaseUrl})가 응답하지 않습니다.` 
+        : `[Supabase Fetch 통신 오류] ${fetchErr.name}: ${fetchErr.message}`;
+      console.error(detailErr);
+      return res.status(500).json({ error: detailErr });
     }
+
+    clearTimeout(timeoutId);
 
     if (!supabaseRes.ok) {
       const errorText = await supabaseRes.text();
-      console.error("[Supabase Error]", supabaseRes.status, errorText);
-      return res.status(500).json({ error: `Supabase DB 저장 실패 (HTTP ${supabaseRes.status}): ${errorText}` });
+      console.error("[Supabase Res Error]", supabaseRes.status, errorText);
+      return res.status(500).json({ error: `[Supabase HTTP ${supabaseRes.status} 오류 원문]: ${errorText}` });
     }
 
     return res.status(200).json({
@@ -132,10 +140,8 @@ export default async function handler(req, res) {
       savedProperty: payload
     });
   } catch (error) {
-    console.error("[Vercel API Error]", error);
-    const isTimeout = error.name === "AbortError";
-    const errorMsg = isTimeout ? "Supabase DB 연결 응답 시간 초과 (3초 타임아웃)" : (error.message || "서버 내부 오류가 발생했습니다.");
-    return res.status(500).json({ error: errorMsg });
+    console.error("[Vercel Handler Catch]", error);
+    return res.status(500).json({ error: `[Vercel 서버 내부 예외]: ${error.message || String(error)}` });
   }
 }
 }
