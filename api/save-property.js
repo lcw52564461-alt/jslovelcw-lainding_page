@@ -42,6 +42,19 @@ export default async function handler(req, res) {
 
     const supabaseEndpoint = `${supabaseUrl}/rest/v1/properties`;
 
+    // features JSONB 호환 포맷팅 정제
+    let featuresArray = [];
+    if (Array.isArray(property.features)) {
+      featuresArray = property.features.map(f => String(f).trim()).filter(Boolean);
+    } else if (typeof property.features === "string" && property.features.trim()) {
+      try {
+        const parsed = JSON.parse(property.features);
+        featuresArray = Array.isArray(parsed) ? parsed : [property.features.trim()];
+      } catch (e) {
+        featuresArray = [property.features.trim()];
+      }
+    }
+
     // Supabase DB 18개 컬럼 안전 매핑
     const payload = {
       id: String(property.id || `prop-${Date.now()}`),
@@ -67,15 +80,15 @@ export default async function handler(req, res) {
       approvalDate: String(property.approvalDate || "-"),
       address: String(property.address || "-"),
       description: String(property.description || "-"),
-      features: Array.isArray(property.features) ? property.features : [],
+      features: featuresArray, // JSONB 호환 배열
       image: String(property.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"),
       date: String(property.date || new Date().toISOString().split("T")[0]),
       agentContact: String(property.agentContact || "02-415-8949")
     };
 
-    // 10초 타임아웃 설정
+    // 5초 타임아웃 제한 (무한 대기 방지)
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     let supabaseRes;
     try {
@@ -85,7 +98,7 @@ export default async function handler(req, res) {
           "apikey": supabaseKey,
           "Authorization": `Bearer ${supabaseKey}`,
           "Content-Type": "application/json",
-          "Prefer": "resolution=merge-duplicates"
+          "Prefer": "resolution=merge-duplicates, return=minimal"
         },
         body: JSON.stringify([payload]),
         signal: controller.signal
@@ -108,7 +121,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("[Vercel API Error]", error);
     const isTimeout = error.name === "AbortError";
-    const errorMsg = isTimeout ? "Supabase DB 응답 시간 초과 (10초 타임아웃)" : (error.message || "서버 내부 오류가 발생했습니다.");
+    const errorMsg = isTimeout ? "Supabase DB 연결 응답 시간 초과 (5초 타임아웃)" : (error.message || "서버 내부 오류가 발생했습니다.");
     return res.status(500).json({ error: errorMsg });
   }
 }
