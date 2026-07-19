@@ -36,79 +36,81 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // 2. 홈페이지로 전송 클릭
+  // 2. 홈페이지로 전송 클릭 (Direct fetch 구현)
   btnSend.addEventListener("click", async () => {
-    const apiUrl = apiUrlInput.value.trim();
+    let targetUrl = apiUrlInput.value.replace(/\s+/g, "").trim();
     const adminPassword = adminPasswordInput.value.trim();
 
-    if (!apiUrl) {
+    if (!targetUrl) {
       showStatus("⚠️ Vercel API Endpoint 주소를 입력해주세요.", "error");
       alert("⚠️ Vercel API Endpoint 주소를 입력해주세요.");
       return;
     }
 
+    // URL 경로 자동 보완 (/api/save-property 누락 시 처리)
+    if (!targetUrl.includes("/api/save-property")) {
+      targetUrl = targetUrl.replace(/\/$/, "") + "/api/save-property";
+      apiUrlInput.value = targetUrl;
+      chrome.storage.local.set({ apiUrl: targetUrl });
+    }
+
     btnSend.disabled = true;
     btnSend.innerText = "⏳ 전송 중...";
-
-    let isHandled = false;
-    const safetyTimer = setTimeout(() => {
-      if (!isHandled) {
-        isHandled = true;
-        btnSend.disabled = false;
-        btnSend.innerText = "🚀 홈페이지로 전송";
-        showStatus("❌ 서버 응답 대기 시간이 초과되었습니다 (8초 타임아웃). 네트워크 및 서버 상태를 확인해 주세요.", "error");
-        alert("❌ 서버 응답 대기 시간이 초과되었습니다 (8초 타임아웃).");
-      }
-    }, 8000);
 
     try {
       showStatus("1/2단계: 페이지 DOM에서 매물 정보 추출 중...", "info");
       const propertyData = await extractFromActiveTab();
-
       previewBox.innerText = JSON.stringify(propertyData, null, 2);
 
-      showStatus("2/2단계: Vercel 서버로 데이터를 전송하고 있습니다...", "info");
+      showStatus("2/2단계: Vercel 서버로 직접 데이터를 전송하고 있습니다...", "info");
 
-      // Background script로 데이터 전송 요청
-      chrome.runtime.sendMessage({
-        action: "SEND_TO_VERCEL",
-        payload: propertyData,
-        apiUrl: apiUrl,
-        adminPassword: adminPassword
-      }, (response) => {
-        if (isHandled) return;
-        isHandled = true;
-        clearTimeout(safetyTimer);
+      // Direct fetch 10초 타임아웃 설정 (Background 메시지 유실 100% 원천 차단)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-        btnSend.disabled = false;
-        btnSend.innerText = "🚀 홈페이지로 전송";
+      let response;
+      try {
+        response = await fetch(targetUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Admin-Password": adminPassword || ""
+          },
+          body: JSON.stringify({
+            password: adminPassword || "love1219**",
+            property: propertyData
+          }),
+          signal: controller.signal
+        });
+      } finally {
+        clearTimeout(timeoutId);
+      }
 
-        if (chrome.runtime.lastError) {
-          const errMessage = chrome.runtime.lastError.message;
-          showStatus("❌ 전송 실패: " + errMessage, "error");
-          alert("❌ 전송 실패: " + errMessage);
-          return;
-        }
+      const text = await response.text();
+      let resJson = {};
+      try { resJson = JSON.parse(text); } catch (e) {}
 
-        if (response && response.success) {
-          showStatus("🎉 " + response.message, "success");
-          alert("🎉 " + response.message);
-        } else {
-          const errMessage = response ? response.error : "서버 응답이 없습니다.";
-          showStatus("❌ 전송 실패: " + errMessage, "error");
-          alert("❌ 전송 실패: " + errMessage);
-        }
-      });
+      if (!response.ok) {
+        const errMsg = resJson.error || resJson.message || `[HTTP ${response.status}] ${text.substring(0, 100)}`;
+        showStatus("❌ 전송 실패: " + errMsg, "error");
+        alert("❌ 전송 실패: " + errMsg);
+        return;
+      }
+
+      const msg = resJson.message || "매물이 홈페이지(Vercel)로 성공적으로 전송되었습니다!";
+      showStatus("🎉 " + msg, "success");
+      alert("🎉 " + msg);
 
     } catch (error) {
-      if (!isHandled) {
-        isHandled = true;
-        clearTimeout(safetyTimer);
-        btnSend.disabled = false;
-        btnSend.innerText = "🚀 홈페이지로 전송";
-        showStatus("❌ 오류 발생: " + error.message, "error");
-        alert("❌ 오류 발생: " + error.message);
-      }
+      const isTimeout = error.name === "AbortError";
+      const errText = isTimeout 
+        ? `[10초 타임아웃] 서버(${targetUrl})에 연결할 수 없습니다. Vercel 주소 및 네트워크 상태를 확인해 주세요.`
+        : error.message;
+      showStatus("❌ 오류 발생: " + errText, "error");
+      alert("❌ 오류 발생: " + errText);
+    } finally {
+      btnSend.disabled = false;
+      btnSend.innerText = "🚀 홈페이지로 전송";
     }
   });
 
