@@ -19,7 +19,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { property, password } = req.body || {};
+    let bodyObj = req.body;
+    if (typeof bodyObj === "string") {
+      try {
+        bodyObj = JSON.parse(bodyObj);
+      } catch (e) {
+        bodyObj = {};
+      }
+    }
+
+    const { property, password } = bodyObj || {};
 
     if (!property) {
       return res.status(400).json({ error: "매물 데이터(property)가 누락되었습니다." });
@@ -143,5 +152,4 @@ export default async function handler(req, res) {
     console.error("[Vercel Handler Catch]", error);
     return res.status(500).json({ error: `[Vercel 서버 내부 예외]: ${error.message || String(error)}` });
   }
-}
 }
