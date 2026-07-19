@@ -56,10 +56,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         isHandled = true;
         btnSend.disabled = false;
         btnSend.innerText = "🚀 홈페이지로 전송";
-        showStatus("❌ 서버 응답 대기 시간이 초과되었습니다 (15초 타임아웃).", "error");
-        alert("❌ 서버 응답 대기 시간이 초과되었습니다.");
+        showStatus("❌ 서버 응답 대기 시간이 초과되었습니다 (8초 타임아웃). 네트워크 및 서버 상태를 확인해 주세요.", "error");
+        alert("❌ 서버 응답 대기 시간이 초과되었습니다 (8초 타임아웃).");
       }
-    }, 15000);
+    }, 8000);
 
     try {
       showStatus("1/2단계: 페이지 DOM에서 매물 정보 추출 중...", "info");

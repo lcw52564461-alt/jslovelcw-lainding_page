@@ -23,7 +23,7 @@ async function handleSendToVercel(propertyData, apiUrl, adminPassword) {
   console.log("[Background] Sending data to Vercel API:", apiUrl, propertyData);
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 12000);
+  const timeoutId = setTimeout(() => controller.abort(), 6000);
 
   try {
     const response = await fetch(apiUrl, {
